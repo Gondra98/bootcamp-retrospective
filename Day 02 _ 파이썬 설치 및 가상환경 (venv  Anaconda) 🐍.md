@@ -126,21 +126,7 @@ python -m site
 
 ---
 
-### 6. 프로젝트 예시 구조
-```
-projects/
- ├─ ProjectA_HR/
- │    ├─ venv314/      ← Python 3.14
- │    └─ main.py
- ├─ ProjectB_Admin/
- │    ├─ venv313/      ← Python 3.13
- │    └─ app.py
- └─ ProjectC/
-```
-
----
-
-### 7. 주의 사항 / 강사님 포인트
+### 6. 주의 사항 / 강사님 포인트
 - 초반에는 ChatGPT 등 도구 의존 금지 → 개념 이해가 먼저
 - Python 버전 관리 ≠ 패키지 관리 → 분리된 사고 필요
 - 프로젝트마다 독립 가상환경 필수
