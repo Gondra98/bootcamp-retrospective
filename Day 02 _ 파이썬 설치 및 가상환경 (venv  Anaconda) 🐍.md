@@ -6,7 +6,6 @@
 - venv 가상환경 생성 및 프로젝트별 활성화/비활성화 실습
 - ProjectA_HR (인사 관리), ProjectB_Admin (행정 관리) 프로젝트별 독립 환경 구성
 - Anaconda 설치 및 conda 가상환경 생성 실습
-- Python 인터프리터, IDLE, Jupyter Notebook, IPython 실행 체험
 
 ---
 
