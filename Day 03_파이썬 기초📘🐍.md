@@ -358,7 +358,7 @@ print(s.find('e'), s.find('e', 3), s.rfind('e')) # 1 6 7
 
 ```
 
-![[Day03_sequence_index.excalidraw|600]]
+![[Excalidraw/현대로템 AI 부트캠프 6기/Day03_sequence_index.excalidraw|600]]
 
 - `find()` → 왼쪽부터 검색, 없으면 `-1` 반환
 - `find(문자, 시작위치)` : 시작 위치 이후에서 검색
