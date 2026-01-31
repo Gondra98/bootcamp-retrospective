@@ -358,8 +358,7 @@ print(s.find('e'), s.find('e', 3), s.rfind('e')) # 1 6 7
 
 ```
 
-<img src="bootcamp-retrospective/Excalidraw/현대로템_AI_부트캠프_6기/Day03_sequence_index.png" width="300">
-
+<img src="Excalidraw/HyundaiRotem_AI_Bootcamp_6th/Day03_sequence_index.png" width="300">
 
 
 - `find()` → 왼쪽부터 검색, 없으면 `-1` 반환
