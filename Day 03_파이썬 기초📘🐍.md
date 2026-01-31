@@ -358,7 +358,7 @@ print(s.find('e'), s.find('e', 3), s.rfind('e')) # 1 6 7
 
 ```
 
-![Day03 sequence index](https://raw.githubusercontent.com/Gondra98/bootcamp-retrospective/main/Excalidraw/현대로템 AI 부트캠프 6기/Day03_sequence_index.png)
+![Day03 sequence index](Excalidraw/현대로템%20AI%20부트캠프%206기/Day03_sequence_index.png)
 
 
 - `find()` → 왼쪽부터 검색, 없으면 `-1` 반환
