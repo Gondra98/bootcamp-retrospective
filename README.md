@@ -10,7 +10,7 @@
 - [Day 01_방산 개요 OT 🚀](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2001_%EB%B0%A9%EC%82%B0%20%EA%B0%9C%EC%9A%94%20OT%20%F0%9F%9A%80.md)
 - [Day 02_파이썬 설치 및 가상환경 (venv Anaconda) 🐍](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2002%20_%20%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%84%A4%EC%B9%98%20%EB%B0%8F%20%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD%20(venv%20%20Anaconda)%20%F0%9F%90%8D.md)
 - [Day 03_파이썬 기초📘🐍](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2003_%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EA%B8%B0%EC%B4%88%F0%9F%93%98%F0%9F%90%8D.md)
-- [Day 04_파이썬 기초 (반복문 & 함수)](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2004_%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EA%B8%B0%EC%B4%88%20.md)
+- [Day 04_파이썬 기초 (반복문 & 함수)](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2004_%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EA%B8%B0%EC%B4%88%20(%EB%B0%98%EB%B3%B5%EB%AC%B8%20%26%20%ED%95%A8%EC%88%98).md)
 - [Day 05_함수, 스코프, 클로저, 람다, 데코레이터](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2005_%ED%95%A8%EC%88%98%2C%20%EC%8A%A4%EC%BD%94%ED%94%84%2C%20%ED%81%B4%EB%A1%9C%EC%A0%80%2C%20%EB%9E%8C%EB%8B%A4%2C%20%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0.md)
 
 
