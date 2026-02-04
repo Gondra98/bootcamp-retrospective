@@ -11,7 +11,8 @@
     
 
 ```python
-PI = 3.14159 MAX_COUNT = 100
+PI = 3.14159
+MAX_COUNT = 100
 ```
 
 👉 이유
