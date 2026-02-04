@@ -3,8 +3,190 @@
 # 📅 2026-02-04
 
 ---
+## 1️. 기본 코딩 규칙 (습관)
 
-## 1. 모듈(Module) 개념
+### ✅ 상수는 대문자로만
+
+- 변하지 않는 값은 **대문자 + 스네이크 케이스**
+    
+
+```python
+PI = 3.14159 MAX_COUNT = 100
+```
+
+👉 이유
+
+- 변수랑 바로 구분됨
+    
+- “아 이건 건들면 안 되는 값이구나” 한눈에 알 수 있음
+    
+
+---
+
+### ✅ 년도만 필요하면 "현재 시간"에서 꺼내라
+
+하드코딩 ❌
+
+```python
+year = 2026  # ❌
+```
+
+정석 ✅
+
+```python
+from datetime import datetime
+
+current_year = datetime.now().year
+print(current_year)
+```
+
+👉 실무에서 **시간/날짜 하드코딩 = 지뢰**
+
+---
+
+### ✅ unit 단위로 프로그램 작성
+
+- 함수는 **하나의 역할만**
+    
+- 성격이 바뀌면 → **함수 분리**
+    
+
+❌ 나쁜 예
+
+```python
+def process():
+    입력받고
+    계산하고
+    출력하고
+    파일저장까지
+```
+
+✅ 좋은 예
+
+```python
+def get_input():
+    pass
+
+def calculate():
+    pass
+
+def save_result():
+    pass
+```
+
+👉 ML 파이프라인, 서비스 코드에서 이 습관 없으면 바로 망함
+
+---
+
+### ✅ CSV = Comma Separated Values
+
+- 콤마(,)로 구분된 값들
+
+```csv
+name,age,score
+kim,20,90
+lee,22,85
+```
+
+👉 pandas에서 자주 씀
+
+```python
+import pandas as pd
+df = pd.read_csv('data.csv')
+```
+
+---
+
+## 2️. 재귀함수 (Recursive Function)
+
+### 🔹 개념
+
+> 함수가 **자기 자신을 다시 호출**  
+> 반드시 **종료 조건(base case)** 이 있어야 함
+
+---
+
+### 🔹 호출 흐름 (이해 핵심)
+
+```
+tot(5)
+→ 5 + tot(4)
+→ 4 + tot(3)
+→ 3 + tot(2)
+→ 2 + tot(1)
+→ 1 + tot(0)  ← 탈출
+```
+
+- **호출은 내려가고**
+- **계산은 올라오면서** 실행됨
+
+---
+
+## 2-1. 예제 ① 카운트다운
+
+```python
+def countDown(n):
+    if n == 0:
+        print('완료')
+    else:
+        print(n, end=' ')
+        countDown(n - 1)  # 재귀 호출
+
+countDown(5)
+print('end')
+```
+
+### 실행 흐름
+
+```
+5 4 3 2 1 완료
+end
+```
+
+👉 포인트
+
+- `n == 0` → **탈출 조건**
+- 없으면 무한 호출 → 프로그램 터짐 💥
+
+---
+
+## 2-2. 예제 ② 1부터 n까지 합
+
+### ⚠️ 네 코드에서 중요한 포인트
+
+```python
+def totFunc(n):
+    if n == 0:
+        print('탈출')
+        return 1   # ❌ 논리적으로 틀림
+```
+
+👉 **합을 구할 때 0의 합은 0** 이어야 함
+
+---
+
+### ✅ 수정된 정석 코드
+
+```python
+def totFunc(n):
+    if n == 0:
+        return 0
+    return n + totFunc(n - 1)
+
+result = totFunc(5)
+print('result :', result)
+print('end')
+```
+
+### 실행 결과
+
+```
+result : 15
+end
+```
+
+---
+## 3. 모듈(Module) 개념
 
 - **모듈** : 소스 코드의 재사용을 가능하게 하는 단위
     
@@ -26,7 +208,7 @@ python -m pack1.ex15module
 
 ---
 
-## 2. 모듈 종류
+### 3-1. 모듈 종류
 
 1. **표준 모듈**
     
@@ -53,7 +235,7 @@ python -m pack1.ex15module
 
 ---
 
-## 3. 모듈 확인 (**module**)
+### 3-2. 모듈 확인 (**module**)
 
 ```python
 # print 함수가 어느 모듈에 정의되어 있는지 확인
@@ -357,7 +539,7 @@ print('end')
 ```
 
 ---
-## 🐢 turtle 모듈 그래픽 실습 (Day 06 보너스)
+### 🐢 turtle 모듈 그래픽 실습 (Day 06 보너스)
 
 ```python
 # turtle 모듈 : 파이썬 기본 그래픽 라이브러리
@@ -383,7 +565,7 @@ input()                       # 창이 바로 닫히는 것 방지
 - 그래픽 모듈도 **표준 모듈 import 예제**로 중요
 
 ---
-## pygame 모듈 실습
+### pygame 모듈 실습
 
 ```python
 # ===============================
@@ -729,6 +911,25 @@ test2 = TestClass()
 print(id(test2))
 ```
 
+**출력**
+```
+뭔가를 하다가 객체 만들기
+<class '__main__.TestClass'>
+생성자 호출
+test 객체의 멤버 aa : 1
+한국인
+한국인
+<class 'int'>
+<class 'float'>
+<class '__main__.TestClass'>
+140622183379952
+140622183379616
+생성자 호출
+140622183379824
+소멸자 호출
+소멸자 호출
+```
+
 - `self`는 객체 자신을 의미
 - 클래스 변수는 모든 객체가 공유
 - 객체는 생성될 때마다 고유한 id를 가짐
@@ -768,13 +969,15 @@ flowchart TD
 #### 13-6. 메소드 호출 방식
 ```mermaid
 sequenceDiagram
-    participant User
-    participant test
-    participant TestClass
+    participant User       # 코드를 실행하는 사람/환경
+    participant test       # 객체
+    participant TestClass  # 클래스 자체
 
-    User->>test: printMsg()
-    User->>TestClass: printMsg(test)
+    User->>test: printMsg()          # Bound Method 호출 (self 자동 전달)
+    User->>TestClass: printMsg(test) # 클래스에서 직접 호출, self를 명시적으로 전달
 ```
+- Bound Method → 객체 기반 호출, self 자동 전달
+- Unbound Method → 클래스 기반 호출, self 수동 전달
 - 클래스는 설계도, 객체는 실체  
 - 객체마다 id는 다르지만 클래스 구조는 동일
 
@@ -846,3 +1049,4 @@ flowchart LR
 
 
 ```
+![[Day06_.car_calss.excalidraw]]
