@@ -593,7 +593,7 @@ fObj.close()
 ---
 ### 6-4 다이어그램 구조
 
-![냉장고 클래스 다이어그램](https//www.plantuml.com/plantuml/png/HO-n2i8m48RtFCMHgQrqSEtKGPm47q5YSzP0cYkvAoZYktiGGpFbFhxyVsvaSLcs9PefEcOuv-1dX8y1FOV0rnKJUXZWJXGBV11vLX83Io6aKjEM-nI9KOTTlQXNmRf98y-GvjPyJQrKwUJ4rTBa5jHubbncVAqXls_UISNwzFzFUxJGzJtOpkuv0qoKn8N4PiJaTRaV)
+![냉장고 클래스 다이어그램](https://www.plantuml.com/plantuml/png/HO-n2i8m48RtFCMHgQrqSEtKGPm47q5YSzP0cYkvAoZYktiGGpFbFhxyVsvaSLcs9PefEcOuv-1dX8y1FOV0rnKJUXZWJXGBV11vLX83Io6aKjEM-nI9KOTTlQXNmRf98y-GvjPyJQrKwUJ4rTBa5jHubbncVAqXls_UISNwzFzFUxJGzJtOpkuv0qoKn8N4PiJaTRaV)
 
 ---
 ## 7. 클래스 포함 관계 연습 – 로또 시뮬레이션
