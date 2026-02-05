@@ -241,7 +241,7 @@ print(car2.showData())
 - 객체 사이의 **시간 흐름에 따른 메시지 호출 순서** 표현
 - 실제 코드 실행 흐름을 그림으로 나타냄
 
-![시퀀스 다이어그램]https://www.plantuml.com/plantuml/png/SoWkIImgAStDuU9AJ2x9Br88BKujuk8g00fc9cSM9EQLA3WdeWcuvgLdvgLoSIaeS761b2lese4KALWfW0tJqEJY0dA1eb2Lo19G4Lsu5dzli6gG2CXkc913QbuAq5K0
+![시퀀스 다이어그램](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuU9AJ2x9Br88BKujuk8g00fc9cSM9EQLA3WdeWcuvgLdvgLoSIaeS761b2lese4KALWfW0tJqEJY0dA1eb2Lo19G4Lsu5dzli6gG2CXkc913QbuAq5K0)
 
 - 왼쪽에서 오른쪽으로 객체 배치
 - 위 → 아래 방향이 **시간 흐름**
@@ -254,7 +254,7 @@ print(car2.showData())
 - 사용자(Actor)와 시스템 기능 간의 관계 표현
 - "무엇을 할 수 있는가"에 집중
 
-![유스 케이스 다어이그램]https://www.plantuml.com/plantuml/png/SoWkIImgAStDuSf9JIjHACbNACfCpoXHICaiIaqkoSpFu-9AJ2x9Br9uCslBcmKjR-PDuE82oIJcfUUaAhpPiEBr_CxuDzrptdGjUTiwHw6QIm6XKa5NLq43AFUwVwR2guqxNktOe8aX_Mf3mvksthTJP-2GdO17zis2gM-MDy1aQxaSKlDIW3u10000
+![유스 케이스 다어이그램](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuSf9JIjHACbNACfCpoXHICaiIaqkoSpFu-9AJ2x9Br9uCslBcmKjR-PDuE82oIJcfUUaAhpPiEBr_CxuDzrptdGjUTiwHw6QIm6XKa5NLq43AFUwVwR2guqxNktOe8aX_Mf3mvksthTJP-2GdO17zis2gM-MDy1aQxaSKlDIW3u10000)
 
 - Actor: 시스템을 사용하는 외부 주체
 - Use Case: 시스템이 제공하는 기능
