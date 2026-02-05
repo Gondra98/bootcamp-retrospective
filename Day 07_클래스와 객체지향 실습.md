@@ -709,7 +709,8 @@ if __name__ == '__main__':
 ---
 ### 7-7. 로또 클래스 다이어그램
 
-![로또 클래스 다이어그램](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuKhEIImkLl39Bod9TqhCoL6evb800bs5lD9SAuNCl18mLriXFZupBxCaFbu3AAx9LSk5hCytCJaZCoyLhZK9Q4vcSOcL0f34qAy95IXEpKbDBW5PMQoX2L6APcoe9zp4N8WDLYZsuJAv82Un4gnE0-nGTOMt_MlUJbsXuPoVMv1Vd5cIcP-dgV1gIyEhpIrSAEvNCbHIqDBLLL3IKa8A42k5vFoyaiJCl68kgBDW2i4qiWb0jHc9nLmEgNafeA050000)
+![로또 클래스 다이어그램](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuKhEIImkLl39Bod9TqhCoL6evb800bs5lD9SAuNCl18mLriXFZupBxCaFbu3AAx9LSk5hCytCJaZCoyLhZK9Q4vcSOcL0f34qAy95IXEpKbDBW5PMQoX2L6APcoe9zp4N8WDLYZsuJAv82Un4gnE0-nGTOMt_MlUJbsXuPoVMv1Vd5cIcP-dgV1gIyEhpIrSAEvNCbHIqDBLLL3IKa8A42k5vFoyaiJCl68kgBDW2i4qiWb0jHc9nLmEgNafeA050000) 
+
 ---
 ## 8. 데이터 전처리 – 로그 변환(Log Transformation)
 
