@@ -225,23 +225,7 @@ print(car2.showData())
 
 - 클래스 표현 구조
 
-```plantuml
-@startuml
-
-class Car {
-
-+handle : int
-
-+speed : int
-
-+showData()
-
-+printHandle()
-
-}
-
-@enduml
-```
+![Car 클래스 다이어그램](https://www.plantuml.com/plantuml/png/SoWkIImgAStDuKhEIImkLd1EB5AevkBIpaZCIyb9LR1IoCmh0NAB2r9JKn2yZFnobyIIH0rD8AUW22Ze0LOEujToEQJcfG0D1000)
 
 - 위쪽: **속성(Attribute)**
 - 아래쪽: **메서드(Method)**
