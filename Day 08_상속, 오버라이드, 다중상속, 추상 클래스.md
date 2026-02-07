@@ -778,13 +778,13 @@ s.data_print()  # 이름: 손오공, 나이: 29, 수령액: 2450000
 
 ```
 
-```mermaid
 classDiagram
     class Employee {
+        <<abstract>>
         +irum
         +nai
-        +pay()
-        +data_print()
+        +pay() : abstract
+        +data_print() : abstract
         +irumnai_print()
     }
 
@@ -811,8 +811,9 @@ classDiagram
     Employee <|-- Temporary
     Employee <|-- Regular
     Regular <|-- Salesman
-
+	
 ```
+
 - **추상 클래스**: `Employee` → 설계용, 객체 생성 불가
 - **상속 + 오버라이딩**: 자식 클래스가 `pay()`와 `data_print()`를 구체적으로 구현
 - **공통 메소드 재사용**: `irumnai_print()`
