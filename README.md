@@ -14,5 +14,6 @@
 - [Day 05_함수, 스코프, 클로저, 람다, 데코레이터](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2005_%ED%95%A8%EC%88%98%2C%20%EC%8A%A4%EC%BD%94%ED%94%84%2C%20%ED%81%B4%EB%A1%9C%EC%A0%80%2C%20%EB%9E%8C%EB%8B%A4%2C%20%EB%8D%B0%EC%BD%94%EB%A0%88%EC%9D%B4%ED%84%B0.md)
 - [Day 06_재귀함수 & 모듈 기초](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2006_%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98%20%26%20%EB%AA%A8%EB%93%88%20%EA%B8%B0%EC%B4%88.md)
 - [Day 07_클래스와 객체지향 실습](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2007_%ED%81%B4%EB%9E%98%EC%8A%A4%EC%99%80%20%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%20%EC%8B%A4%EC%8A%B5.md)
+- [Day 08_상속, 오버라이드, 다중상속, 추상 클래스](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2008_%EC%83%81%EC%86%8D%2C%20%EC%98%A4%EB%B2%84%EB%9D%BC%EC%9D%B4%EB%93%9C%2C%20%EB%8B%A4%EC%A4%91%EC%83%81%EC%86%8D%2C%20%EC%B6%94%EC%83%81%20%ED%81%B4%EB%9E%98%EC%8A%A4.md)
 
 
