@@ -154,7 +154,7 @@ ORDER BY 속성 ASC/DESC;
 ---
 ## 10. MariaDB 실습 (DB 생성 및 CRUD)
 
-### 1) MariaDB 접속
+### 10-1. MariaDB 접속
 
 ```sql
 mariadb -h127.0.0.1 -uroot -p
@@ -169,7 +169,7 @@ mariadb -h127.0.0.1 -uroot -p
 
 ---
 
-### 2) 데이터베이스 확인
+### 10-2. 데이터베이스 확인
 
 ```sql
 show databases;
@@ -190,7 +190,7 @@ show databases;
 
 ---
 
-### 3) 데이터베이스 생성
+### 10-3. 데이터베이스 생성
 
 ```sql
 create database exdb;
@@ -206,7 +206,7 @@ show databases;
 
 ---
 
-### 4) 데이터베이스 선택
+### 10-4. 데이터베이스 선택
 
 ```sql
 use exdb;
@@ -216,7 +216,7 @@ use exdb;
 
 ---
 
-### 5) 테이블 확인
+### 10-5. 테이블 확인
 
 ```sql
 show tables;
@@ -226,7 +226,7 @@ show tables;
 
 ---
 
-### 6) 다른 DB 사용
+### 10-6. 다른 DB 사용
 
 ```sql
 use test;
@@ -234,7 +234,7 @@ use test;
 
 ---
 
-### 7) 테이블 구조 확인
+### 10-7. 테이블 구조 확인
 
 ```sql
 desc mytab;
@@ -254,7 +254,7 @@ desc mytab;
 
 ---
 
-### 8) 데이터 조회 (SELECT)
+### 10-8. 데이터 조회 (SELECT)
 
 ```sql
 select * from mytab;
@@ -264,7 +264,7 @@ select * from mytab;
 
 ---
 
-### 9) 데이터 수정 (UPDATE)
+### 10-9. 데이터 수정 (UPDATE)
 
 ```sql
 update mytab
@@ -279,7 +279,7 @@ where no = 1;
 
 ---
 
-### 10) 데이터 삭제 (DELETE)
+### 10-10. 데이터 삭제 (DELETE)
 
 ```sql
 delete from mytab
@@ -290,7 +290,7 @@ where no = 2;
 
 ---
 
-### 11) 테이블 삭제
+### 10-11. 테이블 삭제
 
 ```sql
 drop table mytab;
@@ -300,7 +300,7 @@ drop table mytab;
 
 ---
 
-### 12) 오타 발생
+### 10-12. 오타 발생
 
 ```sql
 show databaes;
@@ -311,7 +311,7 @@ show databaes;
 
 ---
 
-### 13) 데이터베이스 삭제
+### 10-13. 데이터베이스 삭제
 
 ```sql
 drop database exdb;
@@ -320,9 +320,9 @@ drop database exdb;
 → exdb 완전 삭제
 
 ---
-# 11. 테이블 생성 및 기본 CRUD
+## 11. 테이블 생성 및 기본 CRUD
 
-## dept 테이블 생성
+### dept 테이블 생성
 
 ```sql
 CREATE TABLE dept(NO INT PRIMARY KEY, NAME VARCHAR(10),
@@ -334,7 +334,7 @@ tel VARCHAR(15), inwon INT, addr TEXT) CHARSET=UTF8;   -- 테이블 생성
 - PRIMARY KEY → NOT NULL + UNIQUE 자동 포함
 
 ---
-## 자료 추가 (INSERT)
+### 자료 추가 (INSERT)
 
 ```sql
 # insert into 테이블명 (칼럼명,...) values(입력자료,...)
@@ -431,14 +431,14 @@ DROP TABLE dept;   -- 테이블 자체 (구조, 자료)가 제거됨
 
 ---
 
-# 12. 무결성 제약 조건
+## 12. 무결성 제약 조건
 
 무결성 제약 조건이란  
 잘못된 자료 입력을 방지하기 위한 제한 규칙
 
 ---
 
-# PRIMARY KEY 제약
+## PRIMARY KEY 제약
 
 ```sql
 CREATE TABLE aa(bun INT PRIMARY KEY, irum CHAR(10));  
@@ -485,7 +485,7 @@ DROP TABLE aa;
 
 ---
 
-# CHECK 제약
+## CHECK 제약
 
 ```sql
 CREATE TABLE aa(bun INT, nai INT CHECK(nai >= 20));
@@ -507,7 +507,7 @@ DROP TABLE aa;
 
 ---
 
-# UNIQUE 제약
+## UNIQUE 제약
 
 ```sql
 CREATE TABLE aa(bun INT, irum CHAR(10) NOT NULL UNIQUE);
@@ -530,7 +530,7 @@ DROP TABLE aa;
 
 ---
 
-# FOREIGN KEY (참조 무결성)
+## FOREIGN KEY (참조 무결성)
 
 외래키(FK)는  
 다른 테이블의 PK를 참조한다.
@@ -617,7 +617,7 @@ SELECT * FROM jikwon;
 
 ---
 
-# 13️. DEFAULT + AUTO_INCREMENT
+## 13️. DEFAULT + AUTO_INCREMENT
 
 ```sql
 CREATE TABLE aa(
@@ -682,8 +682,7 @@ erDiagram
 
 ```
 ---
-
-### 교수 테이블 (부모)
+### 13-1. 교수 테이블 (부모)
 ```sql
 CREATE TABLE 교수(
     교수코드 INT PRIMARY KEY,
@@ -698,9 +697,9 @@ CREATE TABLE 교수(
 - 연구실 : 100 ~ 500 범위 제한 (도메인 무결성)
     
 - PRIMARY KEY는 자동으로 NOT NULL + UNIQUE
----
 
-### 과목 테이블 (교수 참조)
+---
+### 13-2. 과목 테이블 (교수 참조)
 ```sql
 CREATE TABLE 과목(
     과목코드 INT AUTO_INCREMENT PRIMARY KEY,
@@ -718,9 +717,9 @@ CREATE TABLE 과목(
 - 담당교수 : 교수(교수코드) 참조
     
 - FK는 반드시 PK 또는 UNIQUE를 참조
----
 
-### 학생 테이블 (과목 참조)
+---
+### 13-3. 학생 테이블 (과목 참조)
 ```sql
 CREATE TABLE 학생(
     학번 INT PRIMARY KEY,
@@ -755,10 +754,9 @@ DROP TABLE 교수;
 이 순서 아니면 외래키 오류 발생
 
 ---
+## 14. Index(색인)
 
-# 14. Index(색인)
-
-## 1) 인덱스 개념
+### 인덱스 개념
 
 - 검색 속도 향상을 위해 특정 컬럼에 색인 부여
     
@@ -776,7 +774,7 @@ DROP TABLE 교수;
 
 ---
 
-## 2) 인덱스 생성 및 확인
+### 14-1. 인덱스 생성 및 확인
 
 ### 테이블 생성
 
@@ -801,8 +799,7 @@ ALTER TABLE aa ADD INDEX ind_juso(juso);
 → juso 컬럼에 ind_juso 이름의 인덱스 생성
 
 ---
-
-## 3) 인덱스 확인
+### 14-2. 인덱스 확인
 
 ```sql
 SELECT * FROM aa;
@@ -821,8 +818,7 @@ SHOW INDEX FROM aa;
     
 
 ---
-
-## 4) 인덱스 삭제
+### 14-3. 인덱스 삭제
 
 ```sql
 ALTER TABLE aa DROP INDEX ind_juso;
@@ -830,16 +826,14 @@ SHOW INDEX FROM aa;
 ```
 
 ---
-
-## 5) 테이블 삭제
+### 14-4. 테이블 삭제
 
 ```sql
 DROP TABLE aa;
 ```
 
 ---
-
-# 2. 테이블 관련 주요 명령
+### 14-5. 테이블 관련 주요 명령
 
 기본 3대 명령
 
@@ -851,8 +845,7 @@ DROP TABLE aa;
     
 
 ---
-
-## 1) 테이블 생성
+### 14-6. 테이블 생성
 
 ```sql
 CREATE TABLE aa(
@@ -868,8 +861,7 @@ SELECT * FROM aa;
 ```
 
 ---
-
-## 2) 테이블 이름 변경
+### 14-7. 테이블 이름 변경
 
 ```sql
 ALTER TABLE aa RENAME kbs;
@@ -883,12 +875,7 @@ ALTER TABLE kbs RENAME aa;
     
 
 ---
-
-# 3. 컬럼 관련 명령
-
----
-
-## 1) 컬럼 추가 (ADD)
+### 14-8. 컬럼 추가 (ADD)
 
 ```sql
 ALTER TABLE aa ADD (job_id INT DEFAULT 10);
@@ -903,8 +890,7 @@ SELECT * FROM aa;
     
 
 ---
-
-## 2) 컬럼 수정 (CHANGE)
+### 14-9. 컬럼 수정 (CHANGE)
 
 ```sql
 ALTER TABLE aa CHANGE job_id job_num INT;
@@ -919,8 +905,7 @@ SELECT * FROM aa;
     
 
 ---
-
-## 3) 컬럼 속성 변경 (MODIFY)
+### 14-10. 컬럼 속성 변경 (MODIFY)
 
 ```sql
 ALTER TABLE aa MODIFY job_num VARCHAR(10);
@@ -935,8 +920,7 @@ DESC aa;
     
 
 ---
-
-## 4) 컬럼 삭제 (DROP COLUMN)
+### 14-11. 컬럼 삭제 (DROP COLUMN)
 
 ```sql
 ALTER TABLE aa DROP COLUMN job_num;
