@@ -374,9 +374,19 @@ SELECT * FROM dept WHERE NO=1;
 ```
 
 - 전체 조회
-    
+
+| NO  | NAME | tel      | inwon | addr   |
+| --- | ---- | -------- | ----- | ------ |
+| 1   | 인사과  | 111-1111 | 3     | 삼성동12  |
+| 2   | 영업과  | 111-2222 | 5     | 서초동12  |
+| 3   | 자재과  | NULL     | NULL  | NULL   |
+| 4   | 자재2과 | 111-5555 | NULL  | 역삼2동33 |
+
 - 조건 조회
-    
+
+| NO  | NAME | tel      | inwon | addr  |
+| --- | ---- | -------- | ----- | ----- |
+| 1   | 인사과  | 111-1111 | 3     | 삼성동12 |
 
 ---
 
@@ -387,6 +397,13 @@ UPDATE dept SET tel='123-4567' WHERE NO=2;
 UPDATE dept SET addr='압구정동33', inwon=7, tel='777-8888' WHERE NO=3;
 SELECT * FROM dept;
 ```
+
+| NO  | NAME | tel      | inwon | addr   |
+| --- | ---- | -------- | ----- | ------ |
+| 1   | 인사과  | 111-1111 | 3     | 삼성동12  |
+| 2   | 영업과  | 123-4567 | 5     | 서초동12  |
+| 3   | 자재과  | 777-8888 | 7     | 압구정동33 |
+| 4   | 자재2과 | 111-5555 | NULL  | 역삼2동33 |
 
 주의
 
@@ -402,6 +419,12 @@ SELECT * FROM dept;
 ```sql
 DELETE FROM dept WHERE NAME='자재2과';
 ```
+
+| NO  | NAME | tel      | inwon | addr   |
+| --- | ---- | -------- | ----- | ------ |
+| 1   | 인사과  | 111-1111 | 3     | 삼성동12  |
+| 2   | 영업과  | 123-4567 | 5     | 서초동12  |
+| 3   | 자재과  | 777-8888 | 7     | 압구정동33 |
 
 - 조건 삭제 가능
     
@@ -421,8 +444,11 @@ TRUNCATE TABLE dept;
 SELECT * FROM dept;
 ```
 
----
+```sql
+Empty set (0 rows)
+```
 
+---
 ## 테이블 삭제
 
 ```sql
@@ -451,6 +477,10 @@ CREATE TABLE aa(bun INT PRIMARY KEY, irum CHAR(10));
 SELECT * FROM information_schema.table_constraints WHERE TABLE_NAME='aa';
 ```
 
+| constraint_name | constraint_type |
+| --------------- | --------------- |
+| PRIMARY         | PRIMARY KEY     |
+
 입력 테스트:
 
 ```sql
@@ -461,6 +491,12 @@ INSERT INTO aa(irum) VALUES('tom');  # err (PK 누락)
 INSERT INTO aa(bun) VALUES('3');
 SELECT * FROM aa;
 ```
+
+| bun | irum |
+| --- | ---- |
+| 1   | tom  |
+| 2   | tom  |
+| 3   | NULL |
 
 테이블 삭제:
 
@@ -483,6 +519,10 @@ SELECT * FROM aa;
 DROP TABLE aa;
 ```
 
+| bun | irum |
+| --- | ---- |
+| 1   | tom  |
+
 ---
 
 ## CHECK 제약
@@ -497,6 +537,10 @@ INSERT INTO aa VALUES(2,13);    -- err
 SELECT * FROM aa;
 DROP TABLE aa;
 ```
+
+| bun | nai |
+| --- | --- |
+| 1   | 23  |
 
 설명
 
@@ -521,6 +565,10 @@ SELECT * FROM aa;
 DROP TABLE aa;
 ```
 
+| bun | irum |
+| --- | ---- |
+| 1   | tom  |
+| 2   | john |
 설명
 
 - 특정 컬럼 중복 금지
@@ -551,6 +599,12 @@ INSERT INTO jikwon VALUES(3, '한송이', '판매과');
 SELECT * FROM jikwon;
 ```
 
+|bun|irum|buser|
+|---|---|---|
+|1|한송이|인사과|
+|2|이기자|인사과|
+|3|한송이|판매과|
+
 ---
 
 ## 자식 테이블 생성
@@ -569,6 +623,11 @@ FOREIGN KEY(jikwonbun) REFERENCES jikwon(bun));
 INSERT INTO gajok VALUES(10, '한가해','2015-05-12',3);
 INSERT INTO gajok VALUES(20, '공기밥','2011-12-12',2);
 ```
+
+|CODE|NAME|birth|jikwonbun|
+|---|---|---|---|
+|10|한가해|2015-05-12|3|
+|20|공기밥|2011-12-12|2|
 
 ---
 
@@ -601,6 +660,10 @@ DELETE FROM gajok WHERE jikwonbun = 2;   -- 1) 참조 자료 삭제
 DELETE FROM jikwon WHERE bun=2;          -- 2) 부모 삭제
 SELECT * FROM jikwon;
 ```
+
+|bun|irum|buser|
+|---|---|---|
+|3|한송이|판매과|
 
 ---
 
@@ -642,6 +705,13 @@ INSERT INTO aa(bun) VALUES(6);
 SELECT * FROM aa;
 DROP TABLE aa;
 ```
+
+|bun|juso|
+|---|---|
+|1|서초구 서초2동|
+|2|서초구 서초3동|
+|5|강남구 역삼동|
+|6|강남구 역삼동|
 
 핵심 정리
 
@@ -687,7 +757,7 @@ erDiagram
 CREATE TABLE 교수(
     교수코드 INT PRIMARY KEY,
     교수명 VARCHAR(10),
-    연구실 INT CHECK (연구실 BETWEEN 100 AND 500)
+    연구실 INT CHECK (연구실 >= 100 AND 연구실 <= 500)
 );
 ```
 설명
@@ -725,7 +795,7 @@ CREATE TABLE 학생(
     학번 INT PRIMARY KEY,
     학생명 VARCHAR(10),
     수강과목 INT,
-    학년 INT DEFAULT 1 CHECK (학년 >=1 AND 학생 <= 4),
+    학년 INT DEFAULT 1 CHECK (학년 >= 1 AND 학생 <= 4),
     FOREIGN KEY(수강과목)
         REFERENCES 과목(과목코드)
 );
@@ -803,10 +873,38 @@ ALTER TABLE aa ADD INDEX ind_juso(juso);
 
 ```sql
 SELECT * FROM aa;
+```
+
+| bun | irum | juso    |
+| --- | ---- | ------- |
+| 1   | 신선해  | 테헤란로111 |
+
+```sql
 EXPLAIN SELECT * FROM aa;
+```
+
+|id|select_type|table|type|possible_keys|key|key_len|ref|rows|Extra|
+|---|---|---|---|---|---|---|---|---|---|
+|1|SIMPLE|aa|ALL|NULL|NULL|NULL|NULL|1||
+
+```sql
 DESC aa;
+```
+
+|Field|Type|Null|Key|Default|Extra|
+|---|---|---|---|---|---|
+|bun|int|NO|PRI|NULL||
+|irum|varchar(10)|NO||NULL||
+|juso|varchar(50)|YES|MUL|NULL||
+
+```sql
 SHOW INDEX FROM aa;
 ```
+
+|Table|Non_unique|Key_name|Column_name|
+|---|---|---|---|
+|aa|0|PRIMARY|bun|
+|aa|1|ind_juso|juso|
 
 정리
 
@@ -824,6 +922,10 @@ SHOW INDEX FROM aa;
 ALTER TABLE aa DROP INDEX ind_juso;
 SHOW INDEX FROM aa;
 ```
+
+|Table|Non_unique|Key_name|Column_name|
+|---|---|---|---|
+|aa|0|PRIMARY|bun|
 
 ---
 ### 14-4. 테이블 삭제
@@ -860,6 +962,10 @@ INSERT INTO aa VALUES(1, 'tom', 'seoul');
 SELECT * FROM aa;
 ```
 
+|bun|irum|juso|
+|---|---|---|
+|1|tom|seoul|
+
 ---
 ### 14-7. 테이블 이름 변경
 
@@ -868,6 +974,10 @@ ALTER TABLE aa RENAME kbs;
 SELECT * FROM kbs;
 ALTER TABLE kbs RENAME aa;
 ```
+
+|bun|irum|juso|
+|---|---|---|
+|1|tom|seoul|
 
 정리
 
@@ -881,6 +991,10 @@ ALTER TABLE kbs RENAME aa;
 ALTER TABLE aa ADD (job_id INT DEFAULT 10);
 SELECT * FROM aa;
 ```
+
+|bun|irum|juso|job_id|
+|---|---|---|---|
+|1|tom|seoul|10|
 
 특징
 
@@ -897,6 +1011,10 @@ ALTER TABLE aa CHANGE job_id job_num INT;
 SELECT * FROM aa;
 ```
 
+|bun|irum|juso|job_num|
+|---|---|---|---|
+|1|tom|seoul|10|
+
 특징
 
 - 컬럼 이름 변경 가능
@@ -912,6 +1030,13 @@ ALTER TABLE aa MODIFY job_num VARCHAR(10);
 DESC aa;
 ```
 
+|Field|Type|
+|---|---|
+|bun|int|
+|irum|varchar(10)|
+|juso|varchar(50)|
+|job_num|varchar(10)|
+
 특징
 
 - 컬럼 이름은 그대로
@@ -926,3 +1051,9 @@ DESC aa;
 ALTER TABLE aa DROP COLUMN job_num;
 DESC aa;
 ```
+
+|Field|Type|
+|---|---|
+|bun|int|
+|irum|varchar(10)|
+|juso|varchar(50)|
