@@ -18,5 +18,6 @@
 - [Day 09_예외처리, Git과 Github](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2009_%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC%2C%20Git%EA%B3%BC%20Github.md)
 - [Day 10_Github, 파일 처리 (File I/O), 데이터베이스](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2010_Github,%20%ED%8C%8C%EC%9D%BC%20%EC%B2%98%EB%A6%AC%20(File%20IO),%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%20.md)
 - [Day 11_CRUD, 키, 인덱스](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2011_CRUD%2C%20%ED%82%A4%2C%20%EC%9D%B8%EB%8D%B1%EC%8A%A4.md)
+- [Day 12_SELECT, 함수, 집계함수 종합 정리](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2012_SELECT%2C%20%ED%95%A8%EC%88%98%2C%20%EC%A7%91%EA%B3%84%ED%95%A8%EC%88%98%20%EC%A2%85%ED%95%A9%20%EC%A0%95%EB%A6%AC.md)
 
 
