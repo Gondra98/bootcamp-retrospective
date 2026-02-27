@@ -23,3 +23,5 @@
 - [Day 14_서브쿼리, 테이블 조작, 트랜잭션](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2014_%EC%84%9C%EB%B8%8C%EC%BF%BC%EB%A6%AC%2C%20%ED%85%8C%EC%9D%B4%EB%B8%94%20%EC%A1%B0%EC%9E%91%2C%20%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98%2C%20View.md)
 - [Day 15_DB 계정권한 관리와 안전한 Python 연동](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2015_DB%20%EA%B3%84%EC%A0%95%EA%B6%8C%ED%95%9C%20%EA%B4%80%EB%A6%AC%EC%99%80%20%EC%95%88%EC%A0%84%ED%95%9C%20Python%20%EC%97%B0%EB%8F%99.md)
 - [Day 16_웹 통신의 전체 흐름 (DNS → Socket → HTTP → CGI)](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2016_%EC%9B%B9%20%ED%86%B5%EC%8B%A0%EC%9D%98%20%EC%A0%84%EC%B2%B4%20%ED%9D%90%EB%A6%84%20(DNS%20%E2%86%92%20Socket%20%E2%86%92%20HTTP%20%E2%86%92%20CGI).md)
+- [Day 17_웹 프로그래밍 기초 정리 (HTTP, CSS)](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2017_%EC%9B%B9%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D%20%EA%B8%B0%EC%B4%88%20%EC%A0%95%EB%A6%AC%20(HTTP%2C%20CSS).md)
+- 
