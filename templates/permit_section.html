@@ -1,0 +1,328 @@
+{#
+  permit_section.html  —  비행 허가 신청 패널
+  main.html에서 탭 클릭 시 표시됨 (showTab('permit', this) → display:block)
+  스타일 → permit_section.css
+  스크립트 → permit_section.js (하단 로드)
+  의존: VWORLD_KEY (main.html에서 전달), ol.js (map_section.html에서 이미 로드됨)
+#}
+
+<!-- JetBrains Mono: 좌표 등 숫자 표시용 고정폭 폰트 -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<!-- 비행 허가 패널 전용 스타일 -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/permit_section.css') }}">
+
+<!-- ══════════════════════════════════════════════════
+     사전 확인 팝업 (비행 허가 탭 최초 진입 시 표시)
+     permit_section.js의 pmClosePopup()으로 닫힘
+     ══════════════════════════════════════════════════ -->
+<div id="pm-popup-overlay">
+  <div class="pm-popup-box">
+    <!-- 팝업 헤더: 제목 + 닫기 버튼 -->
+    <div class="pm-popup-hd">
+      <div>
+        <div class="pm-popup-title">✈️ 비행 허가 신청 전 확인사항</div>
+        <div class="pm-popup-sub">신청 전 아래 내용을 반드시 확인해 주세요</div>
+      </div>
+      <button class="pm-popup-close" onclick="pmClosePopup()">✕</button>
+    </div>
+
+    <!-- 팝업 탭: 사전 확인 / 공지사항 전환 -->
+    <div class="pm-popup-tabs">
+      <button class="pm-popup-tab active" onclick="pmSwitchTab('check', this)">📋 사전 확인</button>
+      <button class="pm-popup-tab"        onclick="pmSwitchTab('notice', this)">📢 공지사항</button>
+    </div>
+
+    <div class="pm-popup-body">
+      <!-- 사전 확인 탭 내용 (초기 활성) -->
+      <!-- permit_section.js의 pmLoadPrecheck()가 /api/prechecks 에서 동적으로 목록을 채움 -->
+      <div class="pm-popup-tab-content active" id="pm-tab-check">
+        <ul class="pm-checklist" id="pm-check-list">
+          <li><span class="ico">⏳</span><span>불러오는 중...</span></li>
+        </ul>
+      </div>
+
+      <!-- 공지사항 탭 내용 (클릭 시 표시) -->
+      <!-- permit_section.js의 pmLoadNotices()가 /api/notices 에서 동적으로 채움 -->
+      <div class="pm-popup-tab-content" id="pm-tab-notice">
+        <ul class="pm-notice-list" id="pm-notice-list">
+          <li style="text-align:center; color:var(--text-muted);">불러오는 중...</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 팝업 하단 버튼 -->
+    <div class="pm-popup-ft">
+      <button class="pm-btn-ok"   onclick="pmClosePopup()">확인했습니다</button>
+      <button class="pm-btn-skip" onclick="pmClosePopup()">닫기</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     비행 허가 패널 본체
+     기본값 display:none → showTab('permit')에서 display:block
+     ══════════════════════════════════════════════════ -->
+<div id="panel-permit" style="display:none;">
+  <!-- 3분할 그리드: 지도(좌) / 신청서(우상) / 좌표&반경(우하) -->
+  <div class="permit-grid">
+
+    <!-- ── 좌측: 비행 구역 선택 지도 ─────────────────────
+         pmInitMap()이 호출되면 이 div에 OpenLayers 지도 생성
+         지도 클릭 → 마커+원 표시 + 좌표 자동 채워짐 -->
+    <div class="pm-box pm-map-wrap">
+      <div class="pm-box-header">
+        <span class="pm-box-title">🗺 비행 구역 선택</span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div class="pm-live-dot"></div>
+          <span style="font-size:.68rem;color:var(--text-muted);">클릭으로 좌표 선택</span>
+        </div>
+      </div>
+      <!-- OpenLayers 지도가 렌더링될 컨테이너 -->
+      <div id="permit-vmap"></div>
+    </div>
+
+    <!-- ── 우측 상단: 비행 허가 신청서 폼 ─────────────────
+         실제 제출은 pmSubmitPermit()이 FormData로 처리 (파일 포함)
+         HTML form 태그 없이 JS fetch로 전송 -->
+    <div class="pm-box pm-form-wrap">
+      <div class="pm-box-header">
+        <span class="pm-box-title">📄 비행 허가 신청서</span>
+      </div>
+      <div class="pm-form-scroll">
+
+        <!-- ─ 신청인 정보 (화면 표시용, 실제 저장은 세션 user_id 기반) ─ -->
+        <div class="pm-section">
+          <div class="pm-section-title">👤 신청인 정보</div>
+          <div class="pm-row">
+            <div class="pm-group"><label>성명</label><input type="text" placeholder="홍길동"/></div>
+            <div class="pm-group"><label>연락처</label><input type="tel" placeholder="010-0000-0000"/></div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-group"><label>이메일</label><input type="email" placeholder="example@mail.com"/></div>
+            <div class="pm-group"><label>소속 / 기관</label><input type="text" placeholder="소속 기관명"/></div>
+          </div>
+        </div>
+
+        <!-- ─ 비행 기간 ─────────────────────────────────────────────
+             pm-date-start / pm-date-end: permit_section.js에서 기본값(오늘~내일) 자동 설정 -->
+        <div class="pm-section">
+          <div class="pm-section-title">📅 비행 기간</div>
+          <div class="pm-row">
+            <div class="pm-group"><label>시작일</label><input type="date" id="pm-date-start"/></div>
+            <div class="pm-group"><label>종료일</label><input type="date" id="pm-date-end"/></div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-group"><label>시작 시간</label><input type="text" id="pm-time-start" placeholder="09:00"/></div>
+            <div class="pm-group"><label>종료 시간</label><input type="text" id="pm-time-end"   placeholder="18:00"/></div>
+          </div>
+        </div>
+
+        <!-- ─ 사용 목적 (버튼 선택 방식) ─────────────────────────────
+             pmSelectPurpose(this): 클릭된 버튼에 active 클래스 부여
+             pmSubmitPermit()에서 active 버튼 텍스트를 purpose 값으로 전송 -->
+        <div class="pm-section">
+          <div class="pm-section-title">🎯 사용 목적</div>
+          <div class="pm-purpose-grid">
+            <button class="pm-purpose-btn active" onclick="pmSelectPurpose(this)">📷 레저 / 촬영</button>
+            <button class="pm-purpose-btn"        onclick="pmSelectPurpose(this)">✈️ 일반 비행</button>
+            <button class="pm-purpose-btn"        onclick="pmSelectPurpose(this)">🏎️ 레이싱</button>
+            <button class="pm-purpose-btn"        onclick="pmSelectPurpose(this)">🎪 행사</button>
+          </div>
+        </div>
+
+        <!-- ─ 비행 지역 ─────────────────────────────────────────────
+             pm-form-lat/lng: 직접 입력 시 pmSyncCoordFromInput() 호출 → 지도 이동
+             pm-addr: pmFetchAddress()가 좌표 → 주소로 자동 채움 (readonly) -->
+        <div class="pm-section">
+          <div class="pm-section-title">📍 비행 지역</div>
+          <div class="pm-row">
+            <div class="pm-group">
+              <label>위도</label>
+              <!-- oninput: 입력할 때마다 하단 좌표 입력란과 지도를 동기화 -->
+              <input type="text" id="pm-form-lat" placeholder="37.000000" oninput="pmSyncCoordFromInput()"/>
+            </div>
+            <div class="pm-group">
+              <label>경도</label>
+              <input type="text" id="pm-form-lng" placeholder="127.000000" oninput="pmSyncCoordFromInput()"/>
+            </div>
+          </div>
+          <!-- 역지오코딩 결과 표시 (readonly: 사용자가 직접 수정 불가) -->
+          <div class="pm-group" style="margin-top:8px;">
+            <label>행정구역</label>
+            <input type="text" id="pm-addr" placeholder="—" readonly style="color:var(--accent2);cursor:default;"/>
+          </div>
+          <!-- 촬영 신청 토글 버튼 (pmTogglePhoto가 상태 변환) -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;">
+            <span class="text-muted-sm">촬영 신청 여부</span>
+            <button type="button" id="pm-photo-toggle"
+                    onclick="pmTogglePhoto(this)"
+                    style="padding:0.22rem 0.85rem; border-radius:20px; font-size:0.78rem;
+                           font-weight:600; border:1.5px solid #64748b;
+                           background:rgba(100,116,139,0.12); color:#94a3b8;
+                           cursor:pointer; transition:all 0.18s; font-family:inherit;">
+              🚫 촬영 안함
+            </button>
+          </div>
+        </div>
+
+        <!-- ─ 비행 제원 (드론 기체 정보) ───────────────────────────────
+             드론 종류: 버튼 선택 방식 (pmSelectDrone)
+             비행 고도: id="pm-altitude" → pmSubmitPermit()에서 flight_altitude 값으로 전송 -->
+        <div class="pm-section">
+          <div class="pm-section-title">🚁 비행 제원</div>
+          <div class="pm-drone-row">
+            <button class="pm-drone-btn active" onclick="pmSelectDrone(this)">✈️ 무인 비행기</button>
+            <button class="pm-drone-btn"        onclick="pmSelectDrone(this)">🚁 무인 멀티콥터</button>
+          </div>
+          <div class="pm-row">
+            <div class="pm-group"><label>기체 명칭</label><input type="text" placeholder="모델명"/></div>
+            <div class="pm-group"><label>최대이륙중량 (kg)</label><input type="text" placeholder="예: 7.5"/></div>
+          </div>
+          <div class="pm-row">
+            <div class="pm-group"><label>비행 고도 (m)</label><input type="text" id="pm-altitude" placeholder="예: 150"/></div>
+          </div>
+        </div>
+
+        <!-- ─ 조종자 정보 ────────────────────────────────────────────
+             체크박스 체크 시 → 아래 별도 입력 필드 숨김 (pmTogglePilot)
+             체크 해제 시 → 조종자 추가 정보 입력 필드 표시 -->
+        <div class="pm-section">
+          <div class="pm-section-title">🧑‍✈️ 조종자</div>
+          <label class="pm-check-row">
+            <!-- checked: 기본적으로 신청인=조종자로 설정 -->
+            <input type="checkbox" id="pm-same-pilot" checked onchange="pmTogglePilot(this)"/>
+            신청인과 조종자 동일
+          </label>
+          <!-- 조종자가 다를 때만 표시되는 추가 입력 영역 (기본 숨김) -->
+          <div id="pm-pilot-fields" style="display:none;margin-top:8px;">
+            <div class="pm-row">
+              <div class="pm-group"><label>조종자 성명</label><input type="text" placeholder="홍길동"/></div>
+              <div class="pm-group"><label>자격증 번호</label><input type="text" placeholder="자격증 번호"/></div>
+            </div>
+            <div class="pm-row">
+              <div class="pm-group"><label>연락처</label><input type="tel" placeholder="010-0000-0000"/></div>
+              <div class="pm-group"><label>비행 경력 (년)</label><input type="text" placeholder="예: 3"/></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─ 첨부파일 업로드 ──────────────────────────────────────────
+             label로 input을 감싸서 전체 영역 클릭 가능 (드래그 앤 드롭 스타일)
+             onchange: pmHandleFiles() → 선택한 파일 목록을 pm-file-list에 표시
+             multiple: 여러 파일 동시 선택 가능
+             실제 파일은 pmSubmitPermit()에서 FormData에 담아 서버 전송 -->
+        <div class="pm-section">
+          <div class="pm-section-title">📎 첨부파일</div>
+          <label class="pm-file-drop">
+            <input type="file" id="pm-file-input" accept="image/*,.pdf" multiple onchange="pmHandleFiles(this)"/>
+            <div style="font-size:1.3rem;margin-bottom:5px;">📸</div>
+            <div>비행장치 사진 / 서류 첨부</div>
+            <div style="font-size:.66rem;margin-top:3px;color:var(--text-muted);">클릭하거나 드래그 (JPG, PNG, PDF)</div>
+          </label>
+          <!-- 선택된 파일 목록 표시 영역 (pmHandleFiles가 채움) -->
+          <div id="pm-file-list" style="margin-top:7px;font-size:.73rem;color:var(--text-muted);"></div>
+        </div>
+
+      </div><!-- /pm-form-scroll -->
+
+      <!-- 제출 버튼: pmSubmitPermit() 호출 → /api/permit/submit POST 전송 -->
+      <div class="pm-submit-area">
+        <button class="pm-submit-btn" onclick="pmSubmitPermit()">비행 허가 신청서 제출 →</button>
+      </div>
+    </div><!-- /pm-form-wrap -->
+
+    <!-- ── 우측 하단: 선택 좌표 & 비행 반경 ──────────────────
+         지도 클릭 시 pm-coord-lat/lng 자동 채워짐
+         직접 입력 시 pmSyncCoordFromBottom() → 지도/상단 폼 동기화
+         반경 슬라이더와 숫자 입력란이 연동됨 -->
+    <div class="pm-box pm-coord-wrap">
+      <div class="pm-box-header">
+        <span class="pm-box-title">📡 선택 좌표 &amp; 비행 반경</span>
+      </div>
+      <div class="pm-coord-body">
+        <!-- 위도/경도 직접 입력 (oninput으로 지도와 상단 폼 실시간 동기화) -->
+        <div class="pm-coord-grid">
+          <div class="pm-coord-box">
+            <label>위도 (Lat)</label>
+            <input type="text" class="pm-coord-val pm-coord-input" id="pm-coord-lat"
+                   placeholder="예: 37.5665"
+                   oninput="pmSyncCoordFromBottom()"/>
+          </div>
+          <div class="pm-coord-box">
+            <label>경도 (Lng)</label>
+            <input type="text" class="pm-coord-val pm-coord-input" id="pm-coord-lng"
+                   placeholder="예: 126.9780"
+                   oninput="pmSyncCoordFromBottom()"/>
+          </div>
+        </div>
+
+        <!-- 비행 반경 슬라이더 + 숫자 직접 입력 (100m~5000m, 기본 500m) -->
+        <div class="pm-radius-row">
+          <label>비행 반경</label>
+          <!-- range 슬라이더: 드래그로 반경 조절 → pmUpdateRadius() 호출 -->
+          <input type="range" id="pm-radius-slider" min="100" max="5000" step="100" value="500"
+                 oninput="pmUpdateRadius(this.value)"/>
+          <!-- 숫자 직접 입력: pmUpdateRadiusDirect() 호출 → 슬라이더와 동기화 -->
+          <input type="number" id="pm-radius-input" min="100" max="5000" step="100" value="500"
+                 oninput="pmUpdateRadiusDirect(this.value)"
+                 class="pm-radius-input-field"/>
+          <span class="text-muted-sm">m</span>
+        </div>
+        <div class="pm-coord-hint">💡 지도를 클릭하거나 직접 입력 후 '지도 이동' 버튼을 누르세요.</div>
+      </div>
+    </div>
+
+  </div><!-- /permit-grid -->
+</div><!-- /panel-permit -->
+
+
+<!-- ══════════════════════════════════════════════════
+     팝업 내 공지사항 상세 모달
+     pmOpenNoticeDetail()에서 열고, closePmNoticeDetail()에서 닫음
+     오버레이 클릭 시도 닫힘 (onclick on overlay)
+     ══════════════════════════════════════════════════ -->
+<div id="pm-notice-detail-overlay"
+     onclick="if(event.target===this)closePmNoticeDetail()"
+     style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55);
+            z-index:10000; align-items:center; justify-content:center;">
+  <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px;
+              width:520px; max-width:92vw; max-height:80vh; overflow:hidden;
+              display:flex; flex-direction:column;">
+    <!-- 모달 헤더: 제목 + 닫기 버튼 -->
+    <div style="padding:0.9rem 1.2rem; border-bottom:1px solid var(--border);
+                background:var(--surface2); display:flex; align-items:center; justify-content:space-between;">
+      <!-- 공지사항 제목 (pmOpenNoticeDetail에서 채움) -->
+      <div id="pm-notice-detail-title"
+           style="font-size:0.95rem; font-weight:700; color:var(--text);"></div>
+      <button onclick="closePmNoticeDetail()"
+              style="background:transparent; border:none; color:var(--text-muted);
+                     font-size:1.2rem; cursor:pointer; line-height:1;">✕</button>
+    </div>
+    <div style="padding:1rem 1.2rem; overflow-y:auto; flex:1;">
+      <!-- 작성 날짜 표시 -->
+      <div id="pm-notice-detail-date"
+           style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.8rem;"></div>
+      <!-- 공지사항 본문 (white-space:pre-wrap으로 줄바꿈 유지) -->
+      <div id="pm-notice-detail-content"
+           style="font-size:0.88rem; color:var(--text); line-height:1.8; white-space:pre-wrap;"></div>
+    </div>
+    <div style="padding:0 1.2rem 1rem; display:flex; justify-content:flex-end;">
+      <button onclick="closePmNoticeDetail()"
+              style="padding:0.4rem 1.1rem; border-radius:6px; font-size:0.82rem;
+                     border:1px solid var(--border); background:var(--surface2);
+                     color:var(--text); cursor:pointer; font-family:inherit;">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!--
+  비행 허가 패널 전용 JS
+  - pmInitMap(): 탭 활성화 시 OpenLayers 지도 초기화
+  - pmSubmitPermit(): 신청서 제출 (FormData 방식)
+  - pmLoadPrecheck() / pmLoadNotices(): 사전확인/공지 동적 로드
+  - pmApplyCoord(): 좌표 검증 및 지도/폼 동기화
+-->
+<script src="{{ url_for('static', filename='js/permit_section.js') }}"></script>
+
+</div>

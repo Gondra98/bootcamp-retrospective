@@ -1,0 +1,421 @@
+/* ================================================================
+   main.css  —  main.html 전용 레이아웃 스타일
+   역할: 날씨 패널, 비행 상태 배너, 기상 카드, 공지사항 패널,
+         내 허가 신청 현황 패널(psp) 스타일링
+   의존: common.css (CSS 변수 및 공통 컴포넌트)
+   주요 구조:
+     .panel-weather   → 우측 날씨 패널 (flex 고정 폭 440px)
+     .flight-status   → 비행 가능 여부 배너 (ok/warn/ng 색상)
+     .weather-card    → 기상 요약 카드
+     .forecast-card   → 비행 판단 기준 참고 사항 카드
+     .panel-notice    → 공지사항 패널 (common.css에 정의)
+     #permit-status-panel → 내 허가 신청 현황 패널
+================================================================ */
+
+/* ─── LEFT PANEL: MAP ─── */
+/* .panel-map 정의는 map_section.css 에서 담당 */
+
+/* ─── RIGHT PANEL: WEATHER ─── */
+.panel-weather {
+    flex: 0 0 440px;
+    width: 440px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    align-self: flex-start;
+}
+
+/* ─── 선택 위치 카드 ─── */
+#panel-location {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+}
+#panel-location .loc-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+}
+#loc-province {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+}
+.loc-city-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+}
+#loc-dong { color: var(--text-muted); opacity: 0.75; }
+.loc-coord-row {
+    display: flex;
+    gap: 1.2rem;
+    margin-top: 0.55rem;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+/* ─── 비행 가능 여부 배너 ─── */
+.flight-status {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.status-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.status-icon svg {
+    display: block;
+    flex-shrink: 0;
+}
+.status-ok   { background: rgba(22, 163, 74, 0.12);  border: 2px solid var(--green);  color: var(--green); }
+.status-warn { background: rgba(217, 119, 6, 0.12);  border: 2px solid var(--yellow); color: var(--yellow); }
+.status-no   { background: rgba(220, 38, 38, 0.12);  border: 2px solid var(--red);    color: var(--red); }
+.status-ng   { background: rgba(220, 38, 38, 0.12);  border: 2px solid var(--red);    color: var(--red); }
+
+.status-text-wrap { flex: 1; }
+.status-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+}
+.status-title.ok   { color: var(--green); }
+.status-title.warn { color: var(--yellow); }
+.status-title.ng   { color: var(--red); }
+.status-sub {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+/* ─── 날씨 카드 ─── */
+.weather-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.weather-main {
+    padding: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+.weather-icon {
+    font-size: 3rem;
+    line-height: 1;
+}
+.weather-info { flex: 1; }
+.weather-temp {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+}
+.weather-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+}
+.weather-location {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+}
+
+.weather-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+.weather-item {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+}
+.weather-item:nth-child(2n)       { border-right: none; }
+.weather-item:nth-last-child(-n+2) { border-bottom: none; }
+.weather-item-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.weather-item-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* ─── 참고 사항 카드 ─── */
+.forecast-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* 참고사항 본문 영역 */
+.forecast-body {
+    padding: 0.3rem 1rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* details 항목 간 구분선 */
+.forecast-body details + details {
+    border-top: 1px solid var(--border);
+}
+
+/* summary — 역삼각형 토글 + 진한 텍스트 */
+.forecast-body details summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.7rem 0;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--text);
+    user-select: none;
+    transition: color 0.15s;
+}
+/* 브라우저 기본 마커 완전 제거 (Chrome, Firefox, Safari) */
+.forecast-body details summary::-webkit-details-marker { display: none; }
+.forecast-body details summary::marker { display: none; content: ''; }
+
+/* 역삼각형 아이콘 — ::before로 왼쪽에 배치 */
+.forecast-body details summary::before {
+    content: '▾';
+    font-size: 0.9rem;
+    color: var(--accent);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-right: 0.45rem;
+    display: inline-block;
+}
+.forecast-body details[open] summary::before {
+    transform: rotate(0deg);
+}
+.forecast-body details:not([open]) summary::before {
+    transform: rotate(-90deg);
+}
+.forecast-body details summary:hover { color: var(--accent); }
+.forecast-body details[open] summary { color: var(--accent); }
+
+/* 펼쳐진 내용 */
+.forecast-card .detail-content {
+    font-size: 0.82rem;
+    color: var(--text);
+    line-height: 1.8;
+    padding: 0.5rem 0 0.7rem 0.3rem;
+    border-top: 1px solid var(--border);
+}
+
+/* ─── 핀 클릭 정보 카드 ─── */
+#pin-info-card {
+    margin: 0.6rem 0 0;
+    padding: 0.85rem 1rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.82rem;
+}
+.pin-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+}
+.pin-card-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+}
+.pin-card-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    transition: color 0.15s;
+}
+.pin-card-close:hover { color: var(--text); }
+.pin-card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem 1rem;
+}
+.pin-card-label { color: var(--text-muted); font-size: 0.75rem; }
+.pin-card-value { color: var(--text); text-align: right; }
+.pin-card-value.accent { color: var(--accent2); }
+
+/* 거절 사유 박스 */
+.pin-reject-wrap {
+    margin-top: 0.7rem;
+    padding: 0.6rem 0.8rem;
+    background: rgba(220, 38, 38, 0.06);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    border-radius: 7px;
+}
+.pin-reject-label {
+    font-size: 0.72rem;
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+#pin-reject-reason {
+    font-size: 0.8rem;
+    color: var(--red);
+    line-height: 1.6;
+}
+.pin-card-hint {
+    margin-top: 0.5rem;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    text-align: center;
+    opacity: 0.6;
+}
+
+/* ─── 내 허가 신청 현황 패널 (map 아래) ─── */
+#permit-status-panel {
+    border-top: 1px solid var(--border);
+    padding: 0.75rem 1rem 0.9rem;
+    background: var(--surface);
+}
+.psp-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+}
+.psp-scroll {
+    display: flex;
+    gap: 0.6rem;
+    overflow-x: auto;
+    padding-bottom: 0.3rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+.psp-scroll::-webkit-scrollbar { height: 3px; }
+.psp-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.psp-empty {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    padding: 0.5rem 0;
+}
+.psp-card {
+    flex-shrink: 0;
+    width: 230px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.15s;
+}
+.psp-card:hover { border-color: var(--accent2); }
+.psp-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.45rem 0.7rem;
+    border-bottom: 1px solid var(--border);
+}
+.psp-card-head.approved { background: rgba(22, 163, 74, 0.08); }
+.psp-card-head.pending  { background: rgba(30, 58, 95, 0.08); }
+.psp-card-head.rejected { background: rgba(220, 38, 38, 0.06); }
+.psp-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+.psp-status-dot.approved { background: var(--green); box-shadow: 0 0 4px var(--green); }
+.psp-status-dot.pending  { background: var(--accent2); box-shadow: 0 0 4px var(--accent2); }
+.psp-status-dot.rejected { background: var(--red); box-shadow: 0 0 4px var(--red); }
+.psp-status-text { font-size: 0.72rem; font-weight: 700; }
+.psp-status-text.approved { color: var(--green); }
+.psp-status-text.pending  { color: var(--accent2); }
+.psp-status-text.rejected { color: var(--red); }
+.psp-req-id {
+    font-size: 0.63rem;
+    color: var(--text-muted);
+    font-family: monospace;
+}
+.psp-card-body {
+    padding: 0.55rem 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.psp-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+.psp-label {
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 42px;
+}
+.psp-value { color: var(--text); word-break: break-all; }
+.psp-reject-box {
+    margin-top: 0.3rem;
+    padding: 0.4rem 0.6rem;
+    background: rgba(220, 38, 38, 0.05);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    border-radius: 5px;
+    font-size: 0.72rem;
+    color: var(--red);
+    line-height: 1.45;
+}
+.psp-reject-label {
+    font-size: 0.63rem;
+    color: var(--red);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    display: block;
+    margin-bottom: 2px;
+}
+
+/* ─── 유틸 ─── */
+.cursor-pointer { cursor: pointer; }
+.detail-indent  { margin-top: 0.5rem; padding-left: 1rem; }
+
+/* ─── 반응형 ─── */
+@media (max-width: 860px) {
+    main       { flex-direction: column; }
+    .panel-weather { flex: 0 0 auto; width: 100%; }
+    .panel-map     { flex: 0 0 auto; width: 100%; }
+    #vmap          { height: 400px; }
+}

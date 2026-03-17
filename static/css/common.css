@@ -1,0 +1,413 @@
+/* ================================================================
+   common.css  —  전체 페이지 공통 스타일
+   역할: CSS 변수(라이트 테마), 전역 리셋, 헤더, 네비게이션 탭,
+         공지사항 모달, 공통 버튼, 반응형 미디어 쿼리
+   적용: main.html, admin.html, login.html, register.html, mypage.html
+================================================================ */
+
+/* ── 전역 박스 모델 리셋 ─────────────────────────────────────────
+   모든 요소의 padding/margin을 0으로 초기화.
+   box-sizing:border-box → padding/border가 width에 포함되어 레이아웃 계산이 쉬워짐 */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── CSS 사용자 정의 변수 (라이트 테마) ──────────────────────────
+   :root에 정의하면 전체 HTML 어디서든 var(--변수명)으로 사용 가능.
+   테마 변경 시 여기서만 수정하면 됨 */
+:root {
+    /* 배경색 계층 */
+    --bg:       #f0f2f5;    /* 페이지 전체 배경 (연한 회색) */
+    --surface:  #ffffff;    /* 카드/패널 배경 (흰색) */
+    --surface2: #f8fafd;    /* 보조 배경 (패널 헤더, 테이블 홀수 행 등) */
+
+    /* 테두리 색 */
+    --border:   #dde3ee;
+
+    /* 포인트 컬러 계열 (현대로템 네이비 톤) */
+    --accent:        #1e3a5f;               /* 기본 포인트 (진한 네이비) */
+    --accent2:       #2a52a0;               /* 보조 포인트 (중간 블루) */
+    --accent-hover:  #162d4a;               /* hover 시 더 진해지는 네이비 */
+    --accent-light:  rgba(30, 58, 95, 0.08);/* 배경용 연한 네이비 */
+
+    /* 텍스트 색상 */
+    --text:       #1a2236;    /* 기본 텍스트 (진한 네이비-블랙) */
+    --text-muted: #6b7a99;    /* 보조 텍스트 (회색, 레이블/힌트) */
+
+    /* 상태 색상 */
+    --green:  #16a34a;    /* 성공/승인 */
+    --red:    #dc2626;    /* 위험/거절/에러 */
+    --yellow: #d97706;    /* 경고/대기 */
+
+    /* 페이지 좌우 여백 (반응형: % 단위) */
+    --page-padding: 5%;
+}
+
+/* ── body 기본 스타일 ────────────────────────────────────────────
+   flex 컨테이너로 설정해 header/nav/main/footer가 세로로 쌓이게 함 */
+body {
+    font-family: 'Noto Sans KR', sans-serif;    /* Google Fonts 한글 폰트 */
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;    /* 콘텐츠가 짧아도 화면 전체 채우기 */
+    display: flex;
+    flex-direction: column;    /* 세로 방향 쌓기 */
+}
+
+/* ── 상단 얇은 로고 헤더 (네이비 바) ────────────────────────────
+   브라우저 상단에 고정된 좁은 로고 표시줄 */
+.top-logo-header {
+    background: var(--accent);
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.top-logo-sub {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 0.02em;
+}
+
+/* ── 메인 헤더 ──────────────────────────────────────────────────
+   로고 + 로그인/마이페이지 버튼이 위치하는 상단 헤더 영역.
+   position:sticky + top:0 으로 스크롤해도 헤더가 상단에 고정됨 */
+header {
+    background: var(--surface);
+    border-bottom: 1.5px solid var(--border);
+    padding: 0 var(--page-padding);
+    height: 62px;
+    display: flex;
+    align-items: center;
+    position: sticky;    /* 스크롤 시 상단 고정 */
+    top: 0;
+    z-index: 100;        /* 지도/모달보다 앞에 표시 */
+    box-shadow: 0 1px 4px rgba(30, 58, 95, 0.06);
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;    /* 로고의 absolute 기준점 */
+}
+
+/* 로고: absolute + translateX(-50%)로 헤더 정중앙에 배치 */
+.logo-wrap {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    text-decoration: none;
+}
+/* 로고 원형 아이콘 — 동심원 구조: logo-circle > logo-inner > logo-dot */
+.logo-circle {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 2.5px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.logo-inner {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+}
+.logo-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #fff;
+}
+.logo-text {
+    font-size: 17px; font-weight: 700; color: var(--accent);
+    letter-spacing: -0.01em; white-space: nowrap;
+}
+.logo-sub {
+    font-size: 10px; color: var(--text-muted);
+    display: block; margin-top: 1px;
+}
+
+/* 헤더 우측 버튼 그룹 (로그인/마이페이지/로그아웃) */
+.header-right {
+    margin-left: auto;    /* 오른쪽 끝에 붙이기 */
+    display: flex; gap: 6px; align-items: center;
+}
+.header-divider {
+    color: var(--border); font-size: 0.9rem; user-select: none;
+}
+
+/* 헤더 버튼 스타일 */
+.btn-header {
+    padding: 0.38rem 1rem;
+    border-radius: 6px;
+    font-size: 0.82rem; font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface); color: var(--text);
+    transition: background 0.18s, border-color 0.18s, color 0.18s;
+    font-family: inherit;
+    text-decoration: none;
+    display: inline-flex; align-items: center;
+    white-space: nowrap;
+}
+.btn-header:hover {
+    background: var(--accent); border-color: var(--accent); color: #fff;
+}
+/* 관리자 전용 버튼: 노란색 테두리 */
+.btn-header.admin { border-color: var(--yellow); color: var(--yellow); }
+.btn-header.admin:hover { background: var(--yellow); border-color: var(--yellow); color: #fff; }
+
+/* ── 네비게이션 탭 ───────────────────────────────────────────────
+   비행가능확인 / 비행 허가 / 공지사항 탭 메뉴
+   active 탭: 하단 border를 포인트 색으로 표시 */
+nav {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    padding: 0 var(--page-padding);
+    display: flex;
+    gap: 0;
+}
+.nav-tab {
+    padding: 0.78rem 2rem;
+    font-size: 0.88rem; font-weight: 600;
+    cursor: pointer;
+    border: none; background: transparent; color: var(--text-muted);
+    border-bottom: 2.5px solid transparent;
+    margin-bottom: -2px;    /* nav의 border-bottom과 겹쳐 활성 탭에서 하단 선이 연결되게 */
+    transition: color 0.18s, border-color 0.18s;
+    font-family: inherit; white-space: nowrap;
+}
+.nav-tab:hover { color: var(--accent); }
+.nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── 메인 콘텐츠 래퍼 ───────────────────────────────────────────
+   탭별 패널들이 가로로 배치되는 영역.
+   flex + min-height:0 → 자식 요소가 overflow:auto를 제대로 동작하게 함 */
+main {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1.2rem var(--page-padding);
+    min-height: 0;
+}
+
+/* ── 패널 공통 헤더 스타일 ──────────────────────────────────────
+   각 섹션 상단에 표시되는 "🗺 비행 구역 지도", "🌤 현재 기상" 같은 헤더 */
+.panel-header {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.88rem; font-weight: 700; color: var(--text);
+    letter-spacing: 0.03em; text-transform: uppercase;
+    background: var(--surface2);
+}
+
+/* 실시간 점멸 dot (초록색, 1.8초 주기 깜빡임) */
+.panel-header .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 5px rgba(22, 163, 74, 0.4);
+    animation: blink 1.8s infinite;
+}
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }    /* 중간에 반투명해졌다가 다시 불투명 */
+}
+
+/* ── 공지사항 패널 ───────────────────────────────────────────────
+   기본은 숨김, active 클래스 추가 시 flex로 표시 (main.js의 showTab) */
+.panel-notice { display: none; flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; flex-direction: column; }
+.panel-notice.active { display: flex; }
+
+.notice-list { overflow-y: auto; flex: 1; }
+.notice-item {
+    display: flex; align-items: center;
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+    gap: 0.8rem; cursor: pointer;
+    transition: background 0.15s;
+    font-size: 0.85rem;
+}
+.notice-item:hover { background: var(--surface2) !important; }
+.notice-badge {
+    font-size: 0.7rem; padding: 0.15rem 0.5rem;
+    border-radius: 4px; font-weight: 700; flex-shrink: 0;
+}
+.badge-new { background: var(--accent-light); color: var(--accent); }
+.badge-imp { background: rgba(217, 119, 6, 0.12); color: var(--yellow); }
+.notice-title { flex: 1; color: var(--text); }
+.notice-date  { color: var(--text-muted); font-size: 0.75rem; flex-shrink: 0; }
+
+/* ── 공지사항 상세 모달 ─────────────────────────────────────────
+   화면 전체를 덮는 반투명 오버레이 위에 모달 박스 표시 */
+.notice-modal-overlay {
+    display: none;
+    position: fixed; inset: 0;                /* top/right/bottom/left 모두 0 (화면 전체) */
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(3px);               /* 배경 흐림 효과 */
+    z-index: 200;
+    align-items: center; justify-content: center;
+}
+.notice-modal-overlay.open { display: flex; }
+
+.notice-modal-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; width: 560px; max-width: 92vw;
+    overflow: hidden;
+    animation: fadeUp 0.22s ease;    /* 아래에서 위로 올라오는 입장 애니메이션 */
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+}
+.notice-modal-header {
+    padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+    display: flex; align-items: center; justify-content: space-between;
+}
+.notice-modal-title { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+.notice-modal-close {
+    background: transparent; border: none;
+    color: var(--text-muted); font-size: 1.2rem; cursor: pointer;
+    line-height: 1; padding: 2px 6px; border-radius: 4px;
+    transition: color 0.15s;
+}
+.notice-modal-close:hover { color: var(--text); }
+.notice-modal-body { padding: 1.2rem; }
+.notice-modal-date { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.8rem; }
+.notice-modal-content {
+    font-size: 0.88rem; color: var(--text); line-height: 1.8;
+    white-space: pre-wrap;    /* 줄바꿈 유지 */
+    max-height: 400px; overflow-y: auto;
+}
+.notice-modal-footer { padding: 0 1.2rem 1.2rem; display: flex; justify-content: flex-end; }
+.notice-modal-footer button {
+    padding: 0.4rem 1.1rem; border-radius: 6px; font-size: 0.82rem;
+    border: 1px solid var(--border); background: var(--surface2);
+    color: var(--text); cursor: pointer; font-family: inherit; transition: background 0.15s;
+}
+.notice-modal-footer button:hover { background: var(--border); }
+
+/* ── 공통 애니메이션 ────────────────────────────────────────────
+   모달, 카드 등에서 아래→위로 나타나는 효과 */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── 반응형 (860px 이하) ─────────────────────────────────────────
+   화면이 좁아지면 패널을 세로로 쌓고 탭 여백 줄임 */
+@media (max-width: 860px) {
+    main { flex-direction: column; }
+    .nav-tab { padding: 0.7rem 1.2rem; }
+    .logo-wrap { position: static; transform: none; }    /* 로고 절대 위치 해제 */
+    .header-inner { justify-content: space-between; }
+}
+
+/* ================================================================
+   공통 — 지도 툴바 및 구역 토글 버튼
+   map_section.css, admin.css에서 공유하는 스타일
+================================================================ */
+.map-toolbar {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 0.5rem;
+    flex-wrap: wrap;    /* 버튼이 많으면 다음 줄로 이동 */
+    background: var(--surface2);
+}
+
+/* 구역 토글 버튼 — 기본값은 반투명(비활성), active 시 진하게 */
+.toggle-btn {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;    /* 둥근 알약 모양 */
+    font-size: 0.75rem; font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid;
+    background: transparent;
+    font-family: inherit;
+    transition: all 0.2s;
+    opacity: 0.45;    /* 비활성: 반투명 */
+}
+.toggle-btn.active              { opacity: 1; }    /* 활성: 불투명 */
+/* 구역 유형별 색상 */
+.toggle-btn.forbidden           { border-color: #ef4444; color: #ef4444; }    /* 빨강 (비행금지) */
+.toggle-btn.forbidden.active    { background: rgba(239, 68, 68, 0.15); }
+.toggle-btn.restricted          { border-color: #f59e0b; color: #f59e0b; }    /* 주황 (비행제한) */
+.toggle-btn.restricted.active   { background: rgba(245, 158, 11, 0.15); }
+.toggle-btn.danger              { border-color: #a855f7; color: #a855f7; }    /* 보라 (비행위험) */
+.toggle-btn.danger.active       { background: rgba(168, 85, 247, 0.15); }
+.toggle-btn.permit              { border-color: #22c55e; color: #22c55e; }    /* 초록 (허가요청) */
+.toggle-btn.permit.active       { background: rgba(34, 197, 94, 0.15); }
+
+/* 관리자 전용 허가 상태 색상 */
+.toggle-btn.approved-btn        { border-color: #16a34a; color: #16a34a; }
+.toggle-btn.approved-btn.active { background: rgba(22, 163, 74, 0.15); }
+.toggle-btn.pending-btn         { border-color: #d97706; color: #d97706; }
+.toggle-btn.pending-btn.active  { background: rgba(217, 119, 6, 0.15); }
+.toggle-btn.rejected-btn        { border-color: #dc2626; color: #dc2626; }
+.toggle-btn.rejected-btn.active { background: rgba(220, 38, 38, 0.12); }
+
+/* 관리자 지도 날짜 필터 input */
+.admin-date-input {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text); font-size: 0.72rem;
+    padding: 3px 7px; outline: none; transition: border-color 0.2s; cursor: pointer;
+}
+.admin-date-input:focus { border-color: var(--accent2); }
+
+/* 날짜 필터 조회/초기화 버튼 */
+.admin-filter-btn {
+    background: var(--accent); border: none; border-radius: 6px;
+    color: #fff; font-size: 0.72rem; font-weight: 600;
+    padding: 3px 10px; cursor: pointer; transition: background 0.2s;
+}
+.admin-filter-btn:hover { background: var(--accent-hover); }
+
+.admin-reset-btn {
+    background: transparent; border: 1px solid var(--border); border-radius: 6px;
+    color: var(--text-muted); font-size: 0.72rem;
+    padding: 3px 10px; cursor: pointer; transition: all 0.2s;
+}
+.admin-reset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ================================================================
+   공통 — Flash 메시지 & 애니메이션
+   (admin.css, login.css에서 공유)
+================================================================ */
+.flash-msg {
+    padding: 10px 14px; border-radius: 8px; font-size: 0.8rem; margin-bottom: 0.8rem;
+}
+/* 유형별 배경/글자/테두리 색 */
+.flash-success { background: rgba(22, 163, 74, 0.08);  color: var(--green);   border: 1px solid rgba(22, 163, 74, 0.25); }
+.flash-error   { background: rgba(220, 38, 38, 0.08);  color: var(--red);     border: 1px solid rgba(220, 38, 38, 0.25); }
+.flash-info    { background: rgba(30, 58, 95, 0.06);   color: var(--accent2); border: 1px solid rgba(30, 58, 95, 0.18); }
+.flash-default { background: rgba(30, 58, 95, 0.06);   color: var(--accent2); border: 1px solid rgba(30, 58, 95, 0.2); }
+
+/* 아래에서 위로 나타나는 애니메이션 (모달, 카드 공통) */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+/* 오른쪽에서 왼쪽으로 슬라이드 (토스트 알림) */
+@keyframes toastIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ================================================================
+   공통 — 테이블 빈 행 & 패널 카운트 레이블
+================================================================ */
+.td-empty    { text-align: center; color: var(--text-muted); padding: 1.5rem; }
+.td-empty-lg { text-align: center; color: var(--text-muted); padding: 2rem; }
+
+/* "전체 N건" 같은 건수 표시 레이블 */
+.panel-count          { font-size: 0.78rem; font-weight: 400; color: var(--text-muted); }
+.panel-count strong   { color: var(--accent2); font-weight: 700; }
+
+.text-muted-sm        { font-size: 0.75rem; color: var(--text-muted); }
+.text-accent-bold     { color: var(--accent2); font-weight: 700; }
+
+/* 검색/필터 폼 행 레이아웃 */
+.search-form-row { display: flex; gap: 0.6rem; flex: 1; }

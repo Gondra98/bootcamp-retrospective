@@ -1,0 +1,7 @@
+﻿style_id,zone_category,display_color,fill_opacity,stroke_width,stroke_dasharray
+1,FORBIDDEN,#ff0000,0.35,2,
+2,RESTRICTED,#ff8800,0.3,2,
+3,DANGER,#ffcc00,0.25,2,
+4,AIRSPACE,#0066ff,0.15,1,
+5,CAUTION,#8844ff,0.2,1,"4,2"
+6,SPECIAL,#333333,0.2,2,"2,2"

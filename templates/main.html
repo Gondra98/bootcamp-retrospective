@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 모바일/태블릿 화면 대응 (반응형 뷰포트 설정) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>드론 비행 관리 시스템</title>
+
+  <!-- Google Fonts: Noto Sans KR — 한글 웹폰트 로드 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+
+  <!--
+    Flask 서버에서 JS 변수로 값 주입 (Jinja2 템플릿 문법)
+    - VWORLD_KEY        : Vworld 지도 API 인증키 (map_section.js에서 사용)
+    - USER_DRONE_WEIGHT : 로그인된 유저의 드론 최대이륙중량 (weather_section.js에서 비행 판단에 사용)
+    - IS_LOGGED_IN      : 일반 유저 로그인 여부 (main.js에서 허가 탭 접근 제어에 사용)
+    - IS_ADMIN          : 관리자 로그인 여부 (관리자 전용 기능 표시 여부 결정)
+  -->
+  <script>
+    const VWORLD_KEY        = "{{ api_key }}";
+    const USER_DRONE_WEIGHT = {{ drone_weight if drone_weight else 'null' }};
+    const IS_LOGGED_IN      = {{ 'true' if session.get('user_id') else 'false' }};
+    const IS_ADMIN          = {{ 'true' if session.get('is_admin') else 'false' }};
+  </script>
+
+  <!-- 전체 공통 CSS (헤더, 네비, 공통 버튼, CSS 변수 등) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+  <!-- 메인 페이지 전용 레이아웃 CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+
+<!-- ──────────────────────────────────────────
+     HEADER: 상단 로고 + 우측 버튼 영역
+     ────────────────────────────────────────── -->
+<header>
+  <div class="header-inner">
+
+    <!-- 로고 클릭 시 메인(/) 으로 이동 -->
+    <div class="logo-wrap" onclick="location.href='/'">
+      <!-- 동심원 로고 아이콘 -->
+      <div class="logo-circle">
+        <div class="logo-inner">
+          <div class="logo-dot"></div>
+        </div>
+      </div>
+      <div>
+        <span class="logo-text">드론 비행 관리 시스템</span>
+        <span class="logo-sub">안전한 드론 비행을 위한 통합 서비스</span>
+      </div>
+    </div>
+
+    <!-- 헤더 우측 버튼 (로그인 상태에 따라 다르게 표시) -->
+    <div class="header-right">
+
+      <!-- 관리자로 로그인된 경우 -->
+      {% if session.get('is_admin') %}
+        <button class="btn-header admin" onclick="location.href='/admin'">관리자 전용</button>
+        <!-- 로그인 이름 표시 (버튼처럼 생겼지만 클릭 불가) -->
+        <span class="btn-header" style="cursor:default;">{{ session.name }} (관리자)</span>
+        <button class="btn-header" onclick="location.href='/logout'">로그아웃</button>
+
+      <!-- 일반 유저로 로그인된 경우 -->
+      {% elif session.get('user_id') %}
+        <!-- 일반 유저가 관리자 버튼 클릭 시 경고 -->
+        <button class="btn-header admin" onclick="alert('관리자만 접근할 수 있습니다.')">관리자 전용</button>
+        <!-- 마이페이지 버튼에 로그인된 이름 표시 -->
+        <button class="btn-header" onclick="location.href='/mypage'">마이페이지 ({{ session.name }})</button>
+        <button class="btn-header" onclick="location.href='/logout'">로그아웃</button>
+
+      <!-- 비로그인 상태 -->
+      {% else %}
+        <button class="btn-header admin" onclick="alert('관리자만 접근할 수 있습니다.')">관리자 전용</button>
+        <button class="btn-header" onclick="location.href='/login'">로그인 / 마이페이지</button>
+      {% endif %}
+
+    </div>
+  </div>
+</header>
+
+<!-- ──────────────────────────────────────────
+     NAV TABS: 상단 탭 메뉴 (지도/허가/공지)
+     active 클래스가 있는 탭이 현재 선택된 탭
+     showTab()은 main.js에서 정의됨
+     ────────────────────────────────────────── -->
+<nav>
+  <!-- 기본으로 "비행가능확인" 탭이 활성화 -->
+  <button class="nav-tab active" onclick="showTab('map', this)">비행가능확인</button>
+  <button class="nav-tab" onclick="showTab('permit', this)">비행 허가</button>
+  <button class="nav-tab" onclick="showTab('notice', this)">공지사항</button>
+</nav>
+
+<!-- ──────────────────────────────────────────
+     MAIN: 탭별 콘텐츠 패널
+     Jinja2 include로 각 섹션 HTML 파일을 삽입
+     ────────────────────────────────────────── -->
+<main id="main-content">
+
+  <!-- 지도 패널 (map_section.html 전체 삽입) -->
+  {% include 'map_section.html' %}
+
+  <!-- 날씨 패널 (weather_section.html 전체 삽입) -->
+  {% include 'weather_section.html' %}
+
+  <!-- 비행 허가 신청 패널 (permit_section.html 전체 삽입) -->
+  {% include 'permit_section.html' %}
+
+  <!-- 공지사항 패널 (탭 클릭 시 main.js의 loadNotices()가 동적으로 채움) -->
+  <div class="panel-notice" id="panel-notice">
+    <div class="panel-header">
+      <span>📢 공지사항</span>
+    </div>
+    <!-- 초기에는 로딩 중 표시, JS가 API로 데이터 채움 -->
+    <div class="notice-list" id="notice-list">
+      <div class="notice-item" style="justify-content:center; color:var(--text-muted); font-size:0.83rem;">
+        불러오는 중...
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ──────────────────────────────────────────
+     공지사항 상세 모달
+     오버레이 클릭 시 닫힘 (event.target 확인)
+     내부 콘텐츠는 main.js의 openNoticeModal()이 채움
+     ────────────────────────────────────────── -->
+<div id="notice-modal"
+     onclick="if(event.target===this)closeNoticeModal()"
+     class="notice-modal-overlay">
+  <div class="notice-modal-box">
+    <!-- 모달 헤더: 제목 + 닫기 버튼 -->
+    <div class="notice-modal-header">
+      <div id="modal-title" class="notice-modal-title"></div>
+      <button class="notice-modal-close" onclick="closeNoticeModal()">✕</button>
+    </div>
+    <!-- 모달 본문: 날짜 + 내용 -->
+    <div class="notice-modal-body">
+      <div id="modal-date" class="notice-modal-date"></div>
+      <div id="modal-content" class="notice-modal-content"></div>
+    </div>
+    <div class="notice-modal-footer">
+      <button onclick="closeNoticeModal()">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 메인 페이지 전용 JS (탭 전환, 공지 로드 등) -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>

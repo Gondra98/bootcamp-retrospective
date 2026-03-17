@@ -1,0 +1,354 @@
+{#
+  map_section.html  —  비행 구역 지도 패널
+  main.html에서 {% include 'map_section.html' %}로 삽입됨.
+  스타일 → map_section.css
+  스크립트 → map_section.js (하단 로드)
+  OpenLayers: CDN에서 로드 (ol.js, ol.css)
+#}
+
+<!-- OpenLayers 지도 라이브러리 CDN 로드 -->
+<!-- ol.css: 지도 기본 스타일 (컨트롤 버튼 등) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@8.2.0/ol.css"/>
+<!-- ol.js: OpenLayers 지도 렌더링 엔진 (지도 생성, 레이어, 이벤트 처리) -->
+<script src="https://cdn.jsdelivr.net/npm/ol@8.2.0/dist/ol.js"></script>
+
+<!-- 지도 패널 전용 CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/map_section.css') }}">
+
+<!-- ══════════════════════════════════════════════════
+     지도 패널 컨테이너
+     기본적으로 표시됨 (메인 탭의 기본 활성 상태)
+     ══════════════════════════════════════════════════ -->
+<div class="panel-map" id="panel-map">
+
+    <!-- 패널 헤더: 제목 + 실시간 점멸 dot -->
+    <div class="panel-header">
+        <span>🗺 비행 구역 지도</span>
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+            <!-- common.css의 @keyframes blink로 점멸 애니메이션 -->
+            <div class="dot"></div>
+            <span style="font-size:0.75rem;">실시간</span>
+        </div>
+    </div>
+
+    <!-- ── 구역 유형 토글 툴바 ───────────────────────────────────
+         toggleLayer(type, btn): map_section.js에서 OpenLayers 레이어 표시/숨김
+         active 클래스: 현재 표시 중인 구역 (opacity 1.0)
+         비활성: opacity 0.45 (common.css .toggle-btn 참고) -->
+    <div class="map-toolbar">
+        <span class="text-muted-sm">구역 표시:</span>
+        <button class="toggle-btn forbidden  active" onclick="toggleLayer('forbidden',  this)">비행금지</button>
+        <button class="toggle-btn restricted active" onclick="toggleLayer('restricted', this)">비행제한</button>
+        <button class="toggle-btn danger     active" onclick="toggleLayer('danger',     this)">비행위험</button>
+        <!-- 허가요청 레이어는 현재 미사용 (추후 활성화 예정) -->
+        <!-- <button class="toggle-btn permit active" onclick="toggleLayer('permit', this)">허가요청</button> -->
+    </div>
+
+    <!-- ── 관리자 전용: 허가 신청 상태별 토글 + 날짜 필터 ──────────
+         Jinja2: session.get('is_admin')이 True일 때만 렌더링 -->
+    {% if session.get('is_admin') %}
+    <!-- 승인/대기/거절 상태별 허가 구역 표시 토글 -->
+    <div class="map-toolbar map-toolbar-sub">
+        <span class="text-muted-sm">허가신청 현황:</span>
+        <!-- toggleAllPermitByStatus(): 해당 상태의 원+핀 마커 레이어 표시/숨김 -->
+        <button class="toggle-btn permit active" id="admin-btn-approved"
+                onclick="toggleAllPermitByStatus('approved', this)">● 승인</button>
+        <button class="toggle-btn active" id="admin-btn-pending"
+                style="background:rgba(42,82,160,0.12); border-color:#2a52a0; color:#2a52a0;"
+                onclick="toggleAllPermitByStatus('pending',  this)">● 대기</button>
+        <button class="toggle-btn active" id="admin-btn-rejected"
+                style="background:rgba(220,38,38,0.1); border-color:#dc2626; color:#dc2626;"
+                onclick="toggleAllPermitByStatus('rejected', this)">● 거절</button>
+    </div>
+    <!-- 기간 조회 필터: 해당 기간과 겹치는 허가 신청 구역만 지도에 표시 -->
+    <div class="map-toolbar map-toolbar-sub map-toolbar-compact">
+        <span style="font-size:0.75rem; color:var(--text-muted); white-space:nowrap;">기간 조회:</span>
+        <!-- limitYear(this): 연도 4자리 초과 입력 방지 (admin.js) -->
+        <input type="date" id="admin-date-from" max="9999-12-31"
+              class="admin-date-input"
+              onfocus="this.style.borderColor='var(--accent2)'" onblur="this.style.borderColor=''"
+              oninput="limitYear(this)"/>
+        <span style="color:var(--text-muted); font-size:0.8rem;">~</span>
+        <input type="date" id="admin-date-to" max="9999-12-31"
+              class="admin-date-input"
+              onfocus="this.style.borderColor='var(--accent2)'" onblur="this.style.borderColor=''"
+              oninput="limitYear(this)"/>
+        <!-- applyAdminDateFilter(): 날짜 범위 검증 후 loadAllPermits() 호출 -->
+        <button class="admin-filter-btn" onclick="applyAdminDateFilter()">조회</button>
+        <!-- resetAdminDateFilter(): 오늘~오늘+7일로 초기화 -->
+        <button class="admin-reset-btn"  onclick="resetAdminDateFilter()">초기화</button>
+    </div>
+    {% endif %}
+
+    <!-- ── 일반 유저 전용: 내 허가 신청 현황 토글 ──────────────────
+         관리자가 아닌 로그인 유저에게만 표시 -->
+    {% if session.get('user_id') and not session.get('is_admin') %}
+    <div class="map-toolbar map-toolbar-sub">
+        <span class="text-muted-sm">내 신청 현황:</span>
+        <!-- toggleUserPermitLayer(): 내 허가 신청 원+핀 레이어 표시/숨김 -->
+        <button class="toggle-btn permit active" id="my-permit-btn"
+                onclick="toggleUserPermitLayer(this)">📋 내 허가신청</button>
+    </div>
+    {% endif %}
+
+    <!-- ── 지도 영역 ────────────────────────────────────────────── -->
+    <div class="map-container">
+
+        <!-- OpenLayers 지도 렌더링 대상 div
+             map_section.js의 initMap()에서 target: 'vmap'으로 지도 삽입 -->
+        <div id="vmap"></div>
+
+        <!-- 줌 컨트롤 버튼 (우측 상단 오버레이)
+             mapZoomIn/Out/Reset(): map_section.js에서 OpenLayers view 조작 -->
+        <div class="map-controls">
+            <button class="map-btn" onclick="mapZoomIn()"  title="확대">＋</button>
+            <button class="map-btn" onclick="mapZoomOut()" title="축소">－</button>
+            <button class="map-btn" onclick="mapReset()"   title="전체보기">⊡</button>
+        </div>
+
+        <!-- 위치 정보 패널 (지도 클릭 시 좌측 상단에 표시)
+             map_section.js의 showInfoPanel()이 아래 span들을 채움
+             closeInfoPanel(): show 클래스 제거로 숨김 -->
+        <div class="map-info-panel" id="map-info-panel">
+            <div class="map-info-title">
+                📍 위치 정보
+                <span class="map-info-close" onclick="closeInfoPanel()">✕</span>
+            </div>
+            <div class="map-info-row"><span>위도</span>      <span id="info-lat">-</span></div>
+            <div class="map-info-row"><span>경도</span>      <span id="info-lng">-</span></div>
+            <!-- info-zone: 비행금지/제한/위험/가능 여부 표시 -->
+            <div class="map-info-row"><span>구역 상태</span> <span id="info-zone">확인 중...</span></div>
+            <!-- info-name: 구역명 (예: 서울도심 비행금지구역) -->
+            <div class="map-info-row"><span>구역명</span>    <span id="info-name">-</span></div>
+            <!-- info-addr: 역지오코딩 주소 (fetchAddress()가 비동기로 채움) -->
+            <div class="map-info-row"><span>행정구역</span>  <span id="info-addr">조회 중...</span></div>
+        </div>
+
+        <!-- 허가 신청 핀 클릭 시 나타나는 정보 카드
+             showPinCard()에서 위치와 내용을 동적으로 채움
+             지도의 다른 곳 클릭 시 closePinCard()로 닫힘 -->
+        <div id="pin-info-card" style="display:none; position:absolute; z-index:100;">
+          <div class="pin-card-header">
+            <span class="pin-card-title">✈️ 허가 신청 정보</span>
+            <button class="pin-card-close" onclick="closePinCard()">✕</button>
+          </div>
+          <!-- 핀 기본 정보 그리드 -->
+          <div class="pin-card-grid">
+            <div class="pin-card-label">신청자</div>   <div id="pin-applicant" class="pin-card-value"></div>
+            <div class="pin-card-label">상태</div>     <div id="pin-status"></div>
+            <div class="pin-card-label">목적</div>     <div id="pin-purpose"   class="pin-card-value"></div>
+            <div class="pin-card-label">기간</div>     <div id="pin-period"    class="pin-card-value"></div>
+            <div class="pin-card-label">반경</div>     <div id="pin-radius"    class="pin-card-value accent"></div>
+            <div class="pin-card-label">좌표</div>     <div id="pin-coord"     class="pin-card-value accent"></div>
+          </div>
+          <!-- 거절 사유 (status === '거절'일 때만 표시) -->
+          <div id="pin-reject-wrap" style="display:none;">
+            <div class="pin-reject-label">❌ 거절 사유</div>
+            <div id="pin-reject-reason"></div>
+          </div>
+          <div class="pin-card-hint">지도를 클릭하면 닫힙니다</div>
+        </div>
+
+    </div><!-- /map-container -->
+
+    <!-- ── 내 허가 신청 현황 패널 (일반 유저만 표시) ──────────────
+         renderPermitStatusPanel()이 신청 카드 목록을 동적으로 채움
+         카드 클릭 시 openPspDetailModal()로 상세/수정 모달 열림 -->
+    {% if session.get('user_id') and not session.get('is_admin') %}
+    <div id="permit-status-panel">
+        <div class="psp-title">📋 내 비행 허가 신청 현황</div>
+        <div class="psp-scroll" id="psp-list">
+            <!-- 초기 로딩 중 표시, loadUserPermits()가 채움 -->
+            <span class="psp-empty" style="color:var(--text-muted); font-size:0.75rem;">불러오는 중...</span>
+        </div>
+    </div>
+    {% endif %}
+
+</div><!-- /panel-map -->
+
+
+<!-- ══════════════════════════════════════════════════
+     허가 신청 상세/수정 모달 (일반 유저 전용)
+     openPspDetailModal(p)에서 열고 closePspDetailModal()로 닫음
+     오버레이 클릭 시도 닫힘 (onclick on overlay)
+     ══════════════════════════════════════════════════ -->
+<div id="psp-detail-modal"
+    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.65);
+            z-index:300; align-items:center; justify-content:center;"
+    onclick="if(event.target===this)closePspDetailModal()">
+  <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px;
+              width:500px; max-width:94vw; max-height:88vh; overflow:hidden;
+              display:flex; flex-direction:column; animation:fadeUp 0.2s ease;">
+
+    <!-- 모달 헤더 -->
+    <div style="padding:0.9rem 1.2rem; border-bottom:1px solid var(--border);
+                background:var(--surface2); display:flex; align-items:center; justify-content:space-between;">
+      <div style="font-size:0.95rem; font-weight:700; color:var(--text);">✈️ 비행 허가 신청 상세</div>
+      <button onclick="closePspDetailModal()"
+              style="background:transparent; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer; line-height:1;">✕</button>
+    </div>
+
+    <!-- 모달 본문 (스크롤 가능) -->
+    <div style="padding:1rem 1.2rem; overflow-y:auto; flex:1;">
+      <!-- 신청 ID를 저장하는 숨김 필드 (수정 API 호출 시 사용) -->
+      <input type="hidden" id="psp-d-id"/>
+
+      <!-- 상태 배지 (승인/대기/거절 배경색이 JS에서 동적으로 설정됨) -->
+      <div style="margin-bottom:1rem;">
+        <span id="psp-d-status-badge"
+              style="display:inline-block; padding:0.3rem 0.9rem; border-radius:20px;
+                    font-size:0.82rem; font-weight:700;"></span>
+      </div>
+
+      <!-- 읽기 전용 영역: 승인/거절 상태에서 표시 -->
+      <div id="psp-d-readonly">
+        <div style="background:var(--surface2); border:1px solid var(--border); border-radius:8px;
+                    padding:0.9rem 1rem; font-size:0.85rem; line-height:2; color:var(--text);">
+          <div><span style="color:var(--text-muted); min-width:80px; display:inline-block;">목적</span>
+              <span id="psp-ro-purpose"></span></div>
+          <div><span style="color:var(--text-muted); min-width:80px; display:inline-block;">드론</span>
+              <span id="psp-ro-drone"></span></div>
+          <div><span style="color:var(--text-muted); min-width:80px; display:inline-block;">기간</span>
+              <span id="psp-ro-period"></span></div>
+          <div><span style="color:var(--text-muted); min-width:80px; display:inline-block;">좌표</span>
+              <span id="psp-ro-coord" style="color:var(--accent2);"></span></div>
+          <div><span style="color:var(--text-muted); min-width:80px; display:inline-block;">반경</span>
+              <span id="psp-ro-radius"></span> m</div>
+          <div><span style="color:var(--text-muted); min-width:80px; display:inline-block;">고도</span>
+              <span id="psp-ro-altitude"></span> m</div>
+          <div><span style="color:var(--text-muted); min-width:80px; display:inline-block;">촬영 신청</span>
+              <span id="psp-ro-photo" style="font-weight:600;"></span></div>
+        </div>
+        <!-- 거절 사유 박스 (거절 상태일 때만 display:block) -->
+        <div id="psp-d-reject-wrap"
+            style="display:none; margin-top:0.8rem; padding:0.7rem 0.9rem;
+                    background:rgba(220,38,38,0.07); border:1px solid rgba(220,38,38,0.25);
+                    border-radius:8px;">
+          <div style="font-size:0.75rem; font-weight:700; color:#ef4444; margin-bottom:0.3rem;">❌ 거절 사유</div>
+          <div id="psp-d-reject-reason" style="font-size:0.84rem; color:#fca5a5; line-height:1.6;"></div>
+        </div>
+        <!-- 첨부파일 목록 (loadPspFiles()가 동적으로 채움) -->
+        <div id="psp-d-files-wrap" style="margin-top:0.8rem;">
+          <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:0.4rem;">📎 첨부파일</div>
+          <div id="psp-d-files-list" style="font-size:0.82rem;"></div>
+        </div>
+      </div>
+
+      <!-- 수정 폼: 대기(pending) 상태일 때만 표시 -->
+      <div id="psp-d-edit">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-bottom:0.6rem;">
+
+          <!-- 사용 목적 (전체 너비) -->
+          <div style="grid-column:1/-1;">
+            <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:3px;">사용 목적 *</label>
+            <input id="psp-d-purpose"
+                  style="width:100%; padding:0.38rem 0.7rem; background:var(--surface2);
+                          border:1px solid var(--border); border-radius:6px;
+                          color:var(--text); font-size:0.84rem; font-family:inherit; box-sizing:border-box;"/>
+          </div>
+
+          <!-- 드론 종류 -->
+          <div>
+            <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:3px;">드론 종류</label>
+            <input id="psp-d-drone"
+                  style="width:100%; padding:0.38rem 0.7rem; background:var(--surface2);
+                          border:1px solid var(--border); border-radius:6px;
+                          color:var(--text); font-size:0.84rem; font-family:inherit; box-sizing:border-box;"/>
+          </div>
+
+          <!-- 비행 고도 -->
+          <div>
+            <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:3px;">비행 고도 (m)</label>
+            <input type="number" id="psp-d-altitude" min="0" max="500"
+                  style="width:100%; padding:0.38rem 0.7rem; background:var(--surface2);
+                          border:1px solid var(--border); border-radius:6px;
+                          color:var(--text); font-size:0.84rem; font-family:inherit; box-sizing:border-box;"/>
+          </div>
+
+          <!-- 시작일 -->
+          <div>
+            <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:3px;">시작일 *</label>
+            <input type="date" id="psp-d-start"
+                  style="width:100%; padding:0.38rem 0.7rem; background:var(--surface2);
+                          border:1px solid var(--border); border-radius:6px;
+                          color:var(--text); font-size:0.84rem; font-family:inherit; box-sizing:border-box;"/>
+          </div>
+
+          <!-- 종료일 -->
+          <div>
+            <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:3px;">종료일 *</label>
+            <input type="date" id="psp-d-end"
+                  style="width:100%; padding:0.38rem 0.7rem; background:var(--surface2);
+                          border:1px solid var(--border); border-radius:6px;
+                          color:var(--text); font-size:0.84rem; font-family:inherit; box-sizing:border-box;"/>
+          </div>
+
+          <!-- 위도 (수정 가능) -->
+          <div>
+            <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:3px;">위도</label>
+            <input type="text" id="psp-d-lat"
+                  style="width:100%; padding:0.38rem 0.7rem; background:var(--surface2);
+                          border:1px solid var(--border); border-radius:6px;
+                          color:var(--accent2); font-size:0.84rem; font-family:inherit; box-sizing:border-box;"/>
+          </div>
+
+          <!-- 경도 (수정 가능) -->
+          <div>
+            <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:3px;">경도</label>
+            <input type="text" id="psp-d-lng"
+                  style="width:100%; padding:0.38rem 0.7rem; background:var(--surface2);
+                          border:1px solid var(--border); border-radius:6px;
+                          color:var(--accent2); font-size:0.84rem; font-family:inherit; box-sizing:border-box;"/>
+          </div>
+
+          <!-- 비행 반경 (전체 너비) -->
+          <div style="grid-column:1/-1;">
+            <label style="font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:3px;">비행 반경 (m)</label>
+            <input type="number" id="psp-d-radius" min="100" max="5000" step="100"
+                  style="width:100%; padding:0.38rem 0.7rem; background:var(--surface2);
+                          border:1px solid var(--border); border-radius:6px;
+                          color:var(--text); font-size:0.84rem; font-family:inherit; box-sizing:border-box;"/>
+          </div>
+        </div>
+
+        <!-- 기존 첨부파일 목록 (수정 모드에서 표시) -->
+        <div id="psp-d-files-wrap-edit" style="margin-bottom:0.7rem;">
+          <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:0.4rem;">📎 기존 첨부파일</div>
+          <div id="psp-d-files-list-edit" style="font-size:0.82rem; margin-bottom:0.5rem;"></div>
+        </div>
+
+        <!-- 촬영 신청 여부 표시 (읽기 전용, 수정 불가) -->
+        <div style="padding:0.45rem 0.7rem; background:var(--surface2); border:1px solid var(--border);
+                    border-radius:6px; font-size:0.84rem; margin-bottom:0.6rem; display:flex;
+                    align-items:center; justify-content:space-between;">
+          <span style="color:var(--text-muted); font-size:0.75rem;">촬영 신청 여부</span>
+          <span id="psp-d-photo-text" style="font-weight:600;"></span>
+        </div>
+
+        <!-- 대기 상태만 수정 가능 안내 -->
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.7rem;">
+          ⚠️ 대기 중인 신청만 수정 가능합니다.
+        </p>
+
+        <!-- 저장 버튼: submitPspUpdate() → /api/my_permits/<id>/update POST -->
+        <button onclick="submitPspUpdate()"
+                style="width:100%; padding:0.62rem; background:var(--accent); border:none;
+                      border-radius:8px; color:#fff; font-size:0.9rem; font-weight:700;
+                      cursor:pointer; transition:opacity 0.15s;"
+                onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+          저장하기
+        </button>
+      </div>
+
+    </div><!-- /바디 -->
+  </div>
+</div>
+
+<!--
+  지도 패널 전용 JS (맨 마지막에 로드 — ol.js 로드 후 실행 보장)
+  - initMap(): OpenLayers 지도 초기화 (Vworld WMTS 배경 + 레이어)
+  - loadZoneData(): /api/zones 에서 비행금지구역 폴리곤 로드
+  - loadUserPermits() / loadAllPermits(): 허가 신청 구역 렌더링
+  - onMapClick(): 클릭 좌표 → 구역 판별 + 날씨 API 연동
+-->
+<script src="{{ url_for('static', filename='js/map_section.js') }}"></script>

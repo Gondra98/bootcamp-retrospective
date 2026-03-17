@@ -1,0 +1,447 @@
+/* ================================================================
+   permit_section.css  —  비행 허가 신청 패널 전용 스타일
+   역할: 3열 그리드 레이아웃 (지도/신청서/좌표) 및 팝업/모달 스타일
+   의존: common.css (CSS 변수)
+   주요 구조:
+     .permit-grid     → 지도(좌)/신청서(우상)/좌표(우하) 3분할 그리드
+     .pm-box          → 각 패널 공통 카드 스타일
+     .pm-form-scroll  → 신청서 스크롤 영역
+     .pm-popup-*      → 사전 확인 팝업 스타일
+     .pm-section      → 폼 내 섹션 (기간/목적/지역/제원 등)
+     .pm-purpose-btn  → 사용 목적 선택 버튼
+     .pm-submit-btn   → 제출 버튼
+================================================================ */
+
+/* ── permit 패널 전체 래퍼 ── */
+#panel-permit {
+    width: 100%;
+    height: calc(100vh - 110px);
+    box-sizing: border-box;
+    background: var(--bg);
+    padding: 0px;
+    overflow: hidden;
+}
+
+.permit-grid {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    grid-template-rows: 1fr auto;
+    gap: 10px;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+/* ── 공통 패널 박스 ── */
+.pm-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.pm-box-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+    flex-shrink: 0;
+}
+.pm-box-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.03em;
+}
+.pm-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 5px rgba(22, 163, 74, 0.5);
+    animation: pmPulse 1.5s infinite;
+}
+@keyframes pmPulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── 지도 (좌측 전체) ── */
+.pm-map-wrap { grid-row: 1 / 3; }
+#permit-vmap { flex: 1; width: 100%; height: 100%; }
+
+/* ── 신청 폼 (우측 상단) ── */
+.pm-form-wrap { grid-column: 2; grid-row: 1; }
+.pm-form-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 14px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+.pm-form-scroll::-webkit-scrollbar { width: 3px; }
+.pm-form-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ── 좌표/반경 (우측 하단) ── */
+.pm-coord-wrap { grid-column: 2; grid-row: 2; }
+.pm-coord-body {
+    padding: 12px 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+.pm-coord-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.pm-coord-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 10px;
+}
+.pm-coord-box label {
+    display: block;
+    font-size: .63rem;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+}
+.pm-coord-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .82rem;
+    color: var(--accent2);
+}
+.pm-radius-row { display: flex; align-items: center; gap: 9px; }
+.pm-radius-row label { font-size: .7rem; color: var(--text-muted); white-space: nowrap; }
+#pm-radius-slider { flex: 1; accent-color: var(--accent2); cursor: pointer; height: 4px; }
+.pm-radius-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .8rem;
+    color: var(--accent2);
+    min-width: 52px;
+    text-align: right;
+}
+.pm-coord-hint { font-size: .67rem; color: var(--text-muted); }
+
+/* ── 폼 공통 ── */
+.pm-section { margin-bottom: 14px; }
+.pm-section-title {
+    font-size: .67rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+}
+.pm-row { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.pm-group { margin-bottom: 7px; }
+.pm-group label {
+    display: block;
+    font-size: .68rem;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+    font-weight: 500;
+}
+.pm-group input,
+.pm-group select,
+.pm-group textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: .78rem;
+    padding: 6px 9px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color .2s;
+}
+.pm-group input:focus,
+.pm-group select:focus { border-color: var(--accent2); }
+.pm-group textarea { resize: vertical; min-height: 50px; }
+
+/* 사용 목적 */
+.pm-purpose-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.pm-purpose-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-muted);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: .73rem;
+    padding: 7px 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: all .2s;
+}
+.pm-purpose-btn:hover { border-color: var(--accent2); color: var(--text); }
+.pm-purpose-btn.active {
+    background: rgba(42, 82, 160, 0.1);
+    border-color: var(--accent2);
+    color: var(--accent2);
+    font-weight: 600;
+}
+
+/* 기체 타입 */
+.pm-drone-row { display: flex; gap: 7px; margin-bottom: 8px; }
+.pm-drone-btn {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-muted);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: .75rem;
+    padding: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all .2s;
+}
+.pm-drone-btn.active {
+    background: rgba(42, 82, 160, 0.1);
+    border-color: var(--accent2);
+    color: var(--accent2);
+    font-weight: 600;
+}
+
+/* 체크박스 */
+.pm-check-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: .78rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 0;
+}
+.pm-check-row input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    accent-color: var(--accent2);
+    cursor: pointer;
+}
+
+/* 촬영 뱃지 */
+.pm-zone-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: .7rem;
+    font-weight: 600;
+}
+.pm-zone-badge.ok   { background: rgba(22, 163, 74, .12);  color: var(--green);  border: 1px solid rgba(22, 163, 74, .25); }
+.pm-zone-badge.warn { background: rgba(217, 119, 6, .12); color: var(--yellow); border: 1px solid rgba(217, 119, 6, .25); }
+.pm-zone-badge.no   { background: rgba(220, 38, 38, .1);  color: var(--red);    border: 1px solid rgba(220, 38, 38, .25); }
+
+/* 파일 드롭 */
+.pm-file-drop {
+    border: 1.5px dashed var(--border);
+    border-radius: 6px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    font-size: .75rem;
+    color: var(--text-muted);
+    display: block;
+    transition: border-color .2s;
+}
+.pm-file-drop:hover { border-color: var(--accent2); color: var(--text); }
+.pm-file-drop input { display: none; }
+
+/* 제출 버튼 */
+.pm-submit-area {
+    padding: 10px 14px;
+    border-top: 1px solid var(--border);
+    background: var(--surface2);
+    flex-shrink: 0;
+}
+.pm-submit-btn {
+    width: 100%;
+    background: var(--accent);
+    border: none;
+    border-radius: 7px;
+    color: #fff;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: .83rem;
+    font-weight: 700;
+    padding: 10px;
+    cursor: pointer;
+    letter-spacing: .04em;
+    transition: background .2s, transform .1s;
+}
+.pm-submit-btn:hover  { background: var(--accent-hover); }
+.pm-submit-btn:active { transform: scale(.98); }
+
+/* ── 팝업 오버레이 ── */
+#pm-popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+}
+.pm-popup-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    width: 460px;
+    max-width: 94vw;
+    max-height: 78vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    animation: pmPopIn .22s ease;
+}
+@keyframes pmPopIn { from{opacity:0;transform:scale(.93) translateY(12px)} to{opacity:1;transform:none} }
+.pm-popup-hd {
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.pm-popup-title { font-size: .95rem; font-weight: 700; color: var(--text); }
+.pm-popup-sub   { font-size: .72rem; color: var(--text-muted); margin-top: 3px; }
+.pm-popup-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: color .15s;
+}
+.pm-popup-close:hover { color: var(--text); }
+.pm-popup-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    padding: 0 18px;
+}
+.pm-popup-tab {
+    padding: 9px 14px;
+    font-size: .76rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all .2s;
+}
+.pm-popup-tab.active { color: var(--accent2); border-bottom-color: var(--accent2); }
+.pm-popup-body { padding: 16px 18px; overflow-y: auto; flex: 1; }
+.pm-popup-tab-content { display: none; }
+.pm-popup-tab-content.active { display: block; }
+
+.pm-checklist { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.pm-checklist li {
+    display: flex;
+    gap: 9px;
+    padding: 9px 11px;
+    background: var(--bg);
+    border-radius: 7px;
+    border-left: 3px solid var(--accent2);
+    font-size: .79rem;
+    line-height: 1.55;
+    color: var(--text);
+}
+.pm-checklist li .ico { flex-shrink: 0; font-size: .95rem; margin-top: 1px; }
+
+.pm-notice-list { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-top: 10px; }
+.pm-notice-list li {
+    padding: 9px 11px;
+    background: var(--bg);
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    font-size: .78rem;
+    color: var(--text);
+}
+.pm-notice-tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-size: .63rem;
+    font-weight: 700;
+    margin-right: 5px;
+}
+.pm-tag-new { background: rgba(42, 82, 160, .15); color: var(--accent2); }
+.pm-tag-imp { background: rgba(220, 38, 38, .12); color: var(--red); }
+.pm-notice-date { float: right; color: var(--text-muted); font-size: .68rem; }
+
+.pm-popup-ft {
+    padding: 12px 18px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 7px;
+}
+.pm-btn-ok {
+    flex: 1;
+    background: var(--accent);
+    border: none;
+    border-radius: 7px;
+    color: #fff;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    padding: 9px;
+    cursor: pointer;
+    transition: background .2s;
+}
+.pm-btn-ok:hover { background: var(--accent-hover); }
+.pm-btn-skip {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    color: var(--text-muted);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: .8rem;
+    padding: 9px;
+    cursor: pointer;
+    transition: all .2s;
+}
+.pm-btn-skip:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── 반응형 ── */
+@media (max-width: 860px) {
+    .permit-grid { grid-template-columns: 1fr; grid-template-rows: 320px 1fr auto; }
+    .pm-map-wrap   { grid-row: 1; }
+    .pm-form-wrap  { grid-column: 1; grid-row: 2; }
+    .pm-coord-wrap { grid-column: 1; grid-row: 3; }
+}
+
+/* ─── 좌표 입력 필드 (밑줄 스타일) ─── */
+.pm-coord-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    color: var(--accent2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .85rem;
+    padding: 2px 0;
+    width: 100%;
+    outline: none;
+}
+
+/* ─── 반경 숫자 입력 필드 ─── */
+.pm-radius-input-field {
+    width: 64px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--accent2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .78rem;
+    padding: 3px 6px;
+    outline: none;
+    text-align: center;
+}
