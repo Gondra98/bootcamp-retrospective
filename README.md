@@ -27,3 +27,32 @@
 - [Day 18_자바스크립트 기초](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2018_%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20%EA%B8%B0%EC%B4%88%20%EC%A0%95%EB%A6%AC.md)
 - [Day 19_자바스크립트 함수와 이벤트, DOM, Ajax 기초](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2019_%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%20%ED%95%A8%EC%88%98%EC%99%80%20%EC%9D%B4%EB%B2%A4%ED%8A%B8%2C%20DOM%2C%20Ajax%20%EA%B8%B0%EC%B4%88.md)
 - [Day 20_AJAX 활용 (JSON, CSV, Fetch, 배열 처리)](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2020_AJAX%20%ED%99%9C%EC%9A%A9%20(JSON%2C%20CSV%2C%20Fetch%2C%20%EB%B0%B0%EC%97%B4%20%EC%B2%98%EB%A6%AC).md)
+- [Day 28_Flask REST API CRUD](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2028_Flask%20REST%20API%20CRUD.md)
+- [Day 29_Flask REST API (Join & Dynamic Table)](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2028_Flask%20REST%20API%20CRUD.md)
+- [Day 30_데이터 분석 개론 및 Numpy & 벡터 기초 실무](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2030_%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EB%B6%84%EC%84%9D%20%EA%B0%9C%EB%A1%A0%20%EB%B0%8F%20Numpy%20%26%20%EB%B2%A1%ED%84%B0%20%EA%B8%B0%EC%B4%88%20%EC%8B%A4%EB%AC%B4.md)
+- [Day 31_NumPy 로그변환 & Pandas](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2031_NumPy%20%EB%A1%9C%EA%B7%B8%EB%B3%80%ED%99%98%20&%20Pandas.md)
+- [Day 32_Pandas 데이터 처리 & XML 파싱](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2032_Pandas%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%B2%98%EB%A6%AC%20%26%20XML%20%ED%8C%8C%EC%8B%B1.md)
+- [Day 33_BeautifulSoup · JSON · matplotlib](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2033_BeautifulSoup%20%C2%B7%20JSON%20%C2%B7%20matplotlib.md)
+- [Day 34_데이터 시각화 & DB 연동](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2034_%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EC%8B%9C%EA%B0%81%ED%99%94%20%26%20DB%20%EC%97%B0%EB%8F%99.md)
+- [Day 35_MariaDB 데이터 분석](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2035_MariaDB%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EB%B6%84%EC%84%9D.md)
+- [Day 39_통계 검정 정리 (카이제곱 & t-검정)](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2039_%ED%86%B5%EA%B3%84%20%EA%B2%80%EC%A0%95%20%EC%A0%95%EB%A6%AC%20(%EC%B9%B4%EC%9D%B4%EC%A0%9C%EA%B3%B1%20&%20t-%EA%B2%80%EC%A0%95).md)
+- [Day 40_통계 검정 (t검정 & ANOVA)](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2040_%ED%86%B5%EA%B3%84%20%EA%B2%80%EC%A0%95%20(t%EA%B2%80%EC%A0%95%20%26%20ANOVA).md#day-40_%ED%86%B5%EA%B3%84-%EA%B2%80%EC%A0%95-t%EA%B2%80%EC%A0%95--anova)
+- [Day 41_머신러닝 입문 & 상관분석](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2041_%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D%20%EC%9E%85%EB%AC%B8%20%26%20%EC%83%81%EA%B4%80%EB%B6%84%EC%84%9D.md)
+- [Day 42_선형회귀분석](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2042_%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80%EB%B6%84%EC%84%9D.md)
+- [Day 43_선형회귀 적절성 검정](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2043_%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80%20%EC%A0%81%EC%A0%88%EC%84%B1%20%EA%B2%80%EC%A0%95.md)
+- [Day 44_규제 회귀 & 로지스틱 회귀](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2044_%EA%B7%9C%EC%A0%9C%20%ED%9A%8C%EA%B7%80%20%26%20%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8B%B1%20%ED%9A%8C%EA%B7%80.md)
+- [Day 45_로지스틱 회귀 심화 - Softmax, 표준화, ROC/AUC](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2045_%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8B%B1%20%ED%9A%8C%EA%B7%80%20%EC%8B%AC%ED%99%94%20-%20Softmax%2C%20%ED%91%9C%EC%A4%80%ED%99%94%2C%20ROCAUC.md)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
