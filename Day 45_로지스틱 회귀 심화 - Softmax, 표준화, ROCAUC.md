@@ -468,7 +468,7 @@ model = joblib.load('model.pkl')      # 불러오기
 
 ### 수업 연습2 예시 계산
 
-![[혼동행렬 예시2.png]]
+<img src="images/혼동행렬 예시2.png">
 
 ```
 index  : 0  1  2  3  4  5  6  7  8  9
