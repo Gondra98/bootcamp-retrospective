@@ -282,7 +282,7 @@ plt.show()
 
 ## 🌳 트리 구조 분석
 
-![[ex22tree.png]]
+<img src="images/ex22tree.png" width="600">
 
 ### 분기 흐름
 
@@ -319,7 +319,7 @@ x1 ≤ 0.203?  (Root, Gini=0.5, 100개)
 
 ## 🗺️ 결정경계 시각화
 
-![[ex22decisionboundry.png]]
+<img src="images/ex22decisionboundry.png" width="600">
 
 - `x1 ≈ 0.203` 에서 가장 큰 **수직 경계선** 형성 → Root Node 분할 반영
 - 이후 좁은 구간에서 **수평 경계선** 추가 → 깊이 2~3 분할 반영
@@ -410,7 +410,7 @@ plt.show()
 
 ## 🌳 트리 구조 분석
 
-![[ex23tree.png]]
+<img src="images/ex23tree.png" width="600">
 
 ### 분기 흐름
 
@@ -611,7 +611,7 @@ print(read_model.predict_proba(new_data))
 
 ## 🗺️ 결정경계 시각화
 
-![[ex24treeiris.png]]
+<img src="images/ex24treeiris.png" width="600">
 
 - **빨간 영역** = class 0 (Setosa) — 꽃잎 짧고 좁음
 - **파란 영역** = class 1 (Versicolor) — 중간
@@ -1039,7 +1039,7 @@ print('정확도 : ', accuracy_score(y_test, best_pred))
 
 ## 🔍 배깅 vs 부스팅 상세
 
-![[배깅과 부스팅차이.png]]
+<img src="images/배깅과 부스팅차이.png" width="600">
 
 ### Single (단일 모델)
 
