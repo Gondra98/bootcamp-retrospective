@@ -36,7 +36,7 @@
 - **점이 모여 있음** → 분산 낮음
 - **점이 중앙에 있음** → 편향 낮음
 
-![[bias_variance_target.png]]
+<img src="Excalidraw/HyundaiRotem_AI_Bootcamp_6th/Day03_sequence_index.png" width="600">
 
 | |저분산|고분산|
 |---|---|---|
