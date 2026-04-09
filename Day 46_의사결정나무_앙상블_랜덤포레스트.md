@@ -1,6 +1,18 @@
 # Day 46_의사결정나무_앙상블_랜덤포레스트
 ## 📅 2026-04-09
 
+## 📋 목차
+
+- [[#의사결정나무 (Decision Tree)]]
+- [[#📄 ex22tree.py — 의사결정나무 실습 (make_classification)]]
+- [[#📄 ex23tree.py — 의사결정나무 실습 (남녀 구분)]]
+- [[#📄 ex24treeiris.py — 의사결정나무 실습 (Iris 다항분류)]]
+- [[#📄 ex25overfitting.py — 과적합 방지 (K-Fold, GridSearchCV)]]
+- [[#앙상블 (Ensemble Learning)]]
+- [[#📄 ex26ensemble.py — 앙상블 실습 (VotingClassifier)]]
+- [[#랜덤포레스트 (Random Forest)]]
+- [[#📄 ex27rf.py — 랜덤포레스트 실습 (타이타닉 생존 예측)]]
+
 ---
 # 의사결정나무 (Decision Tree)
 
