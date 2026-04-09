@@ -693,73 +693,145 @@ $$Q = \begin{bmatrix} 0 & 1 \\ -1 & 0 \end{bmatrix}$$
 ```Python
 # numpy2.py
 # 배열 연산
+
 import numpy as np
 
-x = np.array([[1, 2], [3, 4]], dtype=np.float32)
-# x = np.array([[1, 2], [3, 4]])
-print(x, ' ',x.dtype)
-y = np.arange(5, 9).reshape((2, 2))     # 구조 변경 1차원 -> 2차원
-y = y.astype(np.float32)
-print(y, ' ',y.dtype)
+# ============================================================
+# 1. 배열 생성
+# ============================================================
+x = np.array([[1, 2], [3, 4]], dtype=np.float32)   # 2x2 배열, float32 타입 지정
+print(x, ' ', x.dtype)
+# [[1. 2.]
+#  [3. 4.]]   float32
+
+y = np.arange(5, 9).reshape((2, 2))    # 5,6,7,8 → 1차원을 2x2로 구조 변경
+y = y.astype(np.float32)               # int → float32 타입 변환
+print(y, ' ', y.dtype)
+# [[5. 6.]
+#  [7. 8.]]   float32
 
 print()
-print(x + y)        # 파이썬 연산자(느림)
-print(np.add(x, y)) # 넘파이 함수 (유니버셜 함수)(빠름)
+
+# ============================================================
+# 2. 사칙연산 — 파이썬 연산자 vs 넘파이 함수
+# ============================================================
+# 두 방법 모두 결과는 동일하지만
+# 파이썬 연산자(+,-,*,/) 는 느리고
+# np.add, np.subtract 등 유니버셜 함수는 빠름 (대용량 데이터에서 차이 큼)
+
+print(x + y)            # 파이썬 연산자 (느림)
+print(np.add(x, y))     # 넘파이 유니버셜 함수 (빠름)
+# [[ 6.  8.]
+#  [10. 12.]]
 
 print()
 print(x - y)
 print(np.subtract(x, y))
+# [[-4. -4.]
+#  [-4. -4.]]
 
 print()
-print(x * y)
+print(x * y)            # 요소별(element-wise) 곱셈 — 행렬곱 아님!
 print(np.multiply(x, y))
+# [[ 5. 12.]
+#  [21. 32.]]
 
 print()
 print(x / y)
 print(np.divide(x, y))
+# [[0.2        0.33333334]
+#  [0.42857143 0.5       ]]
 
 print()
+
+# ============================================================
+# 3. 내적(dot product) — 벡터 / 행렬곱
+# ============================================================
 print('dot은 numpy 모듈의 함수나 배열 객체의 인스턴스 메소드로 사용이 가능하다')
+
 v = np.array([9, 10])
 w = np.array([11, 12])
-print(v * w)    # 요소별 곱셈   9 * 11, 10 * 11
 
-# 벡터의 내적(행렬곱)
-print(v.dot(w))     # 내적의 결과는 스칼라(크기만 있고 방향은 없음)
-print(np.dot(v, w)) # 9 * 11 + 10 * 12
-print(np.dot(x, v))
+print(v * w)        # 요소별 곱셈 → [99, 120]  (9*11, 10*12)
+                    # 내적이 아님! 그냥 각 위치끼리 곱한 것
+
+print(v.dot(w))     # 내적 (벡터) → 스칼라 반환
+print(np.dot(v, w)) # 9*11 + 10*12 = 99 + 120 = 219
+                    # 내적 결과는 스칼라(크기만 있고 방향은 없음)
+
+print(np.dot(x, v)) # 행렬 x 벡터 내적
+                    # [1*9+2*10, 3*9+4*10] = [29, 67]
 
 print()
-# 배열 계산 함수
+
+# ============================================================
+# 4. 배열 통계 함수
+# ============================================================
 print(x)
-print(np.mean(x), ' ', np.var(x))
-print(np.max(x), ' ', np.min(x))
-print(np.argmax(x), ' ', np.argmin(x))  # index 반환
-print(np.cumsum(x))     # 누적합
-print(np.cumprod(x))    # 누적곱
+# [[1. 2.]
+#  [3. 4.]]
+
+print(np.mean(x), ' ', np.var(x))      # 평균: 2.5 / 분산: 1.25
+print(np.max(x), ' ', np.min(x))       # 최댓값: 4.0 / 최솟값: 1.0
+print(np.argmax(x), ' ', np.argmin(x)) # 최댓값 인덱스: 3 / 최솟값 인덱스: 0
+                                        # (1차원으로 펼친 기준 — 1,2,3,4 → index 3이 4)
+
+print(np.cumsum(x))     # 누적합 → [ 1.  3.  6. 10.]  (1, 1+2, 1+2+3, 1+2+3+4)
+print(np.cumprod(x))    # 누적곱 → [ 1.  2.  6. 24.]  (1, 1*2, 1*2*3, 1*2*3*4)
 
 print()
+
+# ============================================================
+# 5. 집합 연산
+# ============================================================
 names1 = np.array(['tom', 'james', 'tom', 'oscar'])
 names2 = np.array(['tom', 'page', 'john'])
-print(np.unique(names1))
-print(np.intersect1d(names1, names2))   # 교집합
-print(np.intersect1d(names1, names2, assume_unique=True))       # 교집합(중복 허용)
-print(np.union1d(names1, names2))   # 합집합
 
+print(np.unique(names1))                                        # 중복 제거 → ['james' 'oscar' 'tom']
+print(np.intersect1d(names1, names2))                           # 교집합 → ['tom']
+print(np.intersect1d(names1, names2, assume_unique=True))       # 교집합 (중복 허용, names1에 tom이 2개라 결과도 2개)
+                                                                # → ['tom' 'tom']
+print(np.union1d(names1, names2))                               # 합집합 → ['james' 'john' 'oscar' 'page' 'tom']
+
+# ============================================================
+# 6. 전치 (Transpose) — 행과 열을 바꿈
+# ============================================================
 print('\n전치(Transpose) - 2차원 배열에서 행과 열의 위치를 바꿈')
 print(x)
-print(x.T)
-print(x.transpose())
-print(x.swapaxes(0, 1))
+# [[1. 2.]     →    [[1. 3.]
+#  [3. 4.]]          [2. 4.]]
 
+print(x.T)           # 전치 (속성)
+print(x.transpose()) # 전치 (메서드) — 결과 동일
+print(x.swapaxes(0, 1)) # 축 교환 — 결과 동일 (0번 축=행, 1번 축=열)
+
+# ============================================================
+# 7. Broadcasting — 크기가 다른 배열 간 연산
+# ============================================================
 print('\nBroadcasting : 크기가 다른 배열 간의 연산 - 작은 배열을 여러 번 반복해 큰 배열과 연산')
-x = np.arange(1, 10).reshape(3, 3)
-y = np.array([1, 0, 1])
-print(x)
-print(y)
-print(x + y)
 
-np.savetxt("my.txt", x)     # 배열 file i/o     loadtxt()
+x = np.arange(1, 10).reshape(3, 3)   # 3x3 배열
+y = np.array([1, 0, 1])              # 1x3 배열
+
+print(x)
+# [[1 2 3]
+#  [4 5 6]
+#  [7 8 9]]
+
+print(y)
+# [1 0 1]
+
+print(x + y)
+# y가 자동으로 3번 반복되어 x와 같은 크기로 확장됨
+# [[1+1, 2+0, 3+1],   [[ 2  2  4]
+#  [4+1, 5+0, 6+1], →  [ 5  5  7]
+#  [7+1, 8+0, 9+1]]    [ 8  8 10]]
+
+# ============================================================
+# 8. 파일 저장
+# ============================================================
+np.savetxt("my.txt", x)    # 배열을 텍스트 파일로 저장
+                            # 반대로 읽을 때는 np.loadtxt("my.txt")
 ```
 
 ---
@@ -875,82 +947,164 @@ np.savetxt("my.txt", x)     # 배열 file i/o     loadtxt()
 
 import numpy as np
 
+# ============================================================
+# 1. np.eye — 단위행렬 (대각선이 1, 나머지 0)
+# ============================================================
 aa = np.eye(3)
 print(aa)
+# [[1. 0. 0.]
+#  [0. 1. 0.]
+#  [0. 0. 1.]]
 
-bb = np.c_[aa, aa[2]]   # 2열과 동일한 열 추가
+bb = np.c_[aa, aa[2]]   # np.c_ : 열(column) 방향으로 추가
+                         # aa[2] = [0. 0. 1.] → 마지막 행을 새 열로 추가
 print(bb)
+# [[1. 0. 0. 0.]
+#  [0. 1. 0. 0.]
+#  [0. 0. 1. 1.]]
 
-cc = np.r_[aa, [aa[2]]]     # 2행과 동일한 행 추가
+cc = np.r_[aa, [aa[2]]]  # np.r_ : 행(row) 방향으로 추가
+                          # aa[2] = [0. 0. 1.] → 마지막 행을 새 행으로 추가
 print(cc)
+# [[1. 0. 0.]
+#  [0. 1. 0.]
+#  [0. 0. 1.]
+#  [0. 0. 1.]]  ← 추가된 행
 
+# ============================================================
+# 2. append / insert / delete — 1차원 배열
+# ============================================================
 print('--append, insert, delete ---')
-a = np.array([1,2,3])
-print(a)
-b = np.append(a, [4, 5])
-b = np.append(a, [4, 5], axis=0)    # 행 기준
-print(b)
-c = np.insert(a, 0, [6, 7])
-print(c)
-d = np.delete(a, 1)
-print(d)
+
+a = np.array([1, 2, 3])
+print(a)    # [1 2 3]
+
+b = np.append(a, [4, 5])           # 배열 끝에 추가 → [1 2 3 4 5]
+b = np.append(a, [4, 5], axis=0)   # 1차원에서 axis=0 = 행 기준 (결과 동일)
+print(b)    # [1 2 3 4 5]
+
+c = np.insert(a, 0, [6, 7])        # index 0 앞에 6, 7 삽입
+print(c)    # [6 7 1 2 3]
+
+d = np.delete(a, 1)                 # index 1 (값 2) 삭제
+print(d)    # [1 3]
 
 print()
-aa = np.arange(1, 10).reshape(3,3)
+
+# ============================================================
+# 3. append / insert / delete — 2차원 배열
+# ============================================================
+aa = np.arange(1, 10).reshape(3, 3)
 print(aa)
+# [[1 2 3]
+#  [4 5 6]
+#  [7 8 9]]
+
 print(np.insert(aa, 1, 99))
-print(np.insert(aa, 1, 99, axis=0))     # 행기준
-print(np.insert(aa, 1, 99, axis=1))     # 열기준
+# axis 미지정 → 1차원으로 펼친 후 index 1에 99 삽입
+# [ 1 99  2  3  4  5  6  7  8  9]
+
+print(np.insert(aa, 1, 99, axis=0))
+# axis=0 → 행 기준, index 1 앞에 99로 채운 행 삽입
+# [[1 2 3]
+#  [99 99 99]  ← 삽입된 행
+#  [4 5 6]
+#  [7 8 9]]
+
+print(np.insert(aa, 1, 99, axis=1))
+# axis=1 → 열 기준, index 1 앞에 99로 채운 열 삽입
+# [[1 99 2 3]
+#  [4 99 5 6]
+#  [7 99 8 9]]
 
 print()
-# 조건 연산 where(조건, 참, 거짓)
-x = np.array([1,2,3])
-y = np.array([4,5,6])
+
+# ============================================================
+# 4. np.where — 조건 연산
+# ============================================================
+x = np.array([1, 2, 3])
+y = np.array([4, 5, 6])
 conditionData = np.array([True, False, True])
+
 result = np.where(conditionData, x, y)
-print(result)
+# 조건이 True면 x값, False면 y값 선택
+# True  → x[0]=1
+# False → y[1]=5
+# True  → x[2]=3
+print(result)   # [1 5 3]
 
 print()
-aa = np.where(x >= 2)
-print(aa)   # (array([1, 2]),)  인덱스
-print(x[aa]) # 인덱스를 이용한 데이터 추출
+
+aa = np.where(x >= 2)   # 조건을 만족하는 인덱스 반환
+print(aa)               # (array([1, 2]),)  → index 1, 2가 조건 만족
+print(x[aa])            # 인덱스로 데이터 추출 → [2 3]
 
 print()
-# 배열 결합
-kbs = np.concatenate([x, y])
-print(kbs)
-# 배열 분할
-mbc, sbs = np.split(kbs, 2)
-print(mbc)
-print(sbs)
+
+# ============================================================
+# 5. 배열 결합 / 분할
+# ============================================================
+kbs = np.concatenate([x, y])    # 두 배열을 하나로 결합
+print(kbs)  # [1 2 3 4 5 6]
+
+mbc, sbs = np.split(kbs, 2)     # 2등분으로 분할
+print(mbc)  # [1 2 3]
+print(sbs)  # [4 5 6]
 
 print()
+
 a = np.arange(1, 17).reshape(4, 4)
 print(a)
-# 배열 좌우로 분할
-x1, x2 = np.hsplit(a, 2)
+# [[ 1  2  3  4]
+#  [ 5  6  7  8]
+#  [ 9 10 11 12]
+#  [13 14 15 16]]
+
+x1, x2 = np.hsplit(a, 2)   # 좌우(수평) 분할 — hsplit = horizontal split
 print(x1)
+# [[ 1  2]
+#  [ 5  6]
+#  [ 9 10]
+#  [13 14]]
 print(x2)
-print()
-print(np.vsplit(a, 2))
+# [[ 3  4]
+#  [ 7  8]
+#  [11 12]
+#  [15 16]]
 
+print()
+
+print(np.vsplit(a, 2))      # 상하(수직) 분할 — vsplit = vertical split
+# [array([[ 1,  2,  3,  4],
+#         [ 5,  6,  7,  8]]),
+#  array([[ 9, 10, 11, 12],
+#         [13, 14, 15, 16]])]
+
+# ============================================================
+# 6. 표본 추출 (Sampling)
+# ============================================================
 print('\n표본 추출(sampling) - 복원, 비복원')
-li = np.array([1,2,3,4,5,6,7])
 
-# 복원
+li = np.array([1, 2, 3, 4, 5, 6, 7])
+
+# 복원 추출 — 뽑은 값을 다시 넣고 뽑음 (중복 가능)
 for _ in range(5):
-    print(li[np.random.randint(0, len(li) - 1)], end = ' ')
-
+    print(li[np.random.randint(0, len(li) - 1)], end=' ')
+    # randint(0, 6) → 0~5 중 랜덤 인덱스 → 중복 가능
 print()
-# 비복원
+
+# 비복원 추출 — 뽑은 값은 다시 안 뽑음 (중복 불가)
 import random
-print(random.sample(li.tolist(), 5))  # random.sample()은 대상이 list type
+print(random.sample(li.tolist(), 5))
+# random.sample() 은 list 타입만 받음 → .tolist() 로 변환 필요
 
 print()
-# choice
-print(list(np.random.choice(range(1, 46), 6)))
-print(list(np.random.choice(range(1, 46), 6, replace=True)))    # 복원
-print(list(np.random.choice(range(1, 46), 6, replace=False)))   # 비복원
+
+# np.random.choice — 범위에서 n개 추출
+print(list(np.random.choice(range(1, 46), 6)))              # 기본 (비복원)
+print(list(np.random.choice(range(1, 46), 6, replace=True)))  # 복원 추출 (중복 가능)
+print(list(np.random.choice(range(1, 46), 6, replace=False))) # 비복원 추출 (중복 불가)
+# 로또 번호 뽑기처럼 1~45 중 6개 비복원 추출할 때 많이 사용
 ```
 
 ---
