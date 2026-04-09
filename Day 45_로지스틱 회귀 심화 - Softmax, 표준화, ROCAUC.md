@@ -56,7 +56,7 @@
 - 복잡도 높이면 → 편향↓ 분산↑ (너무 복잡한 모델)
 - 목표 : 총 오차가 최소인 **최적 복잡도** 찾기
 
-<img src="images/bias_variance_tradeoff_curve">
+<img src="images/bias_variance_tradeoff_curve.png">
 
 ```
 총 오차 = 편향² + 분산 + 줄일 수 없는 노이즈(irreducible error)
