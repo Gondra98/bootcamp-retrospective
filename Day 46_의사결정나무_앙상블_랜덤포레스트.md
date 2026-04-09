@@ -3,15 +3,15 @@
 
 ## 📋 목차
 
-- [[#의사결정나무 (Decision Tree)]]
-- [[#📄 ex22tree.py — 의사결정나무 실습 (make_classification)]]
-- [[#📄 ex23tree.py — 의사결정나무 실습 (남녀 구분)]]
-- [[#📄 ex24treeiris.py — 의사결정나무 실습 (Iris 다항분류)]]
-- [[#📄 ex25overfitting.py — 과적합 방지 (K-Fold, GridSearchCV)]]
-- [[#앙상블 (Ensemble Learning)]]
-- [[#📄 ex26ensemble.py — 앙상블 실습 (VotingClassifier)]]
-- [[#랜덤포레스트 (Random Forest)]]
-- [[#📄 ex27rf.py — 랜덤포레스트 실습 (타이타닉 생존 예측)]]
+- [의사결정나무](#의사결정나무-decision-tree)
+- [ex22tree.py](#-ex22treepy--의사결정나무-실습-make_classification)
+- [ex23tree.py](#-ex23treepy--의사결정나무-실습-남녀-구분)
+- [ex24treeiris.py](#-ex24treeirisy--의사결정나무-실습-iris-다항분류)
+- [ex25overfitting.py](#-ex25overfittingpy--과적합-방지-k-fold-gridsearchcv)
+- [앙상블](#앙상블-ensemble-learning)
+- [ex26ensemble.py](#-ex26ensemblepy--앙상블-실습-votingclassifier)
+- [랜덤포레스트](#랜덤포레스트-random-forest)
+- [ex27rf.py](#-ex27rfpy--랜덤포레스트-실습-타이타닉-생존-예측)
 
 ---
 # 의사결정나무 (Decision Tree)
