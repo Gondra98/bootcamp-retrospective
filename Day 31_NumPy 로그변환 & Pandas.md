@@ -1,4 +1,4 @@
-# Day 31 — NumPy 로그변환 & Pandas
+# Day 31_NumPy 로그변환 & Pandas
 
 ## 📅 2026-03-19
 
