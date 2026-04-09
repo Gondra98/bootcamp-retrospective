@@ -36,7 +36,7 @@
 - **점이 모여 있음** → 분산 낮음
 - **점이 중앙에 있음** → 편향 낮음
 
-<img src="Excalidraw/HyundaiRotem_AI_Bootcamp_6th/Day03_sequence_index.png" width="600">
+<img src="images/bias_variance_target.png" width="600">
 
 | |저분산|고분산|
 |---|---|---|
@@ -48,7 +48,7 @@
 - **왼쪽 (고편향/저분산)** : 단순한 직선 → 실제값과 차이가 있지만 안정적
 - **오른쪽 (저편향/고분산)** : 구불구불한 곡선 → 훈련 데이터에 딱 맞지만 일반화 안됨
 
-![[bias_variance_regression.png]]
+<img src="images/bias_variance_regression.png" width="600">
 
 ### 트레이드오프 (Trade-off)
 
@@ -56,7 +56,7 @@
 - 복잡도 높이면 → 편향↓ 분산↑ (너무 복잡한 모델)
 - 목표 : 총 오차가 최소인 **최적 복잡도** 찾기
 
-![[bias_variance_tradeoff_curve.png]]
+<img src="images/bias_variance_tradeoff_curve" width="600">
 
 ```
 총 오차 = 편향² + 분산 + 줄일 수 없는 노이즈(irreducible error)
