@@ -42,6 +42,7 @@
 - [Day 43_선형회귀 적절성 검정](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2043_%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80%20%EC%A0%81%EC%A0%88%EC%84%B1%20%EA%B2%80%EC%A0%95.md)
 - [Day 44_규제 회귀 & 로지스틱 회귀](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2044_%EA%B7%9C%EC%A0%9C%20%ED%9A%8C%EA%B7%80%20%26%20%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8B%B1%20%ED%9A%8C%EA%B7%80.md)
 - [Day 45_로지스틱 회귀 심화 - Softmax, 표준화, ROC/AUC](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2045_%EB%A1%9C%EC%A7%80%EC%8A%A4%ED%8B%B1%20%ED%9A%8C%EA%B7%80%20%EC%8B%AC%ED%99%94%20-%20Softmax%2C%20%ED%91%9C%EC%A4%80%ED%99%94%2C%20ROCAUC.md)
+- [Day 46_의사결정나무_앙상블_랜덤포레스트.md](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2046_%EC%9D%98%EC%82%AC%EA%B2%B0%EC%A0%95%EB%82%98%EB%AC%B4_%EC%95%99%EC%83%81%EB%B8%94_%EB%9E%9C%EB%8D%A4%ED%8F%AC%EB%A0%88%EC%8A%A4%ED%8A%B8.md)
 
 
 
