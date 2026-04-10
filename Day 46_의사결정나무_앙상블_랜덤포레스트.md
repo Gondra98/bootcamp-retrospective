@@ -731,20 +731,44 @@ print('iris shape : ', features.shape)  # 150 by 4
 # KFold 학습시 전체 150행이 학습데이터(4/5, 120개), 검증데이터(1/5, 30개)로 분할
 
 n_iter = 0
+# KFold 객체의 split()을 호출하면
+# 매 반복마다 학습용 인덱스(train_index)와 검증용 인덱스(test_index)를 반환
 for train_index, test_index in kfold.split(features):
+
+    # 인덱스로 실제 데이터 추출
+    # train_index = [30,31,...,149] 처럼 학습에 쓸 행 번호들
+    # test_index  = [0,1,...,29]   처럼 검증에 쓸 행 번호들
     xtrain, xtest = features[train_index], features[test_index]
     ytrain, ytest = label[train_index], label[test_index]
+
+    # train 데이터로만 학습 (test는 절대 학습에 참여 안 함)
     dt_clf2.fit(xtrain, ytrain)
+
+    # test 데이터로 예측
     pred = dt_clf2.predict(xtest)
+
     n_iter += 1
+
+    # 이번 fold의 정확도 계산 (소수점 5자리)
     acc = np.round(accuracy_score(ytest, pred), 5)
-    train_size = xtrain.shape[0]
-    test_size = xtest.shape[0]
+
+    # 학습/검증 데이터 크기 확인 (shape[0] = 행 수)
+    train_size = xtrain.shape[0]   # 120
+    test_size = xtest.shape[0]     # 30
+
     print(f'반복수:{n_iter}, 교차검증 정확도:{acc}, 학습데이터크기:{train_size}, 검증데이터크기:{test_size}')
     print(f'반복수:{n_iter}, 검증데이터 인덱스:{test_index}')
+    # 검증 인덱스 출력으로 어느 데이터가 검증에 쓰였는지 확인 가능
+    # 1회: [0~29]  2회: [30~59]  3회: [60~89] ...
+
+    # 이번 fold 정확도를 리스트에 누적
     cv_acc.append(acc)
 
+# 5번 반복 후 각 fold 정확도를 정수로 변환해서 출력
+# (소수점이 잘려서 대부분 0 또는 1로 보임 — 확인용)
 print('cv_acc : ', np.array(cv_acc).astype(int))
+
+# 5번의 정확도 평균 → 최종 모델 성능
 print('평균 검증 정확도 : ', np.mean(cv_acc))
 # 반복수:1, 교차검증 정확도:1.0,     학습데이터크기:120, 검증데이터크기:30
 # 반복수:2, 교차검증 정확도:0.96667, 학습데이터크기:120, 검증데이터크기:30
