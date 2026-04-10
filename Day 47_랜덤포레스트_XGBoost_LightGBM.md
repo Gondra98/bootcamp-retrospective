@@ -312,7 +312,8 @@ plot_decision_regionFunc(
 
 **결정경계 시각화 결과**
 
-![[ex28rfiris.png]]
+<img src="images/ex28rfiris.png" width="600">
+
 
 **시각화 함수 동작 원리**
 
@@ -980,7 +981,7 @@ plt.show()
 plt.close()
 ```
 
-![[ex29quiz.png]]
+<img src="images/ex29quiz.png" width="600">
 
 > `x.shape[1]` → 열 수(특성 수) = 11  
 > 정렬 없이 원래 컬럼 순서대로 출력 — 정렬하려면 `np.argsort` 사용
@@ -1764,7 +1765,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-![[ex31xgboost.png]]
+<img src="images/ex31xgboost.png" width="600">
 
 **시각화 핵심 포인트**
 
@@ -2147,7 +2148,7 @@ plot_decision_regionFunc(
 
 **결정경계 시각화 결과**
 
-![[ex32boost_iris.png]]
+<img src="images/ex32boost_iris.png" width="600">
 
 **시각화 해석**
 
