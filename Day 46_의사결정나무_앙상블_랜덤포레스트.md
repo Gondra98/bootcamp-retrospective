@@ -1622,7 +1622,10 @@ print(df_x.head(3))
 from sklearn.preprocessing import LabelEncoder
 
 encoder = LabelEncoder()
-df_x.loc[:, 'Sex'] = encoder.fit_transform(df_x['Sex'])
+
+# ✅ .copy()로 SettingWithCopyWarning 방지
+df_x = df[['Pclass', 'Age', 'Sex']].copy()
+df_x['Sex'] = encoder.fit_transform(df_x['Sex'])
 
 print(df_x.head(3))
 #    Pclass   Age  Sex
@@ -1633,7 +1636,9 @@ print(df_x.head(3))
 
 > **Label Encoding** — 문자 범주형을 정수형으로 변환  
 > female → 0, male → 1 (알파벳 순서)  
-> 의사결정나무·랜덤포레스트는 숫자만 입력 가능하기 때문에 필요
+> 의사결정나무·랜덤포레스트는 숫자만 입력 가능하기 때문에 필요  
+> ⚠️ 슬라이싱된 DataFrame에 직접 할당하면 `SettingWithCopyWarning` 발생  
+> → `.copy()` 로 독립적인 DataFrame 생성 후 할당해야 함
 
 ---
 
@@ -1728,5 +1733,193 @@ RandomForest (500개 트리)
 
 > 랜덤포레스트는 트리 계열이라 **Label Encoding** 사용 가능  
 > 로지스틱 회귀, KNN 등은 **One-Hot Encoding** 권장
+
+### ⚠️ SettingWithCopyWarning
+
+```python
+# ❌ 경고 발생
+df_x = df[['Pclass', 'Age', 'Sex']]
+df_x.loc[:, 'Sex'] = encoder.fit_transform(df_x['Sex'])
+
+# ✅ 올바른 방법
+df_x = df[['Pclass', 'Age', 'Sex']].copy()
+df_x['Sex'] = encoder.fit_transform(df_x['Sex'])
+```
+
+> `df[...]` 로 슬라이싱하면 원본의 **뷰(view)** 가 반환될 수 있음  
+> 뷰에 값을 할당하면 원본을 수정하는지 복사본을 수정하는지 pandas가 보장 못함  
+> → `.copy()` 로 **독립적인 DataFrame** 을 명시적으로 생성해야 안전
+
+---
+
+## Step 8 — 교차 검증 (K-Fold)
+
+```python
+# cross_val_score : K-Fold 교차검증을 자동으로 수행해주는 함수
+# - model  : 검증할 모델
+# - df_x   : 전체 feature 데이터
+# - df_y   : 전체 label 데이터
+# - cv=5   : 5겹(fold) 으로 나눠서 5번 반복 학습·검증
+cross_vali = cross_val_score(model, df_x, df_y, cv=5)
+print(cross_vali)   # [0.75524476 0.8041958  0.81818182 0.83216783 0.83098592]
+print('교차 검증 평균 정확도 : ', np.round(np.mean(cross_vali), 5)) # 0.80816
+```
+
+**K-Fold 동작 구조 (cv=5)**
+
+```
+전체 데이터 714개
+┌────────┬────────┬────────┬────────┬────────┐
+│  검증  │  학습  │  학습  │  학습  │  학습  │  1회
+├────────┼────────┼────────┼────────┼────────┤
+│  학습  │  검증  │  학습  │  학습  │  학습  │  2회
+├────────┼────────┼────────┼────────┼────────┤
+│  학습  │  학습  │  검증  │  학습  │  학습  │  3회
+├────────┼────────┼────────┼────────┼────────┤
+│  학습  │  학습  │  학습  │  검증  │  학습  │  4회
+├────────┼────────┼────────┼────────┼────────┤
+│  학습  │  학습  │  학습  │  학습  │  검증  │  5회
+└────────┴────────┴────────┴────────┴────────┘
+         → 5번 정확도 평균 = 최종 성능
+```
+
+> 단 한 번의 test보다 **더 신뢰할 수 있는 성능 수치**  
+> 분류 문제에서 `cross_val_score`는 내부적으로 **Stratified K-Fold** 자동 적용  
+> → 각 fold마다 클래스 비율이 균등하게 유지됨
+
+---
+
+## Step 9 — 특성 중요도 (Feature Importance)
+
+```python
+print('중요 변수 확인하기 ---')
+# feature_importances_ : 각 특성이 예측에 기여한 정도(중요도)를 수치로 표현
+# - 값의 합은 1.0
+# - 수치가 클수록 해당 변수가 불순도 감소에 더 많이 기여함
+print('특성(변수) 중요도 : ', model.feature_importances_)
+# [0.16172779 0.49842824 0.33984396]
+#   Pclass      Age        Sex
+```
+
+**중요도 계산 원리**
+
+```
+각 트리의 모든 분기(split)에서
+    → 해당 feature 사용 시 불순도(Gini) 감소량 누적
+    → 500개 트리 평균
+    → 전체 합이 1.0이 되도록 정규화
+
+Pclass : 0.162  ██░░░░░░░░
+Age    : 0.498  █████░░░░░  ← 가장 중요
+Sex    : 0.340  ███░░░░░░░
+```
+
+> 나이(Age)가 생존 예측에 가장 큰 영향 → 어린이 우선 구조 반영  
+> 성별(Sex)이 그 다음 → 여성 우선 탑승 정책 반영
+
+---
+
+## Step 10 — 특성 중요도 시각화 (3개 변수)
+
+```python
+import matplotlib.pyplot as plt
+
+n_features = df_x.shape[1]   # 특성 수 = 3
+
+# barh : 수평 막대 그래프 (horizontal bar)
+# range(n_features) : y축 위치 [0, 1, 2]
+# model.feature_importances_ : 각 특성의 중요도 값
+plt.barh(range(n_features), model.feature_importances_, align='center')
+plt.xlabel('Feature importance Score')
+plt.ylabel('Features')
+plt.yticks(np.arange(n_features), df_x.columns)  # y축 눈금을 컬럼명으로 교체
+plt.ylim(-1, n_features)                          # y축 여백 설정
+plt.show()
+plt.close()
+```
+
+---
+
+## Step 11 — 6개 변수로 재학습 & 중요도 비교
+
+```python
+# 사용 가능한 수치형 변수 6개로 확장
+# - 제외 변수: Name, Ticket, Cabin (문자형, 인코딩 필요)
+# -           PassengerId (단순 번호, 예측과 무관)
+df_imsi = df[['Pclass', 'Age', 'Sex', 'Fare', 'SibSp', 'Parch']]
+
+# Sex 컬럼 인코딩 (female→0, male→1)
+df_imsi.loc[:, 'Sex'] = encoder.fit_transform(df_imsi['Sex'])
+
+# 6개 변수 기준으로 train/test 재분할
+train_x, test_x, train_y, test_y = train_test_split(df_imsi, df_y, test_size=0.3, random_state=12)
+
+# 동일 모델(RandomForest)을 6개 변수로 재학습
+model.fit(train_x, train_y)
+
+importances = model.feature_importances_
+
+# 컬럼명 + 중요도를 DataFrame으로 결합 후 내림차순 정렬
+feature_df = pd.DataFrame({
+    'feature': df_imsi.columns,
+    'importance': importances
+}).sort_values(by='importance', ascending=False)
+print(feature_df)
+#   feature  importance
+# 1     Age    0.292984
+# 3    Fare    0.276886
+# 2     Sex    0.241788
+# 0  Pclass    0.090802
+# 4   SibSp    0.057529
+# 5   Parch    0.040012
+```
+
+**3개 vs 6개 변수 중요도 비교**
+
+```
+[ 3개 변수 모델 ]          [ 6개 변수 모델 ]
+Age    : 0.498  1위        Age    : 0.293  1위
+Sex    : 0.340  2위        Fare   : 0.277  2위  ← 새로 추가
+Pclass : 0.162  3위        Sex    : 0.242  3위
+                           Pclass : 0.091  4위
+                           SibSp  : 0.058  5위
+                           Parch  : 0.040  6위
+```
+
+> 변수가 늘어나면서 중요도가 분산됨  
+> **Fare(운임)** 가 Sex와 비슷한 수준으로 생존에 영향 — 객실 등급과 연관  
+> SibSp(형제자매/배우자 수), Parch(부모/자녀 수)는 상대적으로 낮은 중요도
+
+---
+
+## Step 12 — 중요도 시각화 (seaborn)
+
+```python
+import seaborn as sns
+
+plt.figure(figsize=(8, 5))
+
+# sns.barplot : matplotlib보다 깔끔한 수평 막대 그래프
+# - x='importance' : 막대 길이 = 중요도 값
+# - y='feature'    : y축 = 변수명
+# - feature_df가 이미 내림차순 정렬 → 중요도 순서대로 출력됨
+sns.barplot(x='importance', y='feature', data=feature_df, orient='h')
+plt.xlabel('Feature importance Score')
+plt.ylabel('Feature')
+plt.tight_layout()  # 레이블이 잘리지 않도록 여백 자동 조정
+plt.show()
+```
+
+**matplotlib vs seaborn 비교**
+
+| |matplotlib|seaborn|
+|---|---|---|
+|코드|상대적으로 길다|간결|
+|스타일|기본 스타일|기본이 더 세련됨|
+|DataFrame 연동|수동으로 값 추출|컬럼명 직접 지정 가능|
+|에러바|직접 구현|자동 표시|
+
+> seaborn은 matplotlib 기반 — `plt.show()` 등 matplotlib 함수 그대로 사용 가능
+
 
 ---
