@@ -322,7 +322,7 @@ Class B  ■  ■  ■
 
 이상치(Outlier)를 얼마나 허용하느냐에 따라 달라진다.
 
-<img src="images/하드마진_vs_소프트마진.png" width="600">
+<img src="images/하드마진 vs 소프트마진.png" width="600">
 
 ### 🔴 하드 마진 (Hard Margin)
 - 이상치를 **전혀 허용하지 않음**
