@@ -457,6 +457,8 @@ plt.title("학습용 데이터")
 plt.show()
 ```
 
+<img src="images/ex34svm1.png" width="600">
+
 ---
 
 ## 3. SVM 모델 학습
@@ -481,7 +483,7 @@ plt.scatter(model.support_vectors_[:, 0], model.support_vectors_[:, 1], s=300, a
 plt.show()
 ```
 
-<img src="images/ex34svm.png" width="600">
+<img src="images/ex34svm2.png" width="600">
 
 ---
 
