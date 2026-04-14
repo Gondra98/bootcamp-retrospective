@@ -633,43 +633,160 @@ model = svm.SVC(C=0.01, kernel='rbf').fit(x_train, y_train)
 
 ---
 
-## 1. 데이터 전처리
+## 1. 데이터 로드 및 전처리
 
 ```python
-df = df.dropna()   # 결측값 제거 (303행 → 297행)
-feature = df.drop(['ChestPain', 'Thal', 'AHD'], axis=1)   # Feature Selection
-label = df['AHD'].map({'No':0, 'Yes':1})                  # Dummy 처리
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import koreanize_matplotlib
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn import svm, metrics
+
+# 데이터 로드
+df = pd.read_csv("https://raw.githubusercontent.com/pykwon/python/refs/heads/master/testdata_utf8/Heart.csv", index_col=0)
+
+# 결측값 제거 (Ca 4개, Thal 2개) → 303행 → 297행
+df = df.dropna()
+
+# 문자 컬럼 제외 (Feature Selection), label 분리 + Dummy 처리
+feature = df.drop(['ChestPain', 'Thal', 'AHD'], axis=1)
+label = df['AHD'].map({'No':0, 'Yes':1})
 ```
+
+> 💡 **특성공학 기법 적용**  
+> Feature Selection — 문자 컬럼(ChestPain, Thal) 제거  
+> Dummy — AHD: No/Yes → 0/1 변환
 
 ---
 
-## 2. 표준화
+## 2. Train / Test Split + 표준화
 
 ```python
+x_train, x_test, y_train, y_test = train_test_split(feature, label, test_size=0.3, random_state=0)
+
+# 표준화 — fit은 train으로만, test는 transform만
 sc = StandardScaler()
-x_train = sc.fit_transform(x_train)   # fit + transform (train만)
-x_test = sc.transform(x_test)         # transform만 (test)
+x_train = sc.fit_transform(x_train)
+x_test = sc.transform(x_test)
 ```
+
+> ⚠️ `fit_transform` vs `transform`  
+> `fit_transform` — 평균/표준편차 계산 + 변환 동시에 (train만)  
+> `transform` — 이미 계산된 기준으로 변환만 (test에 적용)
 
 ---
 
 ## 3. 모델 학습 및 평가
 
 ```python
+# C=0.01: 소프트 마진, kernel='rbf': 방사형 커널
 svc_model = svm.SVC(C=0.01, kernel='rbf')
-# C=0.01 → 정확도 0.53 / 표준화 후 → 0.77 / C=1.0 이상 권장
+svc_model.fit(x_train, y_train)
+
+pred = svc_model.predict(x_test)
+print('예측값 : ', pred[:10])
+print('실제값 : ', y_test[:10].values)
+print('sc_score : ', metrics.accuracy_score(y_test, pred))  # 0.5333...
 ```
+
+> 💡 **C 값에 따른 성능 차이**  
+> C=0.01 → 정확도 0.53 (소프트마진 과하게 적용)  
+> C=1.0 + 표준화 → 정확도 0.77 (C 값 + 표준화 효과)  
+> C 값과 표준화를 함께 적용해야 성능 향상 가능
 
 ---
 
-## 4. 새로운 환자 데이터 예측
+## 4. 교차 검증
 
 ```python
+from sklearn import model_selection
+
+# cv=3: 데이터를 3등분하여 번갈아가며 검증
+# 3회 정확도가 일정하면 안정적인 모델, 들쑥날쑥하면 과적합 의심
+cross_vali = model_selection.cross_val_score(svc_model, feature, label, cv=3)
+print('3회 각 정확도 : ', cross_vali)
+print('평균 정확도 : ', cross_vali.mean())
+```
+
+> ⚠️ 교차검증 시 정규화 안 된 `feature`를 넣으면 정확도가 낮게 나옴  
+> 정확한 교차검증을 하려면 `Pipeline`으로 StandardScaler와 모델을 묶어야 함
+
+---
+
+## 5. 새로운 환자 데이터 예측
+
+```python
+new_data = pd.DataFrame({
+    'Age'    : [63,  45,  55],
+    'Sex'    : [1,   0,   1],       # 1: 남성, 0: 여성
+    'RestBP' : [145, 130, 160],
+    'Chol'   : [233, 204, 286],
+    'Fbs'    : [1,   0,   0],       # 1: 공복혈당 > 120mg/dl
+    'RestECG': [2,   0,   2],       # 0: 정상, 1: 이상, 2: 비대
+    'MaxHR'  : [150, 172, 108],
+    'ExAng'  : [0,   0,   1],       # 1: 운동 시 협심증 있음
+    'Oldpeak': [2.3, 1.4, 1.5],
+    'Slope'  : [3,   1,   2],
+    'Ca'     : [0,   0,   3]        # 형광투시로 확인된 혈관 수
+})
+
 new_pred = svc_model.predict(new_data)
 for i, result in enumerate(new_pred):
     print(f'환자 {i+1} : {"심장병 있음" if result == 1 else "심장병 없음"}')
 ```
 
+> ⚠️ 학습 시 표준화를 적용했다면 new_data도 동일하게 변환 필요  
+> `new_data = sc.transform(new_data)`
+
+---
+
+## 전체 흐름 요약
+
+```
+데이터 로드 (303행)
+    ↓
+결측값 제거 → 297행
+    ↓
+Feature Selection (문자 컬럼 제거) + Dummy (AHD 0/1 변환)
+    ↓
+Train / Test Split (7:3)
+    ↓
+표준화 (StandardScaler)
+    ↓
+SVM 학습 (kernel='rbf', C=0.01)
+    ↓
+정확도 확인 + 교차 검증
+    ↓
+새로운 환자 데이터 예측
+```
+
+---
+
+## 주요 개념 정리
+
+### 특성공학 기법 적용 내역
+
+|기법|내용|
+|---|---|
+|Feature Selection|ChestPain, Thal 제거|
+|Dummy|AHD → No:0, Yes:1|
+|Scaling (표준화)|StandardScaler 적용|
+
+### C 파라미터
+
+- C 크면 → 하드 마진 (이상치에 엄격, 과적합 위험)
+- C 작으면 → 소프트 마진 (이상치에 유연, 과소적합 주의)
+- 현재 C=0.01로 너무 작음 → C=1.0 이상 권장
+
+### 교차 검증 (Cross Validation)
+
+데이터를 cv등분하여 번갈아가며 학습/검증 반복.  
+한 번의 train/test split보다 신뢰도 높은 성능 측정 가능.  
+단, 표준화된 데이터로 돌려야 의미있는 결과가 나옴.
+
+---
 ---
 
 # 📖 특성공학 & 주성분분석 (PCA) 개념 정리
