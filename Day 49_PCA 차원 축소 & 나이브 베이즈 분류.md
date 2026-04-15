@@ -77,7 +77,7 @@ print(x.T)
 # plt.show()
 ```
 
-![[ex38pca.png]]
+<img src="images/ex38pca.png" width="600">
 
 ### 시각화2 - 산점도
 
@@ -98,7 +98,7 @@ plt.axis('equal')   # x, y 축 비율 동일하게 (axis ≠ axes 주의!)
 plt.show()
 ```
 
-![[ex38pca2.png]]
+<img src="images/ex38pca2.png" width="600">
 
 > 그래프 결과: 두 변수(꽃받침 길이, 폭)는 공통된 경향이 있음 → **차원 축소의 근거**가 있다고 판단 → PCA 진행
 
@@ -170,7 +170,7 @@ plt.grid(True)
 plt.show()
 ```
 
-![[ex38pca3.png]]
+<img src="images/ex38pca3.png" width="600">
 
 ---
 
@@ -261,6 +261,7 @@ PCA 축소 데이터 (저차원)  ←  분산이 큰 방향 순으로 압축
 |`x=[i, 1]`|`x[i, 1]`|인덱싱에 `=` 오타|
 
 ---
+
 # 📄 ex39pca.py — SVM + PCA 얼굴 이미지 분류 (LFW 데이터셋)
 
 ## 개념 정리
@@ -319,7 +320,7 @@ print(faces.target_names)     # ['Ariel Sharon', 'Colin Powell', ...]
 print(faces.target_names[faces.target[1]])  # George W Bush
 ```
 
-![[ex39pca.png]]
+<img src="images/ex39pca.png" width="600">
 
 ### 단일 이미지 시각화
 
@@ -340,7 +341,7 @@ for i, axi in enumerate(ax.flat):
 plt.show()
 ```
 
-![[ex39pca1.png]]
+<img src="images/ex39pca1.png" width="600">
 
 ---
 
@@ -374,9 +375,10 @@ plt.show()
 # 출력 이미지는 실제 얼굴이 아니라 특징 패턴 (얼굴 윤곽, 눈 위치, 코 그림자...)
 ```
 
-![[ex39pca2.png]]
+<img src="images/ex39pca2.png" width="600">
 
-> PC1~PC15로 갈수록 덜 중요한 특징을 담음 SVM은 이 특징 패턴의 조합으로 인물을 분류
+> PC1~PC15로 갈수록 덜 중요한 특징을 담음
+> SVM은 이 특징 패턴의 조합으로 인물을 분류
 
 ### 설명력 확인
 
@@ -410,7 +412,7 @@ plt.show()
 # 원본과 복원 이미지의 기본 특징은 크게 차이 없음 → 패턴 유지됨
 ```
 
-![[ex39pca3.png]]
+<img src="images/ex39pca3.png" width="600">
 
 ---
 
@@ -460,7 +462,9 @@ print(classification_report(y_test, pred, target_names=faces.target_names))
 |Junichiro Koizumi|1.00|0.73|0.85|
 |Tony Blair|0.93|0.78|0.85|
 
-> George W Bush는 recall=1.0 → 실제 Bush를 Bush라고 모두 맞춤 단, precision=0.70 → 다른 인물도 Bush로 잘못 예측하는 경우가 많음 (학습 데이터에서 Bush 사진이 가장 많아서 Bush로 편향되는 경향)
+> George W Bush는 recall=1.0 → 실제 Bush를 Bush라고 모두 맞춤
+> 단, precision=0.70 → 다른 인물도 Bush로 잘못 예측하는 경우가 많음
+> (학습 데이터에서 Bush 사진이 가장 많아서 Bush로 편향되는 경향)
 
 ---
 
@@ -482,7 +486,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-![[ex39pca5.png]]
+<img src="images/ex39pca5.png" width="600">
 
 ```python
 # Confusion Matrix heatmap
@@ -497,7 +501,7 @@ plt.title('Confusion matrix')
 plt.show()
 ```
 
-![[ex39pca6.png]]
+<img src="images/ex39pca6.png" width="600">
 
 ```python
 # PCA 누적 설명력 그래프
@@ -512,7 +516,7 @@ plt.show()
 # 100개 이후로는 설명력 증가가 완만해짐
 ```
 
-![[ex39pca7.png]]
+<img src="images/ex39pca7.png" width="600">
 
 ---
 
@@ -527,7 +531,7 @@ print('예측 결과 : ', faces.target_names[test_pred[0]])   # Colin Powell
 print('실제값   : ', faces.target_names[faces.target[0]]) # Colin Powell
 ```
 
-![[ex39pca4.png]]
+<img src="images/ex39pca4.png" width="600">
 
 ### 실습2 : 외부 이미지로 테스트 (중요!)
 
@@ -554,7 +558,7 @@ plt.show()
 # 참고 : 정확도를 높이려면 밝기/위치 정렬 등의 전처리가 필요!
 ```
 
-![[ex39pca8.png]]
+<img src="images/ex39pca8.png" width="600">
 
 ### PIL vs numpy 축 순서 주의
 
@@ -597,6 +601,9 @@ accuracy : 80.7%
 | `X has N features, but PCA expecting 2914` | PIL 변환 결과 미저장    | `img = img.convert('L')` |
 | `plt.subplot`                              | 단수형은 단일 axes     | `plt.subplots` (복수형)     |
 | `ax.ylabel()`                              | plt 함수를 axes에 사용 | `ax.set_ylabel()`        |
+
+---
+
 # 📄 베이즈 정리 & 나이브 베이즈 분류
 
 ## 개념 정리
@@ -620,7 +627,8 @@ $$사후확률 = \frac{우도 \times 사전확률}{증거}$$
 
 ### 나이브 베이즈 (Naive Bayes)
 
-> 베이즈 정리를 머신러닝 분류에 응용한 알고리즘 **"나이브(순진한)"** = 각 특성이 서로 독립이라고 가정
+> 베이즈 정리를 머신러닝 분류에 응용한 알고리즘
+> **"나이브(순진한)"** = 각 특성이 서로 독립이라고 가정
 
 $$P(클래스|특성들) \propto P(클래스) \times \prod_{i} P(특성_i|클래스)$$
 
@@ -654,7 +662,9 @@ $$P(클래스|특성들) \propto P(클래스) \times \prod_{i} P(특성_i|클래
 |HAM|$P(광고\|HAM) = 1/80$|$P(광고X\|HAM) = 79/80$|80/100|
 |합계|5/100|95/100||
 
-> 행 기준으로 나눈 **4개** → 우도 전체(100) 기준으로 나눈 **합계 행/열** → 사전확률 / 증거 이 중 문제에서 필요한 우도는 $P(광고|SPAM) = 4/20$
+> 행 기준으로 나눈 **4개** → 우도
+> 전체(100) 기준으로 나눈 **합계 행/열** → 사전확률 / 증거
+> 이 중 문제에서 필요한 우도는 $P(광고|SPAM) = 4/20$
 
 ### 베이즈 정리 적용
 
@@ -676,7 +686,8 @@ $$P(SPAM|광고) = \frac{P(광고|SPAM) \times P(SPAM)}{P(광고)} = \frac{0.2 \
 
 $$P(SPAM|광고,대출,이자) \propto P(광고|SPAM) \times P(대출|SPAM) \times P(이자|SPAM) \times P(SPAM)$$
 
-> **독립사건의 조건부 확률** = 나이브 베이즈의 핵심 현실에선 완전한 독립이 아니지만, 실제로는 꽤 잘 동작함 (특히 텍스트 분류)
+> **독립사건의 조건부 확률** = 나이브 베이즈의 핵심
+> 현실에선 완전한 독립이 아니지만, 실제로는 꽤 잘 동작함 (특히 텍스트 분류)
 
 ---
 
