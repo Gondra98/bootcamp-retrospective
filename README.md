@@ -46,6 +46,7 @@
 - [Day 47_랜덤포레스트_XGBoost_LightGBM](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2047_%EB%9E%9C%EB%8D%A4%ED%8F%AC%EB%A0%88%EC%8A%A4%ED%8A%B8_XGBoost_LightGBM.md)
 - [Day 48_XGBoost · SVM · PCA](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2048_XGBoost%20%C2%B7%20SVM%20%C2%B7%20PCA.md)
 - [Day 49_PCA 차원 축소 & 나이브 베이즈 분류](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2049_PCA%20%EC%B0%A8%EC%9B%90%20%EC%B6%95%EC%86%8C%20%26%20%EB%82%98%EC%9D%B4%EB%B8%8C%20%EB%B2%A0%EC%9D%B4%EC%A6%88%20%EB%B6%84%EB%A5%98.md)
+- [Day 50_ 나이브 베이즈 (GaussianNB · MultinomialNB) · Streamlit · K-NN](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2050_%20%EB%82%98%EC%9D%B4%EB%B8%8C%20%EB%B2%A0%EC%9D%B4%EC%A6%88%20(GaussianNB%20%C2%B7%20MultinomialNB)%20%C2%B7%20Streamlit%20%C2%B7%20K-NN.md)
 
 
 
