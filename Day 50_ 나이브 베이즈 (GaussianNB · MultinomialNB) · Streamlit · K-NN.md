@@ -169,7 +169,7 @@ plt.tight_layout()        # 레이블 잘림 방지 (xticks rotation 사용 시 
 plt.show()
 ```
 
-![[ex40naive.png]]
+<img src="images/ex40naive.png" width="600">
 
 ---
 
@@ -409,7 +409,7 @@ plot_decision_regionFunc(
 )
 ```
 
-![[ex41naive_iris.png]]
+<img src="images/ex41naive_iris.png" width="600">
 
 ---
 
@@ -712,12 +712,6 @@ test_text = ["무료 쿠폰 지금 발급", "간부 회의는 언제 시작하�
 
 # transform() : 기존 단어사전 그대로 사용 (fit 하지 않음)
 x_test = vect.transform(test_text)
-print(x_test)
-# (0, 3)  1  ← '무료'
-# (0, 9)  1  ← '지금'
-# (0, 11) 1  ← '쿠폰'
-# (1, 18) 1  ← '회의는'
-# * 새 단어('발급', '간부', '언제' 등)는 사전에 없으므로 무시됨
 
 preds = model.predict(x_test)
 probs = model.predict_proba(x_test)
@@ -727,8 +721,6 @@ class_names = model.classes_   # ['ham', 'spam'] ← 알파벳 순 정렬
 for text, pred, prob in zip(test_text, preds, probs):
     prob_str = ", ".join([f"{cls}:{p:.4f}" for cls, p in zip(class_names, prob)])
     print(f"'{text}' -> 예측:{pred} / 확률:[{prob_str}]")
-# '무료 쿠폰 지금 발급'       -> 예측:spam / 확률:[ham:..., spam:...]
-# '간부 회의는 언제 시작하나요?' -> 예측:ham  / 확률:[ham:..., spam:...]
 ```
 
 ---
@@ -741,8 +733,6 @@ for text, pred, prob in zip(test_text, preds, probs):
 |---|---|---|
 |`fit_transform()`|단어사전 생성 + 변환|train 데이터에만|
 |`transform()`|기존 사전으로 변환만|test / 새 데이터|
-
-> test에 `fit_transform` 쓰면 단어사전이 새로 만들어져 train과 기준이 달라짐 → **오류 또는 엉뚱한 예측**
 
 ### 희소 행렬 읽는 법
 
@@ -764,7 +754,7 @@ for text, pred, prob in zip(test_text, preds, probs):
 
 ### ConfusionMatrixDisplay
 
-> `confusion_matrix()` 결과를 **시각화**해주는 sklearn 내장 도구 seaborn heatmap 없이도 혼동행렬을 깔끔하게 출력 가능
+> `confusion_matrix()` 결과를 **시각화**해주는 sklearn 내장 도구
 
 ```python
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
@@ -788,18 +778,7 @@ result = '스팸이에요' if spam_prob >= 0.7 else '정상 메일입니다'
 ## 1단계 : 데이터 로드 및 전처리
 
 ```python
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.naive_bayes import MultinomialNB
-import pandas as pd
-from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
-from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
-import koreanize_matplotlib
-
 df = pd.read_csv('https://raw.githubusercontent.com/pykwon/python/refs/heads/master/testdata_utf8/mydata.csv')
-print(df.head(3), df.shape)
-#               text label
-# 0    광고성 메일을 확인하세요  spam  (20, 2)
 
 # 공백 제거 + 소문자 통일 (데이터 정제)
 df['label'] = df['label'].str.strip().str.lower()
@@ -840,17 +819,13 @@ print('분류 정확도 : ', accuracy_score(y_test, y_pred))   # 0.8
 
 ```python
 cm = confusion_matrix(y_test, y_pred, labels=['ham', 'spam'])
-print(cm)
-# [[2 1]   ← ham  2개 정답, 1개 spam으로 오분류
-#  [0 2]]  ← spam 2개 모두 정답
-
 disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=['ham', 'spam'])
 disp.plot(cmap='Blues')
 plt.title('Confusion matrix(혼동행렬)')
 plt.show()
 ```
 
-![[ex43naive_mail.png]]
+<img src="images/ex43naive_mail.png" width="600">
 
 ### Confusion Matrix 해석
 
@@ -859,7 +834,7 @@ plt.show()
 |**실제: ham**|2 (TN)|1 (FP)|
 |**실제: spam**|0 (FN)|2 (TP)|
 
-> FN=0 → 스팸을 정상으로 놓친 경우 없음 (중요!) FP=1 → 정상 메일을 스팸으로 잘못 분류 1건
+> FN=0 → 스팸을 정상으로 놓친 경우 없음 (중요!)
 
 ---
 
@@ -871,20 +846,12 @@ while True:
     if userInput.lower() == 'q':
         break
 
-    x_new = vectorizer.transform([userInput])            # 리스트로 감싸야 함
-    prob = model.predict_proba(x_new)[0]                 # 각 클래스 확률
-    spam_prob = prob[model.classes_.tolist().index('spam')]  # spam 확률만 추출
+    x_new = vectorizer.transform([userInput])
+    prob = model.predict_proba(x_new)[0]
+    spam_prob = prob[model.classes_.tolist().index('spam')]
 
-    # 임계값 0.7 : 기본(0.5)보다 엄격하게 스팸 판별
     result = '스팸이에요' if spam_prob >= 0.7 else '정상 메일입니다'
     print(f'스팸확률은 {spam_prob:.2f} -> {result}')
-
-# 이메일 내용 입력(종료는 q): 광고성 메일을 확인하세요
-# 스팸확률은 0.93 -> 스팸이에요
-# 이메일 내용 입력(종료는 q): 회의 일정 변경 공지
-# 스팸확률은 0.05 -> 정상 메일입니다
-# 이메일 내용 입력(종료는 q): 무료 쿠폰 보냈습니다 지금 확인하세요
-# 스팸확률은 0.99 -> 스팸이에요
 ```
 
 ---
@@ -901,16 +868,6 @@ while True:
 |시각화|없음|`ConfusionMatrixDisplay` 사용|
 |예측 방식|일괄 예측|`while` 루프로 실시간 입력|
 
-### 주요 함수 정리
-
-|함수|설명|
-|---|---|
-|`str.strip()`|앞뒤 공백 제거|
-|`str.lower()`|소문자 변환|
-|`tolist()`|numpy 배열 → 파이썬 리스트 변환|
-|`model.classes_`|클래스 이름 배열 반환 (`['ham', 'spam']`)|
-|`list.index('spam')`|리스트에서 'spam'의 인덱스 반환|
-
 ---
 # 📄 ex44streamlit.py — Streamlit 웹 이메일 분류기
 
@@ -923,9 +880,8 @@ while True:
 > 파이썬 코드만으로 **웹 UI를 만들 수 있는** 라이브러리 HTML/CSS/JS 없이도 브라우저에서 바로 실행 가능
 
 ```bash
-pip install streamlit          # 설치
-streamlit run 파일명.py        # 실행
-# → 브라우저에서 http://localhost:8501 자동 오픈
+pip install streamlit
+streamlit run 파일명.py   # → http://localhost:8501 자동 오픈
 ```
 
 ### 주요 Streamlit 함수
@@ -939,7 +895,7 @@ streamlit run 파일명.py        # 실행
 
 ### 동작 방식
 
-> Streamlit은 사용자가 입력할 때마다 **전체 코드를 위에서부터 다시 실행**함 → `if user_input:` 으로 입력이 있을 때만 예측 실행
+> 사용자가 입력할 때마다 **전체 코드를 위에서부터 다시 실행** → `if user_input:` 으로 입력이 있을 때만 예측 실행
 
 ---
 
@@ -950,41 +906,29 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 import streamlit as st
 
-# 학습 데이터
-texts = [
-    '광고성 메일을 확인하세요',
-    '회의 일정 변경 공지',
-    '무료 쿠폰을 지금 사용하세요',
-    '중요한 계약 내용을 확인해주세요',
-    '지금 할인 중입니다',
-    '오늘 업무 일정 다시 확인해 주세요',
-    '지금 바로 확인하세요',
-    '사내 공지입니다',
-]
+texts = ['광고성 메일을 확인하세요', '회의 일정 변경 공지',
+         '무료 쿠폰을 지금 사용하세요', '중요한 계약 내용을 확인해주세요',
+         '지금 할인 중입니다', '오늘 업무 일정 다시 확인해 주세요',
+         '지금 바로 확인하세요', '사내 공지입니다']
 labels = ['spam', 'ham', 'spam', 'ham', 'spam', 'ham', 'spam', 'ham']
 
-# 벡터화 + 모델 학습 (앱 시작 시 1회 실행)
 vect = CountVectorizer()
 x = vect.fit_transform(texts)
-
 model = MultinomialNB()
 model.fit(x, labels)
 
-# Streamlit UI
 st.title("이메일 분류기(나이브베이즈)")
-
 user_input = st.text_input("이메일 내용을 입력하세요")
 
-if user_input:   # 입력값이 있을 때만 예측 실행
-    x_new = vect.transform([user_input])   # 리스트로 감싸야 함
+if user_input:
+    x_new = vect.transform([user_input])
     pred  = model.predict(x_new)[0]
     prob  = model.predict_proba(x_new)[0]
-
     spam_prob = prob[model.classes_.tolist().index('spam')]
     ham_prob  = prob[model.classes_.tolist().index('ham')]
 
     st.write(f'예측 결과 : {pred}')
-    st.progress(spam_prob if pred == 'spam' else ham_prob)   # 확률을 진행 바로 표시
+    st.progress(spam_prob if pred == 'spam' else ham_prob)
     st.write(f'확률 결과 → spam:{spam_prob:.2%}, ham:{ham_prob:.2%}')
 ```
 
@@ -992,41 +936,32 @@ if user_input:   # 입력값이 있을 때만 예측 실행
 
 ## 실행 결과
 
-### 미학습 단어만 포함된 경우 → 50:50
+### 미학습 단어만 포함 → 50:50
 
-![[ex44streamlit.png]]
+<img src="images/ex46streamlit.png" width="600">
 
-> "대출 즉시 가능합니다" → 학습 데이터에 없는 단어들 → 확률 50:50 → ham으로 분류
+> 학습 데이터에 없는 단어들 → 확률 50:50 → ham으로 분류
 
-### 학습 단어 포함 시 → 정상 분류
+### 학습 단어 포함 → 정상 분류
 
-![[ex44streamlit2.png]]
+<img src="images/ex46streamlit2.png" width="600">
 
-> "대출 즉시 가능합니다 **지금 할인 중** 입니다" → 학습된 spam 단어 포함 → spam 90.30%
+> 학습된 spam 단어 포함 → spam 90.30%
 
 ---
 
 ## 핵심 정리
 
-### 미학습 단어 처리 방식
+### 미학습 단어 처리
 
-> CountVectorizer는 학습 때 없던 단어를 **그냥 무시**함 아는 단어가 하나도 없으면 모든 클래스 확률이 **균등(50:50)** 이 됨
-
-### `while` vs Streamlit 비교
-
-| |ex43 (while 루프)|ex44 (Streamlit)|
-|---|---|---|
-|실행 환경|터미널|브라우저|
-|UI|텍스트 입력/출력|웹 UI (입력창, 진행 바)|
-|배포|불가|Streamlit Cloud로 배포 가능|
-|코드 복잡도|낮음|낮음 (HTML 불필요)|
+> 아는 단어가 하나도 없으면 모든 클래스 확률이 **균등(50:50)** 이 됨
 
 ### 실행 포트 주의
 
 ```
 기본 포트 : 8501
-포트 충돌 시 자동으로 8502, 8503... 으로 변경됨
-강제 종료 : 터미널에서 Ctrl + C
+포트 충돌 시 자동으로 8502, 8503... 으로 변경
+강제 종료 : Ctrl + C
 ```
 
 ---
@@ -1038,9 +973,7 @@ if user_input:   # 입력값이 있을 때만 예측 실행
 
 > 예측하려는 임의의 데이터와 가장 가까운 거리의 데이터 K개를 찾아 **다수결**에 의해 데이터를 예측하는 지도학습 알고리즘
 
-![[knn_example.png]]
-
-> K=3일 때 별 모양 주변 3개 중 Class B가 더 많으므로 → **Class B로 분류** K=4로 늘려도 Class B가 더 많으므로 → **Class B로 분류**
+<img src="images/knn_example.png" width="600">
 
 ---
 
@@ -1052,21 +985,15 @@ if user_input:   # 입력값이 있을 때만 예측 실행
 |너무 큼 (K=100)|경계가 너무 모호|과소적합 (Underfitting)|
 |적절한 K|교차검증/랜덤샘플링으로 탐색|일반화 성능 좋음|
 
-> 보통 **훈련 데이터 개수의 제곱근**을 초기 K값으로 설정 K는 **홀수**로 설정하는 것이 일반적 → 다수결 시 동점 방지
+> 보통 **훈련 데이터 개수의 제곱근**을 초기 K값으로 설정
+> K는 **홀수**로 설정하는 것이 일반적 → 다수결 시 동점 방지
 
 ### K를 홀수로 쓰는 이유
 
 ```
-K=4 일 때
-Class A : 2개
-Class B : 2개  ← 동점! 분류 불가
-
-K=3 일 때
-Class A : 1개
-Class B : 2개  ← Class B로 명확하게 분류
+K=4 일 때 : Class A 2개, Class B 2개 → 동점! 분류 불가
+K=3 일 때 : Class A 1개, Class B 2개 → Class B로 명확하게 분류
 ```
-
-> 클래스가 3개 이상이면 홀수여도 동점이 날 수 있어 절대적인 규칙은 아니지만 관례적으로 홀수 K를 많이 사용함
 
 ---
 
@@ -1078,8 +1005,6 @@ Class B : 2개  ← Class B로 명확하게 분류
 |유클리드 거리|$d = \sqrt{(a_1'-a_1)^2 + (a_2'-a_2)^2}$|직선 거리 (P=2)|
 |민코프스키|$d = \sqrt[p]{\sum_k (a_k' - a_k)^p}$|두 방식을 일반화한 공식|
 
-> P=1 → 맨해튼, P=2 → 유클리드 sklearn 기본값은 **민코프스키 P=2 (유클리드 거리)**
-
 ```python
 KNeighborsClassifier(n_neighbors=k, p=2, metric='minkowski')
 ```
@@ -1088,19 +1013,9 @@ KNeighborsClassifier(n_neighbors=k, p=2, metric='minkowski')
 
 ## 장단점
 
-**장점**
+**장점** : 구현 간단, 수치 기반 데이터에서 성능 좋음, 별도 훈련 과정 불필요
 
-- 알고리즘이 간단하여 구현하기 쉬움
-- 수치 기반 데이터 분류 작업에서 성능이 좋음
-- 별도의 훈련 과정 불필요 (새 데이터 추가 처리 쉬움)
-- 분류 기준을 몰라도 분류 가능
-
-**단점**
-
-- 학습 데이터 양이 많으면 분류 속도 느림
-- feature 간 스케일 차이가 크면 성능 저하 → **표준화(StandardScaler) 필수**
-- feature 수가 너무 많으면 연산속도 느려짐
-- 이상치의 영향을 크게 받음
+**단점** : 데이터 많으면 느림, 스케일 영향 큼 → **StandardScaler 필수**, 이상치에 민감
 
 ---
 
@@ -1111,9 +1026,6 @@ KNeighborsClassifier(n_neighbors=k, p=2, metric='minkowski')
 |학습 종류|지도학습 (분류)|비지도학습 (군집화)|
 |K의 의미|참조할 이웃 수|군집 개수|
 |레이블|필요함|없음|
-|용도|분류 / 회귀|군집화|
-
-> **K-Means++** 는 K-Means의 초기 중심값을 잘 설정하기 위한 알고리즘 → K-NN과 무관
 
 ---
 # 📄 ex45knn.py — K-NN 기초 실습
@@ -1124,14 +1036,10 @@ KNeighborsClassifier(n_neighbors=k, p=2, metric='minkowski')
 
 ### weights 파라미터
 
-> K개의 이웃을 찾은 후 분류할 때 **각 이웃에 가중치를 부여하는 방식**
-
 |값|설명|
 |---|---|
 |`'uniform'`|모든 이웃을 동등하게 취급 (기본값)|
 |`'distance'`|가까운 이웃일수록 더 높은 가중치 부여|
-
-> `weights='distance'` 사용 시 거리가 가까운 데이터가 분류에 더 큰 영향을 미침
 
 ---
 
@@ -1141,42 +1049,28 @@ KNeighborsClassifier(n_neighbors=k, p=2, metric='minkowski')
 from sklearn.neighbors import KNeighborsClassifier
 import matplotlib.pyplot as plt
 
-# 3차원 데이터 (각 행이 하나의 데이터 포인트)
-train = [
-    [5, 3, 2],   # label 0
-    [1, 3, 5],   # label 1
-    [4, 5, 6]    # label 1
-]
+train = [[5, 3, 2], [1, 3, 5], [4, 5, 6]]
 label = [0, 1, 1]
 
-# 시각화 (train을 그대로 plot → 행별로 점 3개씩 찍힘)
 plt.plot(train, 'o')
 plt.xlim([-1, 5])
 plt.ylim([0, 8])
 plt.show()
 ```
 
-![[ex45knn.png]]
+<img src="images/ex45knn.png" width="600">
 
 ```python
-# K=3, 거리 기반 가중치 적용
 kmodel = KNeighborsClassifier(n_neighbors=3, weights='distance')
 kmodel.fit(train, label)
 
 pred = kmodel.predict(train)
-print('pred :', pred)
-# pred : [0 1 1]
+print('pred :', pred)           # [0 1 1]
+print(kmodel.score(train, label))  # 1.0 ← 학습 데이터로 평가, 참고용
 
-print(f'test acc : {kmodel.score(train, label)}')
-# test acc : 1.0  ← 학습 데이터로 평가했으므로 참고용
-
-# 새로운 데이터 예측
 new_data = [[1, 2, 9], [6, 2, 1]]
 new_pred = kmodel.predict(new_data)
-print('new_pred : ', new_pred)
-# new_pred : [1 0]
-# [1, 2, 9] → label 1에 가까움
-# [6, 2, 1] → label 0에 가까움
+print('new_pred : ', new_pred)  # [1 0]
 ```
 
 ---
@@ -1192,10 +1086,6 @@ print('new_pred : ', new_pred)
 |`p`|2|민코프스키 거리 (2=유클리드)|
 |`metric`|`'minkowski'`|거리 측정 방식|
 
-### 주의사항
-
-> 이 코드는 학습 데이터가 **3개뿐**이고 K=3으로 설정했기 때문에 모든 이웃이 참조되어 `weights='distance'` 의 효과가 명확히 드러남 실제 사용 시에는 데이터가 충분히 많아야 K-NN이 의미있게 동작함
-
 ---
 # 📄 ex46knn_cancer.py — K-NN 분류 (breast_cancer)
 
@@ -1205,18 +1095,9 @@ print('new_pred : ', new_pred)
 
 ### 스케일링이 필요한 이유
 
-> K-NN은 **거리 기반** 모델이라 feature 간 크기 차이가 크면 큰 값을 가진 feature가 거리를 지배함 → 반드시 **StandardScaler로 표준화** 후 학습해야 공정한 거리 계산 가능
-
-```python
-scaler = StandardScaler()
-x_train_scaled = scaler.fit_transform(x_train)  # 평균/표준편차 계산 + 변환
-x_test_scaled  = scaler.transform(x_test)        # 학습된 기준으로 변환만
-# ※ test에 fit_transform 쓰면 기준이 달라지므로 반드시 transform만 사용
-```
+> K-NN은 **거리 기반** 모델 → feature 간 크기 차이가 크면 큰 값이 거리를 지배 → **StandardScaler 필수**
 
 ### 최적 K값 찾기
-
-> K값에 따라 정확도가 달라지므로 **반복문으로 여러 K를 시도**해 최적값 탐색
 
 |K값|특징|
 |---|---|
@@ -1226,30 +1107,20 @@ x_test_scaled  = scaler.transform(x_test)        # 학습된 기준으로 변환
 
 ---
 
-## 1단계 : 데이터 로드
+## 1~2단계 : 데이터 로드 및 스케일링
 
 ```python
 from sklearn.datasets import load_breast_cancer
-
-data = load_breast_cancer()
-x = data.data    # (569, 30) : 30개 feature
-y = data.target  # 0:악성(malignant), 1:양성(benign)
-
-x_train, x_test, y_train, y_test = train_test_split(
-    x, y, test_size=0.2, random_state=42, stratify=y
-)
-```
-
----
-
-## 2단계 : 스케일링
-
-```python
 from sklearn.preprocessing import StandardScaler
 
+data = load_breast_cancer()
+x, y = data.data, data.target   # (569, 30), 0:악성 1:양성
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42, stratify=y)
+
 scaler = StandardScaler()
-x_train_scaled = scaler.fit_transform(x_train)  # 학습용 : 기준 생성 + 변환
-x_test_scaled  = scaler.transform(x_test)        # 검증용 : 변환만
+x_train_scaled = scaler.fit_transform(x_train)
+x_test_scaled  = scaler.transform(x_test)
 ```
 
 ---
@@ -1257,19 +1128,15 @@ x_test_scaled  = scaler.transform(x_test)        # 검증용 : 변환만
 ## 3단계 : K값 탐색
 
 ```python
-train_acc = []
-test_acc  = []
-k_range   = range(3, 12)
+train_acc, test_acc = [], []
+k_range = range(3, 12)
 
 for k in k_range:
     model = KNeighborsClassifier(n_neighbors=k)
     model.fit(x_train_scaled, y_train)
-
     train_acc.append(accuracy_score(y_train, model.predict(x_train_scaled)))
     test_acc.append(accuracy_score(y_test,  model.predict(x_test_scaled)))
 
-# 시각화
-plt.figure()
 plt.plot(k_range, train_acc, marker='o', label='Train acc')
 plt.plot(k_range, test_acc,  marker='s', label='Test acc')
 plt.xlabel('k value')
@@ -1279,43 +1146,34 @@ plt.legend()
 plt.grid()
 plt.show()
 
-# test acc가 가장 높은 K값 출력
 best_k = k_range[np.argmax(test_acc)]
 print('최적의 k :', best_k)   # 3 (but 과적합 의심)
 ```
 
-![[ex46knn_cancer.png]]
+<img src="images/ex46knn_cancer.png" width="600">
 
-| K값    | Train acc | Test acc  | 분석                     |
-| ----- | --------- | --------- | ---------------------- |
-| 3     | 0.978     | 0.985     | test 최고, 불안정 → 과적합 의심  |
-| 4     | 0.982     | 0.948     | 짝수 동점 → 급락             |
-| 5     | 0.974     | 0.956     | 회복 중                   |
-| 6     | 0.978     | 0.956     | 안정적                    |
-| 7     | 0.976     | 0.974     | 안정권 진입                 |
-| 8     | 0.976     | 0.974     | 안정적                    |
+| K값 | Train acc | Test acc | 분석 |
+|---|---|---|---|
+| 3 | 0.978 | 0.985 | test 최고, 불안정 → 과적합 의심 |
+| 4 | 0.982 | 0.948 | 짝수 동점 → 급락 |
+| 5 | 0.974 | 0.956 | 회복 중 |
+| 6 | 0.978 | 0.956 | 안정적 |
+| 7 | 0.976 | 0.974 | 안정권 진입 |
+| 8 | 0.976 | 0.974 | 안정적 |
 | **9** | **0.974** | **0.974** | **홀수 + 안정적 → 최종 선택** ✅ |
-| 10    | 0.976     | 0.965     | 하락                     |
-| 11    | 0.971     | 0.974     | 회복                     |
+| 10 | 0.976 | 0.965 | 하락 |
+| 11 | 0.971 | 0.974 | 회복 |
 
 ---
 
 ## 4단계 : 최종 모델 (K=9)
 
 ```python
-# test acc 최고점(K=3)보다 안정적인 K=9 선택
-best_k = 9
-final_model = KNeighborsClassifier(n_neighbors=best_k)
+final_model = KNeighborsClassifier(n_neighbors=9)
 final_model.fit(x_train_scaled, y_train)
 
 y_pred = final_model.predict(x_test_scaled)
 print('정확도 : ', accuracy_score(y_test, y_pred))   # 0.9736842105263158
-
-print(classification_report(y_test, y_pred))
-#                precision  recall  f1-score  support
-#             0       1.00    0.93      0.96       42   ← 악성
-#             1       0.96    1.00      0.98       72   ← 양성
-#      accuracy                         0.97      114
 
 print(confusion_matrix(y_test, y_pred))
 # [[39  3]   ← 악성 39 정답, 3개 양성으로 오분류
@@ -1329,51 +1187,14 @@ print(confusion_matrix(y_test, y_pred))
 ## 5단계 : 새로운 데이터 예측
 
 ```python
-# 기존 데이터에 약간의 노이즈를 추가해 새 데이터처럼 사용
-new_data = x[0].copy()
-new_data = new_data + np.random.normal(0, 0.1, size=new_data.shape)
-
-# 반드시 학습 때 사용한 scaler로 변환
+new_data = x[0].copy() + np.random.normal(0, 0.1, size=x[0].shape)
 new_data_scaled = scaler.transform([new_data])
 
 prediction = final_model.predict(new_data_scaled)
 proba       = final_model.predict_proba(new_data_scaled)
-
-print('예측 : ', prediction[0], '  (0:악성, 1:양성)')
-# 예측 :  0  (0:악성, 1:양성)
-print('확률 : ', proba)
-# [[0.555 0.444]]  ← 악성 55.6%, 양성 44.4% → 근소한 차이로 악성 예측
+print('예측 : ', prediction[0], '  (0:악성, 1:양성)')  # 0
+print('확률 : ', proba)   # [[0.555 0.444]]
 ```
-
----
-
-## 핵심 정리
-
-### 전체 흐름
-
-```
-데이터 로드 (569, 30)
-    ↓
-train/test 분리 (stratify=y)
-    ↓
-StandardScaler 표준화  ← 거리 기반 모델 필수
-    ↓
-K값 탐색 (range(3,12)) → 그래프로 최적 K 확인
-    ↓
-최종 모델 K=9 (안정적) → 평가
-    ↓
-새로운 데이터 예측 (scaler 동일하게 적용)
-```
-
-### np.random.normal()
-
-|파라미터|의미|
-|---|---|
-|`0`|평균 (노이즈 중심)|
-|`0.1`|표준편차 (노이즈 크기)|
-|`size`|생성할 배열 크기|
-
-> 기존 데이터에 작은 노이즈를 더해 새 데이터처럼 만드는 테스트 기법
 
 ---
 # 📄 ex47knn_iris.py — K-NN 분류 (iris)
@@ -1382,44 +1203,24 @@ K값 탐색 (range(3,12)) → 그래프로 최적 K 확인
 
 ## 개념 정리
 
-> ex41naive_iris.py와 동일한 구조지만 **GaussianNB → KNeighborsClassifier** 로 모델만 교체 같은 데이터, 같은 시각화 함수로 두 모델의 **결정 경계 차이**를 비교할 수 있음
+> ex41naive_iris.py와 동일한 구조, **GaussianNB → KNeighborsClassifier** 로 모델만 교체
 
 | |ex41 (GaussianNB)|ex47 (K-NN)|
 |---|---|---|
 |모델|GaussianNB|KNeighborsClassifier|
 |정확도|0.9777|0.9777|
 |결정 경계|곡선형 (확률 기반)|불규칙 곡선 (거리 기반)|
-|스케일링|불필요|iris는 차이 작아 생략|
 
 ---
 
-## 1단계 : 데이터 로드 및 feature 선택
+## 1~2단계 : 데이터 로드 및 분할
 
 ```python
-from sklearn import datasets
-import numpy as np
-
 iris = datasets.load_iris()
-
-# 꽃잎 길이(2열), 꽃잎 너비(3열) 2개만 사용 → 시각화(2D) 목적
-x = iris.data[:, [2, 3]]
+x = iris.data[:, [2, 3]]   # 꽃잎 길이, 너비
 y = iris.target
 
-# 꽃잎 길이와 너비의 상관계수
-print(np.corrcoef(iris.data[:, 2], iris.data[:, 3])[0, 1])   # 0.9628
-```
-
----
-
-## 2단계 : 데이터 분할
-
-```python
-from sklearn.model_selection import train_test_split
-
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=0)
-print(x_train.shape, x_test.shape)   # (105, 2) (45, 2)
-
-# iris는 feature 간 크기 차이가 거의 없어 표준화 효과 미미 → 생략
 ```
 
 ---
@@ -1427,61 +1228,30 @@ print(x_train.shape, x_test.shape)   # (105, 2) (45, 2)
 ## 3단계 : K-NN 학습 및 평가
 
 ```python
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import accuracy_score
-import pandas as pd
-
 model = KNeighborsClassifier(n_neighbors=5)
 model.fit(x_train, y_train)
-
 y_pred = model.predict(x_test)
-print(f'총 갯수:{len(y_test)}, 오류수:{(y_test != y_pred).sum()}')
-# 총 갯수:45, 오류수:1
 
-# 정확도 확인 3가지
-print(accuracy_score(y_test, y_pred))          # 0.9777 ① accuracy_score
-
-con_mat = pd.crosstab(y_test, y_pred, rownames=['실제값'], colnames=['예측값'])
-print(con_mat)
-# 예측값   0   1   2
-# 실제값
-# 0    16   0   0
-# 1     0  17   1  ← 클래스 1을 2로 1개 오분류
-# 2     0   1  11
-print((con_mat[0][0] + con_mat[1][1] + con_mat[2][2]) / len(y_test))  # 0.9777 ②
-
-print('test score : ', model.score(x_test, y_test))     # 0.9777 ③
-print('train score : ', model.score(x_train, y_train))  # 0.9523
-# test ≈ train → 과적합 없음
+print(f'총 갯수:{len(y_test)}, 오류수:{(y_test != y_pred).sum()}')  # 오류수:1
+print(accuracy_score(y_test, y_pred))          # 0.9777
+print(model.score(x_test, y_test))             # 0.9777
+print(model.score(x_train, y_train))           # 0.9523 → test ≈ train, 과적합 없음
 ```
 
 ---
 
-## 4단계 : 모델 저장 및 불러오기
+## 4~5단계 : 모델 저장 및 새 데이터 예측
 
 ```python
 import joblib
+joblib.dump(model, 'logimodel.pkl')
+read_model = joblib.load('logimodel.pkl')
 
-joblib.dump(model, 'logimodel.pkl')   # 모델 저장
-del model                              # 메모리에서 삭제
-read_model = joblib.load('logimodel.pkl')   # 불러오기
-```
+new_pred = read_model.predict([[5.5, 2.2], [0.6, 0.3], [1.1, 0.5]])
+print(new_pred)   # [2 0 0]
 
----
-
-## 5단계 : 새로운 데이터 예측
-
-```python
-new_data = np.array([[5.5, 2.2], [0.6, 0.3], [1.1, 0.5]])
-new_pred = read_model.predict(new_data)
-print('예측 결과 : ', new_pred)   # [2 0 0]
-
-# 각 클래스 확률
-print(read_model.predict_proba(new_data))
-# [[0. 0.2 0.8]   → 클래스 2일 확률 80%
-#  [1.  0.  0. ]  → 클래스 0일 확률 100%
-#  [1.  0.  0. ]] → 클래스 0일 확률 100%
-# K-NN은 이웃 K개의 다수결이므로 확률이 0.2 단위로 나옴 (K=5 기준)
+print(read_model.predict_proba([[5.5, 2.2]]))
+# [[0. 0.2 0.8]] ← K=5 기준 0.2(1/5) 단위로 나옴
 ```
 
 ---
@@ -1491,18 +1261,15 @@ print(read_model.predict_proba(new_data))
 ```python
 x_combined = np.vstack((x_train, x_test))
 y_combined = np.hstack((y_train, y_test))
-
-plot_decision_regionFunc(
-    X=x_combined, y=y_combined,
-    classifier=read_model,
-    test_idx=range(105, 150),
-    title='scikit-learn제공'
-)
+plot_decision_regionFunc(X=x_combined, y=y_combined,
+                         classifier=read_model,
+                         test_idx=range(105, 150),
+                         title='scikit-learn제공')
 ```
 
-![[ex47knn_iris.png]]
+<img src="images/ex47knn_iris.png" width="600">
 
-> K-NN의 결정 경계는 **거리 기반**이라 GaussianNB보다 불규칙한 형태 클래스 1(파랑)과 2(초록) 경계가 복잡하게 나뉘는 것이 K-NN의 특징
+> K-NN 결정 경계는 **거리 기반**이라 GaussianNB보다 불규칙한 형태
 
 ---
 
@@ -1510,13 +1277,11 @@ plot_decision_regionFunc(
 
 ### predict_proba 확률 단위
 
-> K=5 일 때 이웃 5개의 다수결이므로 확률은 **0.2(1/5) 단위**로만 나옴 K=3이면 0.333 단위, K=7이면 0.143 단위
+> K=5 → 확률은 **0.2(1/5) 단위**로만 나옴
 
-### x2_min, x2_max 버그 (ex41과 동일)
+### x2_min, x2_max 버그
 
 ```python
-# 코드상 버그 : x[:,0] 기준으로 x2도 계산됨
-x2_min, x2_max = X[:, 0].min() - 1, X[:, 0].max() + 1  # ❌
+x2_min, x2_max = X[:, 0].min() - 1, X[:, 0].max() + 1  # ❌ x[:,0] 반복
 x2_min, x2_max = X[:, 1].min() - 1, X[:, 1].max() + 1  # ✅
-# → 결정 경계가 정사각형 격자로 그려지는 원인
 ```
