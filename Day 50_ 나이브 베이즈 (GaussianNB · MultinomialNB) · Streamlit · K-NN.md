@@ -938,13 +938,13 @@ if user_input:
 
 ### 미학습 단어만 포함 → 50:50
 
-<img src="images/ex46streamlit.png" width="600">
+<img src="images/ex44streamlit.png" width="600">
 
 > 학습 데이터에 없는 단어들 → 확률 50:50 → ham으로 분류
 
 ### 학습 단어 포함 → 정상 분류
 
-<img src="images/ex46streamlit2.png" width="600">
+<img src="images/ex44streamlit2.png" width="600">
 
 > 학습된 spam 단어 포함 → spam 90.30%
 
