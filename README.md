@@ -48,7 +48,6 @@
 - [Day 49_PCA 차원 축소 & 나이브 베이즈 분류](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2049_PCA%20%EC%B0%A8%EC%9B%90%20%EC%B6%95%EC%86%8C%20%26%20%EB%82%98%EC%9D%B4%EB%B8%8C%20%EB%B2%A0%EC%9D%B4%EC%A6%88%20%EB%B6%84%EB%A5%98.md)
 - [Day 50_ 나이브 베이즈 (GaussianNB · MultinomialNB) · Streamlit · K-NN](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2050_%20%EB%82%98%EC%9D%B4%EB%B8%8C%20%EB%B2%A0%EC%9D%B4%EC%A6%88%20(GaussianNB%20%C2%B7%20MultinomialNB)%20%C2%B7%20Streamlit%20%C2%B7%20K-NN.md)
 - [Day 52_군집분석 (계층적 / K-Means)](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2052_%EA%B5%B0%EC%A7%91%EB%B6%84%EC%84%9D%20(%EA%B3%84%EC%B8%B5%EC%A0%81%20%20K-Means).md)
-- 
 
 
 
