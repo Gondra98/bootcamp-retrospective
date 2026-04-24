@@ -50,6 +50,7 @@
 - [Day 52_군집분석 (계층적 / K-Means)](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2052_%EA%B5%B0%EC%A7%91%EB%B6%84%EC%84%9D%20(%EA%B3%84%EC%B8%B5%EC%A0%81%20%20K-Means).md)
 - [Day 53_DBSCAN · Linear List · 자료구조 개요](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2053_DBSCAN%20%C2%B7%20Linear%20List%20%C2%B7%20%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%20%EA%B0%9C%EC%9A%94.md)
 - [Day 54_선형 자료구조 : Linked List · Stack · Queue](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2054_%EC%84%A0%ED%98%95%20%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%20%20Linked%20List%20%C2%B7%20Stack%20%C2%B7%20Queue.md)
+- [Day 55_자료구조 Deque · Tree · BST · Graph](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2055_%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%20%20Deque%20%C2%B7%20Tree%20%C2%B7%20BST%20%C2%B7%20Graph.md)
 
 
 
