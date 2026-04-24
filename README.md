@@ -51,6 +51,7 @@
 - [Day 53_DBSCAN · Linear List · 자료구조 개요](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2053_DBSCAN%20%C2%B7%20Linear%20List%20%C2%B7%20%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%20%EA%B0%9C%EC%9A%94.md)
 - [Day 54_선형 자료구조 : Linked List · Stack · Queue](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2054_%EC%84%A0%ED%98%95%20%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%20%20Linked%20List%20%C2%B7%20Stack%20%C2%B7%20Queue.md)
 - [Day 55_자료구조 : Deque · Tree · BST · Graph](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2055_%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%20%3A%20Deque%20%C2%B7%20Tree%20%C2%B7%20BST%20%C2%B7%20Graph.md)
+- [Day 56_자료구조·알고리즘 : Heap · 다익스트라 · 그리디](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2056_%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%C2%B7%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%20%20Heap%20%C2%B7%20%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC%20%C2%B7%20%EA%B7%B8%EB%A6%AC%EB%94%94.md)
 
 
 
