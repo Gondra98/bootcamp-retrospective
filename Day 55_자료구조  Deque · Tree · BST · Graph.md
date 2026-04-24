@@ -1,7 +1,3 @@
----
-aliases:
-  - "Day 55_자료구조 : Deque · Tree · BST · Graph"
----
 # Day 55_자료구조 : Deque · Tree · BST · Graph
 ## 📅 2026-04-23
 
