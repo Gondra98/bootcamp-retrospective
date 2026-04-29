@@ -47,6 +47,7 @@
 - [Day 48_XGBoost · SVM · PCA](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2048_XGBoost%20%C2%B7%20SVM%20%C2%B7%20PCA.md)
 - [Day 49_PCA 차원 축소 & 나이브 베이즈 분류](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2049_PCA%20%EC%B0%A8%EC%9B%90%20%EC%B6%95%EC%86%8C%20%26%20%EB%82%98%EC%9D%B4%EB%B8%8C%20%EB%B2%A0%EC%9D%B4%EC%A6%88%20%EB%B6%84%EB%A5%98.md)
 - [Day 50_ 나이브 베이즈 (GaussianNB · MultinomialNB) · Streamlit · K-NN](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2050_%20%EB%82%98%EC%9D%B4%EB%B8%8C%20%EB%B2%A0%EC%9D%B4%EC%A6%88%20(GaussianNB%20%C2%B7%20MultinomialNB)%20%C2%B7%20Streamlit%20%C2%B7%20K-NN.md)
+- [Day 51_Pipeline · MLP · 계층적 군집분석](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2051_Pipeline%20%C2%B7%20MLP%20%C2%B7%20%EA%B3%84%EC%B8%B5%EC%A0%81%20%EA%B5%B0%EC%A7%91%EB%B6%84%EC%84%9D.md)
 - [Day 52_군집분석 (계층적 / K-Means)](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2052_%EA%B5%B0%EC%A7%91%EB%B6%84%EC%84%9D%20(%EA%B3%84%EC%B8%B5%EC%A0%81%20%20K-Means).md)
 - [Day 53_DBSCAN · Linear List · 자료구조 개요](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2053_DBSCAN%20%C2%B7%20Linear%20List%20%C2%B7%20%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%20%EA%B0%9C%EC%9A%94.md)
 - [Day 54_선형 자료구조 : Linked List · Stack · Queue](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2054_%EC%84%A0%ED%98%95%20%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%20%20Linked%20List%20%C2%B7%20Stack%20%C2%B7%20Queue.md)
