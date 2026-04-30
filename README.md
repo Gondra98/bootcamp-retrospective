@@ -55,6 +55,7 @@
 - [Day 56_자료구조·알고리즘 : Heap · 다익스트라 · 그리디](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2056_%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0%C2%B7%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%20%20Heap%20%C2%B7%20%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC%20%C2%B7%20%EA%B7%B8%EB%A6%AC%EB%94%94.md)
 - [Day 57_딥러닝  Tensor · Variable · AutoGraph](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2057_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20Tensor%20%C2%B7%20Variable%20%C2%B7%20AutoGraph.md)
 - [Day 58_딥러닝  Keras 모델링 · OR·XOR 신경망](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2058_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20Keras%20%EB%AA%A8%EB%8D%B8%EB%A7%81%20%C2%B7%20OR%C2%B7XOR%20%EC%8B%A0%EA%B2%BD%EB%A7%9D.md)
+- [Day 59_딥러닝  경사하강법 · 선형회귀 · Keras 모델 생성 4가지](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2059_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20%EA%B2%BD%EC%82%AC%ED%95%98%EA%B0%95%EB%B2%95%20%C2%B7%20%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80%20%C2%B7%20Keras%20%EB%AA%A8%EB%8D%B8%20%EC%83%9D%EC%84%B1%204%EA%B0%80%EC%A7%80.md)
 
 
 
