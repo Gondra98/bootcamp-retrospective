@@ -231,7 +231,7 @@ print('실제값 : ', y_test[:5].values.ravel())
 # 실제값 :  [11.4  8.8 14.7 10.1 14.6]
 ```
 
-<img src="tf9reg_adver.png" width="500">
+<img src="images/tf9reg_adver.png" width="500">
 
 > train loss(주황)와 val_loss(파랑) 모두 함께 감소 → 과적합 없이 정상 학습
 
@@ -321,7 +321,7 @@ pred2 = func_model.predict(x_test)
 print('func_model 설명력(R²):', r2_score(y_test, pred2))
 ```
 
-<img src="tf9reg_adver2.png" width="500">
+<img src="images/tf9reg_adver2.png" width="500">
 
 > train loss와 val_loss 모두 epoch가 지날수록 감소 → 수렴 중  
 > val_loss가 train_loss보다 높은 것은 정상 (학습에 쓰지 않은 데이터이므로)
@@ -515,7 +515,7 @@ plt.legend()
 plt.show()
 ```
 
-<img src="tf10stock.png" width="500">
+<img src="images/tf10stock.png" width="500">
 
 > 실제값(파랑)과 예측값(빨강 점선)이 거의 일치 → R² 0.9939  
 > 단, train 데이터 전체로 학습했으므로 과적합 여부는 알 수 없음
@@ -559,7 +559,7 @@ plt.legend()
 plt.show()
 ```
 
-<img src="tf10stock2.png" width="500">
+<img src="images/tf10stock2.png" width="500">
 
 > 랜덤 split으로 시간 순서가 섞여 그래프가 복잡해 보이지만 R² 0.9894로 성능 양호  
 > 모델1(0.9939) vs 모델2(0.9894) — 차이가 작으므로 과적합 없이 일반화 잘 됨
@@ -797,7 +797,7 @@ plt.show()
 # val_loss가 올라가기 시작하면 과적합 신호
 ```
 
-<img src="tf10quiz.png" width="500">
+<img src="images/tf10quiz.png" width="500">
 
 > train loss(파랑) : 0.021 → 0.018 수준으로 안정적으로 수렴  
 > val loss(주황) : 0.044~0.052 사이에서 진동 — train보다 높지만 발산하지 않음  
@@ -1138,7 +1138,7 @@ def plt_history(df):
 plt_history(df)
 ```
 
-<img src="tf11autompg.png" width="500">
+<img src="images/tf11autompg.png" width="500">
 
 > train err(파랑)는 빠르게 수렴 / validation err(주황)는 초반 급감 후 천천히 수렴  
 > EarlyStopping으로 약 780 epoch에서 자동 중단 — 5000까지 학습하지 않음  
@@ -1428,7 +1428,7 @@ plt.grid(True)
 plt.show()
 ```
 
-<img src="tf12poly.png" width="500">
+<img src="images/tf12poly.png" width="500">
 
 > 선형회귀(파랑 직선) : 포물선 데이터를 직선으로 억지로 맞추려 해서 적합 불량  
 > 다항회귀(주황 곡선) : 포물선 형태를 잘 따라가는 것을 확인  
