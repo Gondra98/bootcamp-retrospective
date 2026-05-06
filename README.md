@@ -57,6 +57,7 @@
 - [Day 58_딥러닝  Keras 모델링 · OR·XOR 신경망](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2058_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20Keras%20%EB%AA%A8%EB%8D%B8%EB%A7%81%20%C2%B7%20OR%C2%B7XOR%20%EC%8B%A0%EA%B2%BD%EB%A7%9D.md)
 - [Day 59_딥러닝  경사하강법 · 선형회귀 · Keras 모델 생성 4가지](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2059_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20%EA%B2%BD%EC%82%AC%ED%95%98%EA%B0%95%EB%B2%95%20%C2%B7%20%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80%20%C2%B7%20Keras%20%EB%AA%A8%EB%8D%B8%20%EC%83%9D%EC%84%B1%204%EA%B0%80%EC%A7%80.md)
 - [Day 60_딥러닝  다중선형회귀 · TensorBoard · EarlyStopping · 다항회귀](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2060_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20%EB%8B%A4%EC%A4%91%EC%84%A0%ED%98%95%ED%9A%8C%EA%B7%80%20%C2%B7%20TensorBoard%20%C2%B7%20EarlyStopping%20%C2%B7%20%EB%8B%A4%ED%95%AD%ED%9A%8C%EA%B7%80.md)
+- [Day 61_딥러닝  다항회귀 · 이진분류 · Keras API 3종](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2061_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20%EB%8B%A4%ED%95%AD%ED%9A%8C%EA%B7%80%20%C2%B7%20%EC%9D%B4%EC%A7%84%EB%B6%84%EB%A5%98%20%C2%B7%20Keras%20API%203%EC%A2%85.md)
 
 
 
