@@ -233,6 +233,7 @@ print('실제값 : ', y_test[:5].values.ravel())
 
 <img src="tf9reg_adver.png" width="500">
 
+
 > train loss(주황)와 val_loss(파랑) 모두 함께 감소 → 과적합 없이 정상 학습
 
 ---
