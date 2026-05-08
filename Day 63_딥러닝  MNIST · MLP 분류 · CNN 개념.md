@@ -1,7 +1,3 @@
----
-aliases:
-  - "Day 63_딥러닝 : MNIST · MLP 분류 · CNN 개념"
----
 # Day 63_딥러닝 : MNIST · MLP 분류 · CNN 개념
 
 ## 📅 2026-05-08
