@@ -1,4 +1,4 @@
-# Day 64_딥러닝 : CNN 개념 · 합성곱 · Sequential · Functional · Subclassing
+# Day 64_딥러닝  CNN · Sequential · Functional · Subclassing · CIFAR-10
 
 ## 📅 2026-05-11
 
