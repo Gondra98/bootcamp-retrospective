@@ -60,6 +60,7 @@
 - [Day 61_딥러닝  다항회귀 · 이진분류 · Keras API 3종](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2061_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20%EB%8B%A4%ED%95%AD%ED%9A%8C%EA%B7%80%20%C2%B7%20%EC%9D%B4%EC%A7%84%EB%B6%84%EB%A5%98%20%C2%B7%20Keras%20API%203%EC%A2%85.md)
 - [Day 62_딥러닝  NLP 이진분류 · 다항분류 · Softmax · ROC Curve](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2062_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20NLP%20%EC%9D%B4%EC%A7%84%EB%B6%84%EB%A5%98%20%C2%B7%20%EB%8B%A4%ED%95%AD%EB%B6%84%EB%A5%98%20%C2%B7%20Softmax%20%C2%B7%20ROC%20Curve.md)
 - [Day 63_딥러닝 : MNIST · MLP 분류 · CNN 개념](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2063_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20MNIST%20%C2%B7%20MLP%20%EB%B6%84%EB%A5%98%20%C2%B7%20CNN%20%EA%B0%9C%EB%85%90.md)
+- [Day 64_딥러닝 : CNN 개념 · 합성곱 · Sequential · Functional · Subclassing](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2064_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20CNN%20%EA%B0%9C%EB%85%90%20%C2%B7%20%ED%95%A9%EC%84%B1%EA%B3%B1%20%C2%B7%20Sequential%20%C2%B7%20Functional%20%C2%B7%20Subclassing.md)
 
 
 
