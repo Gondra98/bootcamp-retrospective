@@ -61,6 +61,7 @@
 - [Day 62_딥러닝  NLP 이진분류 · 다항분류 · Softmax · ROC Curve](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2062_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20NLP%20%EC%9D%B4%EC%A7%84%EB%B6%84%EB%A5%98%20%C2%B7%20%EB%8B%A4%ED%95%AD%EB%B6%84%EB%A5%98%20%C2%B7%20Softmax%20%C2%B7%20ROC%20Curve.md)
 - [Day 63_딥러닝 : MNIST · MLP 분류 · CNN 개념](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2063_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20MNIST%20%C2%B7%20MLP%20%EB%B6%84%EB%A5%98%20%C2%B7%20CNN%20%EA%B0%9C%EB%85%90.md)
 - [Day 64_딥러닝 CNN · Sequential · Functional · Subclassing · CIFAR-10](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2064_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20CNN%20%C2%B7%20Sequential%20%C2%B7%20Functional%20%C2%B7%20Subclassing%20%C2%B7%20CIFAR-10.md)
+- [Day 65_딥러닝 Data Augmentation · ImageDataGenerator · ModelCheckpoint](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2065_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20Data%20Augmentation%20%C2%B7%20ImageDataGenerator%20%C2%B7%20ModelCheckpoint.md)
 
 
 
