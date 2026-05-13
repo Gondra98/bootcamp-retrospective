@@ -1,7 +1,3 @@
----
-aliases:
-  - "Day 66_딥러닝 : Data Augmentation · 개고양이/가위바위보 분류 · 단일 이미지 예측"
----
 # Day 66_딥러닝 : Data Augmentation · 개고양이/가위바위보 분류 · 단일 이미지 예측
 
 ## 📅 2026-05-13
