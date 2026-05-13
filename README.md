@@ -62,6 +62,7 @@
 - [Day 63_딥러닝 : MNIST · MLP 분류 · CNN 개념](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2063_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20MNIST%20%C2%B7%20MLP%20%EB%B6%84%EB%A5%98%20%C2%B7%20CNN%20%EA%B0%9C%EB%85%90.md)
 - [Day 64_딥러닝 CNN · Sequential · Functional · Subclassing · CIFAR-10](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2064_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20CNN%20%C2%B7%20Sequential%20%C2%B7%20Functional%20%C2%B7%20Subclassing%20%C2%B7%20CIFAR-10.md)
 - [Day 65_딥러닝 Data Augmentation · ImageDataGenerator · ModelCheckpoint](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2065_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20Data%20Augmentation%20%C2%B7%20ImageDataGenerator%20%C2%B7%20ModelCheckpoint.md)
+- [Day 66_딥러닝 : Data Augmentation · 개고양이/가위바위보 분류 · 단일 이미지 예측](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2066_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20Data%20Augmentation%20%C2%B7%20%EA%B0%9C%EA%B3%A0%EC%96%91%EC%9D%B4%EA%B0%80%EC%9C%84%EB%B0%94%EC%9C%84%EB%B3%B4%20%EB%B6%84%EB%A5%98%20%C2%B7%20%EB%8B%A8%EC%9D%BC%20%EC%9D%B4%EB%AF%B8%EC%A7%80%20%EC%98%88%EC%B8%A1.md)
 
 
 
