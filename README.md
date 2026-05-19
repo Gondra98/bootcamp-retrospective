@@ -66,6 +66,7 @@
 - [Day 67_딥러닝 : 유명 CNN 모델 · 전이학습(Transfer Learning) · 미세조정(Fine-Tuning)](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2067_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20%EC%9C%A0%EB%AA%85%20CNN%20%EB%AA%A8%EB%8D%B8%20%C2%B7%20%EC%A0%84%EC%9D%B4%ED%95%99%EC%8A%B5(Transfer%20Learning)%20%C2%B7%20%EB%AF%B8%EC%84%B8%EC%A1%B0%EC%A0%95(Fine-Tuning).md)
 - [Day 68_딥러닝 : MobileNetV2 전이학습 · 파인튜닝 · Flask 분류기](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2068_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20MobileNetV2%20%EC%A0%84%EC%9D%B4%ED%95%99%EC%8A%B5%20%C2%B7%20%ED%8C%8C%EC%9D%B8%ED%8A%9C%EB%8B%9D%20%C2%B7%20Flask%20%EB%B6%84%EB%A5%98%EA%B8%B0.md)
 - [Day 69_딥러닝 : YOLO · Object Detection](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2069_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20YOLO%20%C2%B7%20Object%20Detection.md)
+- [Day 70_딥러닝 : YOLO 객체 감지 · TTS 음성 안내 · DataFrame 통계 분석](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2070_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20YOLO%20%EA%B0%9D%EC%B2%B4%20%EA%B0%90%EC%A7%80%20%C2%B7%20TTS%20%EC%9D%8C%EC%84%B1%20%EC%95%88%EB%82%B4%20%C2%B7%20DataFrame%20%ED%86%B5%EA%B3%84%20%EB%B6%84%EC%84%9D.md)
 
 
 
