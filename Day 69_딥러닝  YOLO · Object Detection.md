@@ -1,6 +1,6 @@
 # Day 69_딥러닝 : YOLO · Object Detection
 
-## 📅 2026-05-15
+## 📅 2026-05-18
 
 ---
 # Object Detection · YOLO · OpenCV
