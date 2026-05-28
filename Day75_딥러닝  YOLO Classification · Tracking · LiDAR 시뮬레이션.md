@@ -1,7 +1,3 @@
----
-aliases:
-  - "Day75_딥러닝 : YOLO Classification · Tracking · LiDAR 시뮬레이션"
----
 # Day75_딥러닝 : YOLO Classification · Tracking · LiDAR 시뮬레이션
 ## 📅 2026-05-27
 
