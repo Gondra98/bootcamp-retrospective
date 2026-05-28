@@ -71,8 +71,7 @@
 - [Day 72_패스파인딩 : 다익스트라 · 플로이드워셜 · 벨만포드 · A스타 · 통신이론 · Flask](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2072_%ED%8C%A8%EC%8A%A4%ED%8C%8C%EC%9D%B8%EB%94%A9%20%20%EB%8B%A4%EC%9D%B5%EC%8A%A4%ED%8A%B8%EB%9D%BC%20%C2%B7%20%ED%94%8C%EB%A1%9C%EC%9D%B4%EB%93%9C%EC%9B%8C%EC%85%9C%20%C2%B7%20%EB%B2%A8%EB%A7%8C%ED%8F%AC%EB%93%9C%20%C2%B7%20A%EC%8A%A4%ED%83%80%20%C2%B7%20%ED%86%B5%EC%8B%A0%EC%9D%B4%EB%A1%A0%20%C2%B7%20Flask.md)
 - [Day 73_탱크챌린지 : Flask · YOLOv8 · Tank Challenge API](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day%2073_%ED%83%B1%ED%81%AC%EC%B1%8C%EB%A6%B0%EC%A7%80%20%20Flask%20%C2%B7%20YOLOv8%20%C2%B7%20Tank%20Challenge%20API.md)
 - [Day74_딥러닝 : YOLO · Instance Segmentation · Semantic Segmentation · Classification](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day74_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20YOLO%20%C2%B7%20Instance%20Segmentation%20%C2%B7%20Semantic%20Segmentation%20%C2%B7%20Classification.md)
-- [Day75_딥러닝 : YOLO Classification · ByteTrack · Multi Object Tracking](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day75_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20YOLO%20Classification%20%C2%B7%20ByteTrack%20%C2%B7%20Multi%20Object%20Tracking.md)
-
+- [Day75_딥러닝 : YOLO Classification · Tracking · LiDAR 시뮬레이션](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day75_%EB%94%A5%EB%9F%AC%EB%8B%9D%20%20YOLO%20Classification%20%C2%B7%20Tracking%20%C2%B7%20LiDAR%20%EC%8B%9C%EB%AE%AC%EB%A0%88%EC%9D%B4%EC%85%98.md)
 
 
 
