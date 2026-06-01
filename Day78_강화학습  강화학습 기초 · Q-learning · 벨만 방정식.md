@@ -59,7 +59,7 @@ $$V^{\ast}(s) = \max_a \left[ R(s,a) + \gamma \sum_{s'} P(s'|s,a) \cdot V^{\ast}
 |구분|벨만 기대 방정식|벨만 최적 방정식|
 |---|---|---|
 |액션 선택|$\pi(a\|s)$ 확률적 선택|$\max_a$ 결정적 선택|
-|목표|현재 정책 π 평가|최적 정책 $\pi^{*}$ 탐색|
+|목표|현재 정책 π 평가|최적 정책 $\pi^*$ 탐색|
 |활용 알고리즘|SARSA (On-policy)|Q-learning (Off-policy)|
 |기댓값 연산자|필요|전이확률 때문에 여전히 필요|
 
@@ -97,9 +97,7 @@ $$Q(s_t, a_t) \leftarrow (1-\alpha)Q(s_t, a_t) + \alpha\left(R_t + \gamma \max_{
 └── 최적 방정식 (최적 π 탐색)
     └── max_a 연산자로 π 확률 제거 → Q-learning 기반
 ```
-
 ---
-
 # 🤖 강화학습 (Reinforcement Learning)
 
 Agent가 Environment와 상호작용하며 Reward를 최대화하는 방향으로 Action을 선택하는 학습 방법. **정답 데이터 없이** 환경과의 경험을 통해 최적의 행동 전략을 찾아나가는 과정이다.
@@ -275,9 +273,7 @@ $$Q(s_t, a_t) \leftarrow (1-\alpha)Q(s_t, a_t) + \alpha\left(R_t + \gamma \max_{
     └── 하이퍼파라미터: α(학습률), γ(할인율)
 ```
 
-
 ---
-
 # 📄 rl1qlearning.ipynb — Q-learning · 벨만방정식 · ε-Greedy
 
 Q-learning의 구조를 이해하기 위한 코드. 벨만 방정식 기반의 근사학습으로, 에이전트가 1D 격자 위에서 목표 지점(state 4)을 찾아가는 과정을 학습한다.
@@ -350,7 +346,7 @@ for episode in range(episodes):
     state = 0  # 매 에피소드마다 시작 위치 0으로 초기화
 
     for step in range(20):  # 한 에피소드에서 최대 20번 이동
-
+        
         # ── ① 행동 선택 (ε-Greedy) ──────────────────────────────
         if random.random() < epsilon:
             action_index = random.randint(0, 1)  # 탐험: 랜덤 행동
@@ -370,8 +366,8 @@ for episode in range(episodes):
         reward = get_reward(next_state)  # state 4이면 +10, 아니면 0
 
         # ── ④ Q값 갱신 (벨만 최적 방정식) ───────────────────────
-        old_q = Q[state][action_index]       # 현재 Q값
-        next_max = np.max(Q[next_state])     # 다음 상태에서 가장 높은 Q값
+        old_q = Q[state][action_index]           # 현재 Q값
+        next_max = np.max(Q[next_state])         # 다음 상태에서 가장 높은 Q값
 
         # Q-learning 업데이트 수식 (off-policy)
         # Q(s,a) ← Q(s,a) + α * (R + γ * max Q(s') - Q(s,a))
