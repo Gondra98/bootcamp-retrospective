@@ -59,7 +59,7 @@ $$V^{*}(s) = \max_a \left[ R(s,a) + \gamma \sum_{s'} P(s'|s,a) \cdot V^{*}(s') \
 |구분|벨만 기대 방정식|벨만 최적 방정식|
 |---|---|---|
 |액션 선택|$\pi(a\|s)$ 확률적 선택|$\max_a$ 결정적 선택|
-|목표|현재 정책 π 평가|최적 정책 $\pi^*$ 탐색|
+|목표|현재 정책 π 평가|최적 정책 $\pi^{*}$ 탐색|
 |활용 알고리즘|SARSA (On-policy)|Q-learning (Off-policy)|
 |기댓값 연산자|필요|전이확률 때문에 여전히 필요|
 
@@ -78,7 +78,7 @@ $$V^{*}(s) = \max_a \left[ R(s,a) + \gamma \sum_{s'} P(s'|s,a) \cdot V^{*}(s') \
 
 ## ⚙️ Q-learning 업데이트 수식 (벨만 방정식 적용)
 
-$$V^*(s) = \max_a \left[ R(s,a) + \gamma \sum_{s'} P(s'|s,a) \cdot V^*(s') \right]$$
+$$Q(s_t, a_t) \leftarrow (1-\alpha)Q(s_t, a_t) + \alpha\left(R_t + \gamma \max_{a_{t+1}} Q(s_{t+1}, a_{t+1})\right)$$
 
 - $\alpha$ : 학습률 (새 정보를 얼마나 반영할지)
 - $\gamma$ : 할인율 (미래 보상을 얼마나 중요하게 볼지)
@@ -97,7 +97,9 @@ $$V^*(s) = \max_a \left[ R(s,a) + \gamma \sum_{s'} P(s'|s,a) \cdot V^*(s') \righ
 └── 최적 방정식 (최적 π 탐색)
     └── max_a 연산자로 π 확률 제거 → Q-learning 기반
 ```
+
 ---
+
 # 🤖 강화학습 (Reinforcement Learning)
 
 Agent가 Environment와 상호작용하며 Reward를 최대화하는 방향으로 Action을 선택하는 학습 방법. **정답 데이터 없이** 환경과의 경험을 통해 최적의 행동 전략을 찾아나가는 과정이다.
@@ -140,13 +142,13 @@ Agent가 Environment와 상호작용하며 Reward를 최대화하는 방향으�
 
 <img src="images/강화학습4.png" width="500">
 
-| 종류           | 설명                                   |
-| ------------ | ------------------------------------ |
-| Model-Free   | 환경 모델 없이 직접 경험으로 학습 (예: Q-learning)  |
-| Model-Based  | 환경 모델을 예측해 시뮬레이션하면서 학습               |
-| Value-Based  | 상태의 가치를 학습 (예: Q-learning, DQN)      |
-| Policy-Based | 직접 정책을 최적화 (예: Policy Gradient, PPO) |
-| Actor-Critic | 정책과 가치 함수를 동시에 학습                    |
+|종류|설명|
+|---|---|
+|Model-Free|환경 모델 없이 직접 경험으로 학습 (예: Q-learning)|
+|Model-Based|환경 모델을 예측해 시뮬레이션하면서 학습|
+|Value-Based|상태의 가치를 학습 (예: Q-learning, DQN)|
+|Policy-Based|직접 정책을 최적화 (예: Policy Gradient, PPO)|
+|Actor-Critic|정책과 가치 함수를 동시에 학습|
 
 ### 대표 알고리즘
 
@@ -156,14 +158,14 @@ Agent가 Environment와 상호작용하며 Reward를 최대화하는 방향으�
 
 ## 📊 Reward / Return / Expected Return
 
-<img src="images/Q러닝.png" width="500"> <img src="images/Q러닝2.png" width="500">
+<img src="images/Q러닝.png" width="500">
+<img src="images/Q러닝2.png" width="500">
 
-| 개념                  | 설명                 | 예시                     |
-| ------------------- | ------------------ | ---------------------- |
-| **Reward**          | 단일 행동에 대한 즉시 보상    | 코인 하나 먹기 → +1          |
-| **Return**          | 한 에피소드 동안 누적된 총 보상 | 점프+이동+점프 → 총합 20점      |
-| **Expected Return** | 앞으로 받게 될 보상의 기대값   | 지금 행동이 미래에 얼마나 도움될지 예측 |
-|                     |                    |                        |
+|개념|설명|예시|
+|---|---|---|
+|**Reward**|단일 행동에 대한 즉시 보상|코인 하나 먹기 → +1|
+|**Return**|한 에피소드 동안 누적된 총 보상|점프+이동+점프 → 총합 20점|
+|**Expected Return**|앞으로 받게 될 보상의 기대값|지금 행동이 미래에 얼마나 도움될지 예측|
 
 > 강화학습의 목표 = **지금 당장 보상이 아닌, 앞으로 받을 총 보상(Expected Return)을 최대화**
 
@@ -184,7 +186,8 @@ Agent가 Environment와 상호작용하며 Reward를 최대화하는 방향으�
 
 ### Grid World Example
 
-<img src="images/Q러닝3.png" width="500"> <img src="images/Q러닝4.png" width="500">
+<img src="images/Q러닝3.png" width="500">
+<img src="images/Q러닝4.png" width="500">
 
 - **Q-value**: 어떤 action을 했을 때 미래에 받을 것이라고 예상되는 return의 값
 - **Greedy action**: 현재 상태에서 가장 높은 Q값을 갖는 행동을 선택
@@ -192,17 +195,19 @@ Agent가 Environment와 상호작용하며 Reward를 최대화하는 방향으�
 
 ### ε-Greedy & Exploration vs Exploitation
 
-<img src="images/Q러닝5.png" width="500"> <img src="images/Q러닝6.png" width="500">
+<img src="images/Q러닝5.png" width="500">
+<img src="images/Q러닝6.png" width="500">
 
-| 개념                    | 설명                             |
-| --------------------- | ------------------------------ |
-| **탐험 (Exploration)**  | ε 확률로 랜덤 행동 → 새로운 경로 발견        |
-| **이용 (Exploitation)** | 1-ε 확률로 현재 최선 행동(greedy) 선택    |
-| **Decay ε-Greedy**    | 학습 초기엔 탐험↑, 점차 ε 감소 → 이용↑으로 전환 |
+|개념|설명|
+|---|---|
+|**탐험 (Exploration)**|ε 확률로 랜덤 행동 → 새로운 경로 발견|
+|**이용 (Exploitation)**|1-ε 확률로 현재 최선 행동(greedy) 선택|
+|**Decay ε-Greedy**|학습 초기엔 탐험↑, 점차 ε 감소 → 이용↑으로 전환|
 
 ### Discount Factor (할인율 γ) & Q-update
 
-<img src="images/Q러닝7.png" width="500"> <img src="images/Q러닝8.png" width="500">
+<img src="images/Q러닝7.png" width="500">
+<img src="images/Q러닝8.png" width="500">
 
 |하이퍼파라미터|역할|
 |---|---|
@@ -217,18 +222,19 @@ $$Q(s_t, a_t) \leftarrow (1-\alpha)Q(s_t, a_t) + \alpha\left(R_t + \gamma \max_{
 
 ## 📌 Prediction & Control
 
-<img src="images/prediction&control.png" width="500">
+<img src="images/prediction_control.png" width="500">
 
-| 구분             | 목적                                                 |
-| -------------- | -------------------------------------------------- |
-| **Prediction** | π가 주어졌을 때 각 state의 value를 평가 → Expected Return 최대화 |
-| **Control**    | 예측 결과를 바탕으로 최적 정책 $\pi^*$ 탐색                       |
+|구분|목적|
+|---|---|
+|**Prediction**|π가 주어졌을 때 각 state의 value를 평가 → Expected Return 최대화|
+|**Control**|예측 결과를 바탕으로 최적 정책 $\pi^{*}$ 탐색|
 
 ---
 
 ## 📐 가치 함수 (Value Function)
 
-<img src="images/가치함수.png" width="500"> <img src="images/가치함수2.png" width="500">
+<img src="images/가치함수.png" width="500">
+<img src="images/가치함수2.png" width="500">
 
 |구분|정의|수식|의미|
 |---|---|---|---|
@@ -239,7 +245,8 @@ $$Q(s_t, a_t) \leftarrow (1-\alpha)Q(s_t, a_t) + \alpha\left(R_t + \gamma \max_{
 
 ## ⚔️ On-policy vs Off-policy
 
-<img src="images/onpolicy_offpolicy.png" width="500"> <img src="images/onpolicy_offpolicy2.png" width="500">
+<img src="images/onpolicy_offpolicy.png" width="500">
+<img src="images/onpolicy_offpolicy2.png" width="500">
 
 |항목|On-policy (SARSA)|Off-policy (Q-learning)|
 |---|---|---|
@@ -271,6 +278,7 @@ $$Q(s_t, a_t) \leftarrow (1-\alpha)Q(s_t, a_t) + \alpha\left(R_t + \gamma \max_{
 ```
 
 ---
+
 # 📄 rl1qlearning.ipynb — Q-learning · 벨만방정식 · ε-Greedy
 
 Q-learning의 구조를 이해하기 위한 코드. 벨만 방정식 기반의 근사학습으로, 에이전트가 1D 격자 위에서 목표 지점(state 4)을 찾아가는 과정을 학습한다.
@@ -343,7 +351,7 @@ for episode in range(episodes):
     state = 0  # 매 에피소드마다 시작 위치 0으로 초기화
 
     for step in range(20):  # 한 에피소드에서 최대 20번 이동
-        
+
         # ── ① 행동 선택 (ε-Greedy) ──────────────────────────────
         if random.random() < epsilon:
             action_index = random.randint(0, 1)  # 탐험: 랜덤 행동
@@ -363,8 +371,8 @@ for episode in range(episodes):
         reward = get_reward(next_state)  # state 4이면 +10, 아니면 0
 
         # ── ④ Q값 갱신 (벨만 최적 방정식) ───────────────────────
-        old_q = Q[state][action_index]           # 현재 Q값
-        next_max = np.max(Q[next_state])         # 다음 상태에서 가장 높은 Q값
+        old_q = Q[state][action_index]       # 현재 Q값
+        next_max = np.max(Q[next_state])     # 다음 상태에서 가장 높은 Q값
 
         # Q-learning 업데이트 수식 (off-policy)
         # Q(s,a) ← Q(s,a) + α * (R + γ * max Q(s') - Q(s,a))
