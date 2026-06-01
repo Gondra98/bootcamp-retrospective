@@ -247,6 +247,7 @@ $$Q(s_t, a_t) \leftarrow (1-\alpha)Q(s_t, a_t) + \alpha\left(R_t + \gamma \max_{
 
 <img src="images/onpolicy_offpolicy.png" width="500">
 <img src="images/onpolicy_offpolicy2.png" width="500">
+<img src="images/sarsa_vs_qlearning.png" width="500">
 
 |항목|On-policy (SARSA)|Off-policy (Q-learning)|
 |---|---|---|
