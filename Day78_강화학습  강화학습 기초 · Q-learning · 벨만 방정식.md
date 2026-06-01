@@ -52,7 +52,7 @@ $$V_\pi(s) = \sum_a \pi(a|s) \sum_{s'} P(s'|s,a) [R + \gamma V_\pi(s')]$$
 
 정책 π를 고정하지 않고, **가능한 모든 정책 중 최적**을 찾는 방정식이다.
 
-$$V^_(s) = \max_a \left[ R(s,a) + \gamma \sum_{s'} P(s'|s,a) \cdot V^_(s') \right]$$
+$$V^{*}(s) = \max_a \left[ R(s,a) + \gamma \sum_{s'} P(s'|s,a) \cdot V^{*}(s') \right]$$
 
 ### 기대 방정식과의 핵심 차이
 
