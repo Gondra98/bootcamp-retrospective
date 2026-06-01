@@ -106,6 +106,8 @@ Agent가 Environment와 상호작용하며 Reward를 최대화하는 방향으�
 
 <img src="images/강화학습.png" width="500">
 
+> 쥐(Agent)가 미로(Environment)를 탐색하며 치즈를 찾는 것처럼, 강화학습은 에이전트가 환경과 상호작용하며 **행동 → 상태/보상 → 다음 행동** 사이클을 반복한다. 오른쪽 다이어그램은 이 루프를 수식으로 표현한 것.
+
 ### 다른 학습 방법과의 차이
 
 |구분|정답(Label)|학습 방식|
@@ -142,13 +144,13 @@ Agent가 Environment와 상호작용하며 Reward를 최대화하는 방향으�
 
 <img src="images/강화학습4.png" width="500">
 
-|종류|설명|
-|---|---|
-|Model-Free|환경 모델 없이 직접 경험으로 학습 (예: Q-learning)|
-|Model-Based|환경 모델을 예측해 시뮬레이션하면서 학습|
-|Value-Based|상태의 가치를 학습 (예: Q-learning, DQN)|
-|Policy-Based|직접 정책을 최적화 (예: Policy Gradient, PPO)|
-|Actor-Critic|정책과 가치 함수를 동시에 학습|
+| 종류           | 설명                                   |
+| ------------ | ------------------------------------ |
+| Model-Free   | 환경 모델 없이 직접 경험으로 학습 (예: Q-learning)  |
+| Model-Based  | 환경 모델을 예측해 시뮬레이션하면서 학습               |
+| Value-Based  | 상태의 가치를 학습 (예: Q-learning, DQN)      |
+| Policy-Based | 직접 정책을 최적화 (예: Policy Gradient, PPO) |
+| Actor-Critic | 정책과 가치 함수를 동시에 학습                    |
 
 ### 대표 알고리즘
 
@@ -158,14 +160,14 @@ Agent가 Environment와 상호작용하며 Reward를 최대화하는 방향으�
 
 ## 📊 Reward / Return / Expected Return
 
-<img src="images/Q러닝.png" width="500">
-<img src="images/Q러닝2.png" width="500">
+<img src="images/Q러닝.png" width="500"> <img src="images/Q러닝2.png" width="500">
 
-|개념|설명|예시|
-|---|---|---|
-|**Reward**|단일 행동에 대한 즉시 보상|코인 하나 먹기 → +1|
-|**Return**|한 에피소드 동안 누적된 총 보상|점프+이동+점프 → 총합 20점|
-|**Expected Return**|앞으로 받게 될 보상의 기대값|지금 행동이 미래에 얼마나 도움될지 예측|
+| 개념                  | 설명                 | 예시                     |
+| ------------------- | ------------------ | ---------------------- |
+| **Reward**          | 단일 행동에 대한 즉시 보상    | 코인 하나 먹기 → +1          |
+| **Return**          | 한 에피소드 동안 누적된 총 보상 | 점프+이동+점프 → 총합 20점      |
+| **Expected Return** | 앞으로 받게 될 보상의 기대값   | 지금 행동이 미래에 얼마나 도움될지 예측 |
+|                     |                    |                        |
 
 > 강화학습의 목표 = **지금 당장 보상이 아닌, 앞으로 받을 총 보상(Expected Return)을 최대화**
 
@@ -186,8 +188,7 @@ Agent가 Environment와 상호작용하며 Reward를 최대화하는 방향으�
 
 ### Grid World Example
 
-<img src="images/Q러닝3.png" width="500">
-<img src="images/Q러닝4.png" width="500">
+<img src="images/Q러닝3.png" width="500"> <img src="images/Q러닝4.png" width="500">
 
 - **Q-value**: 어떤 action을 했을 때 미래에 받을 것이라고 예상되는 return의 값
 - **Greedy action**: 현재 상태에서 가장 높은 Q값을 갖는 행동을 선택
@@ -195,19 +196,17 @@ Agent가 Environment와 상호작용하며 Reward를 최대화하는 방향으�
 
 ### ε-Greedy & Exploration vs Exploitation
 
-<img src="images/Q러닝5.png" width="500">
-<img src="images/Q러닝6.png" width="500">
+<img src="images/Q러닝5.png" width="500"> <img src="images/Q러닝6.png" width="500">
 
-|개념|설명|
-|---|---|
-|**탐험 (Exploration)**|ε 확률로 랜덤 행동 → 새로운 경로 발견|
-|**이용 (Exploitation)**|1-ε 확률로 현재 최선 행동(greedy) 선택|
-|**Decay ε-Greedy**|학습 초기엔 탐험↑, 점차 ε 감소 → 이용↑으로 전환|
+| 개념                    | 설명                             |
+| --------------------- | ------------------------------ |
+| **탐험 (Exploration)**  | ε 확률로 랜덤 행동 → 새로운 경로 발견        |
+| **이용 (Exploitation)** | 1-ε 확률로 현재 최선 행동(greedy) 선택    |
+| **Decay ε-Greedy**    | 학습 초기엔 탐험↑, 점차 ε 감소 → 이용↑으로 전환 |
 
 ### Discount Factor (할인율 γ) & Q-update
 
-<img src="images/Q러닝7.png" width="500">
-<img src="images/Q러닝8.png" width="500">
+<img src="images/Q러닝7.png" width="500"> <img src="images/Q러닝8.png" width="500">
 
 |하이퍼파라미터|역할|
 |---|---|
@@ -224,39 +223,37 @@ $$Q(s_t, a_t) \leftarrow (1-\alpha)Q(s_t, a_t) + \alpha\left(R_t + \gamma \max_{
 
 <img src="images/prediction&control.png" width="500">
 
-|구분|목적|
-|---|---|
-|**Prediction**|π가 주어졌을 때 각 state의 value를 평가 → Expected Return 최대화|
-|**Control**|예측 결과를 바탕으로 최적 정책 $\pi^{*}$ 탐색|
+| 구분             | 목적                                                 |
+| -------------- | -------------------------------------------------- |
+| **Prediction** | π가 주어졌을 때 각 state의 value를 평가 → Expected Return 최대화 |
+| **Control**    | 예측 결과를 바탕으로 최적 정책 $\pi^*$ 탐색                       |
 
 ---
 
 ## 📐 가치 함수 (Value Function)
 
-<img src="images/가치함수.png" width="500">
-<img src="images/가치함수2.png" width="500">
+<img src="images/가치함수.png" width="500"> <img src="images/가치함수2.png" width="500">
 
-|구분|정의|수식|의미|
-|---|---|---|---|
-|**State Value**|상태의 가치|$v_\pi(s)$|지금 상태에서 얻을 기대 보상|
-|**Action Value**|행동의 가치|$q_\pi(s, a)$|지금 상태에서 특정 행동을 했을 때 얻을 기대 보상|
+| 구분               | 정의     | 수식            | 의미                           |
+| ---------------- | ------ | ------------- | ---------------------------- |
+| **State Value**  | 상태의 가치 | $v_\pi(s)$    | 지금 상태에서 얻을 기대 보상             |
+| **Action Value** | 행동의 가치 | $q_\pi(s, a)$ | 지금 상태에서 특정 행동을 했을 때 얻을 기대 보상 |
 
 ---
 
 ## ⚔️ On-policy vs Off-policy
 
-<img src="images/onpolicy_offpolicy.png" width="500">
-<img src="images/onpolicy_offpolicy2.png" width="500">
+<img src="images/onpolicy_offpolicy.png" width="500"> <img src="images/onpolicy_offpolicy2.png" width="500">
 <img src="images/sarsa_vs_qlearning.png" width="500">
 
-|항목|On-policy (SARSA)|Off-policy (Q-learning)|
-|---|---|---|
-|정책|Target = Behavior|Target ≠ Behavior|
-|업데이트 기준|실제 선택한 다음 행동 $a'$|다음 상태에서 max Q|
-|학습 경향|실제 행동 기반 → 안전한 경로|최적 행동 가정 → 공격적 경로|
-|장점|안정적, 현실 반영|효율적, 경험 재사용 가능|
-|단점|보상 최대화 어려울 수 있음|위험한 경로 선택 가능|
-|수식|$Q \leftarrow Q + \alpha[R + \gamma Q(s', a') - Q]$|$Q \leftarrow Q + \alpha[R + \gamma \max_a Q(s', a) - Q]$|
+| 항목      | On-policy (SARSA)                                   | Off-policy (Q-learning)                                   |
+| ------- | --------------------------------------------------- | --------------------------------------------------------- |
+| 정책      | Target = Behavior                                   | Target ≠ Behavior                                         |
+| 업데이트 기준 | 실제 선택한 다음 행동 $a'$                                   | 다음 상태에서 max Q                                             |
+| 학습 경향   | 실제 행동 기반 → 안전한 경로                                   | 최적 행동 가정 → 공격적 경로                                         |
+| 장점      | 안정적, 현실 반영                                          | 효율적, 경험 재사용 가능                                            |
+| 단점      | 보상 최대화 어려울 수 있음                                     | 위험한 경로 선택 가능                                              |
+| 수식      | $Q \leftarrow Q + \alpha[R + \gamma Q(s', a') - Q]$ | $Q \leftarrow Q + \alpha[R + \gamma \max_a Q(s', a) - Q]$ |
 
 ---
 
@@ -277,6 +274,7 @@ $$Q(s_t, a_t) \leftarrow (1-\alpha)Q(s_t, a_t) + \alpha\left(R_t + \gamma \max_{
     ├── Decay ε-Greedy: 점진적 탐험 감소
     └── 하이퍼파라미터: α(학습률), γ(할인율)
 ```
+
 
 ---
 
