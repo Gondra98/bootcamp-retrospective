@@ -78,7 +78,7 @@ $$V^_(s) = \max_a \left[ R(s,a) + \gamma \sum_{s'} P(s'|s,a) \cdot V^_(s') \righ
 
 ## ⚙️ Q-learning 업데이트 수식 (벨만 방정식 적용)
 
-$$Q(s_t, a_t) \leftarrow (1-\alpha)Q(s_t, a_t) + \alpha\left(R_t + \gamma \max_{a_{t+1}} Q(s_{t+1}, a_{t+1})\right)$$
+$$V^*(s) = \max_a \left[ R(s,a) + \gamma \sum_{s'} P(s'|s,a) \cdot V^*(s') \right]$$
 
 - $\alpha$ : 학습률 (새 정보를 얼마나 반영할지)
 - $\gamma$ : 할인율 (미래 보상을 얼마나 중요하게 볼지)
