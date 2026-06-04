@@ -190,7 +190,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-<img src="rl3cartpole.png" width="700">
+<img src="images/rl3cartpole.png" width="700">
 
 > 초반(0~300ep): 보상이 낮고 불안정 — epsilon이 높아 랜덤 행동 많음  
 > 후반(700~1000ep): 높은 보상 스파이크 증가 — Q-Table이 점점 최적화됨
@@ -269,7 +269,7 @@ plt.close(fig)        # 정적 figure 창 닫기
 HTML(ani.to_jshtml()) # 애니메이션을 HTML+JS로 변환해 노트북에 표시
 ```
 
-<img src="rl3cartpole2.png" width="500">
+<img src="images/rl3cartpole2.png" width="500">
 
 ---
 
@@ -287,11 +287,11 @@ HTML(ani.to_jshtml())
 
 첫 프레임만 렌더링하면 카트는 보이지만 막대(pole_line)는 아직 초기 데이터(`[]`)라 보이지 않음 → `updateFunc` 안의 `set_data` 로직이 맞는지 확인하는 용도.
 
-<img src="rl3cartpole3.png" width="500">
+<img src="images/rl3cartpole3.png" width="500">
 
 재생 컨트롤러(슬라이더, Once/Loop/Reflect)도 `frames=1`일 때 동일하게 생성됨 — 컨트롤러 UI 자체는 `to_jshtml()`이 자동으로 붙여주는 것.
 
-<img src="rl3cartpole4.png" width="500">
+<img src="images/rl3cartpole4.png" width="500">
 
 ---
 
