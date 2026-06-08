@@ -78,6 +78,7 @@
 - [Day79_강화학습 Q-Learning · GridWorld · CartPole 이산화](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day79_%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5%20Q-Learning%20%C2%B7%20GridWorld%20%C2%B7%20CartPole%20%EC%9D%B4%EC%82%B0%ED%99%94.md)
 - [Day80_강화학습 Q-Learning CartPole 구현 및 시각화](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day80_%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5%20%20Q-Learning%20CartPole%20%EA%B5%AC%ED%98%84%20%EB%B0%8F%20%EC%8B%9C%EA%B0%81%ED%99%94.md)
 - [Day81_강화학습 DQN으로 CartPole 구현](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day81_%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5%20DQN%EC%9C%BC%EB%A1%9C%20CartPole%20%EA%B5%AC%ED%98%84.md)
+- [Day82_강화학습 Q-Learning자율주행시뮬레이션](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day82_%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5%20Q-Learning%EC%9E%90%EC%9C%A8%EC%A3%BC%ED%96%89%EC%8B%9C%EB%AE%AC%EB%A0%88%EC%9D%B4%EC%85%98.md)
 
 
 
