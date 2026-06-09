@@ -79,6 +79,7 @@
 - [Day80_강화학습 Q-Learning CartPole 구현 및 시각화](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day80_%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5%20%20Q-Learning%20CartPole%20%EA%B5%AC%ED%98%84%20%EB%B0%8F%20%EC%8B%9C%EA%B0%81%ED%99%94.md)
 - [Day81_강화학습 DQN으로 CartPole 구현](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day81_%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5%20DQN%EC%9C%BC%EB%A1%9C%20CartPole%20%EA%B5%AC%ED%98%84.md)
 - [Day82_강화학습 Q-Learning자율주행시뮬레이션](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day82_%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5%20Q-Learning%EC%9E%90%EC%9C%A8%EC%A3%BC%ED%96%89%EC%8B%9C%EB%AE%AC%EB%A0%88%EC%9D%B4%EC%85%98.md)
+- [Day83_강화학습 MiniCar · 자율주행 · 트랙레이싱 · 창고로봇 · BipedalWalker](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day83_%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5%20MiniCar%20%C2%B7%20%EC%9E%90%EC%9C%A8%EC%A3%BC%ED%96%89%20%C2%B7%20%ED%8A%B8%EB%9E%99%EB%A0%88%EC%9D%B4%EC%8B%B1%20%C2%B7%20%EC%B0%BD%EA%B3%A0%EB%A1%9C%EB%B4%87%20%C2%B7%20BipedalWalker.md)
 
 
 
