@@ -83,6 +83,7 @@
 - [Day84_PostgreSQL 기초 · DQN 주식 트레이딩](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day84_PostgreSQL%20%EA%B8%B0%EC%B4%88%20%C2%B7%20DQN%20%EC%A3%BC%EC%8B%9D%20%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%94%A9.md)
 - [Day85_NLP벡터화_OneHot·Word2Vec·군집분석](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day85_NLP%EB%B2%A1%ED%84%B0%ED%99%94_OneHot%C2%B7Word2Vec%C2%B7%EA%B5%B0%EC%A7%91%EB%B6%84%EC%84%9D.md)
 - [Day86_NLP - 희소벡터와 문서 벡터화](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day86_NLP%20-%20%ED%9D%AC%EC%86%8C%EB%B2%A1%ED%84%B0%EC%99%80%20%EB%AC%B8%EC%84%9C%20%EB%B2%A1%ED%84%B0%ED%99%94.md)
+- [Day87_NLP 텍스트 벡터화 · RNN 개념](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day87_NLP%20%ED%85%8D%EC%8A%A4%ED%8A%B8%20%EB%B2%A1%ED%84%B0%ED%99%94%20%C2%B7%20RNN%20%EA%B0%9C%EB%85%90.md)
 
 
 
