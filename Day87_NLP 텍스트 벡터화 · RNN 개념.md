@@ -359,7 +359,7 @@ RNN → LSTM → Seq2Seq → Attention → Transformer → GPT-1 → BERT → GP
 - 은닉층의 출력값을 출력층으로 보내면서 **동시에 다음 시점의 자신에게도 전달**
 - 이 재귀적 구조 덕분에 이전 시점의 정보를 기억할 수 있음
 
-<img src="RNN.png">
+<img src="images/RNN.png">
 
 > 왼쪽: 순환 구조를 압축한 표현 / 오른쪽: 시간 축으로 펼친 형태  
 > A(셀)가 xₜ를 입력받아 hₜ를 출력하면서, 동시에 다음 셀로 은닉 상태를 전달
