@@ -84,6 +84,7 @@
 - [Day85_NLP벡터화_OneHot·Word2Vec·군집분석](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day85_NLP%EB%B2%A1%ED%84%B0%ED%99%94_OneHot%C2%B7Word2Vec%C2%B7%EA%B5%B0%EC%A7%91%EB%B6%84%EC%84%9D.md)
 - [Day86_NLP - 희소벡터와 문서 벡터화](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day86_NLP%20-%20%ED%9D%AC%EC%86%8C%EB%B2%A1%ED%84%B0%EC%99%80%20%EB%AC%B8%EC%84%9C%20%EB%B2%A1%ED%84%B0%ED%99%94.md)
 - [Day87_NLP 텍스트 벡터화 · RNN 개념](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day87_NLP%20%ED%85%8D%EC%8A%A4%ED%8A%B8%20%EB%B2%A1%ED%84%B0%ED%99%94%20%C2%B7%20RNN%20%EA%B0%9C%EB%85%90.md)
+- [Day88_RNN · LSTM · 시계열예측 · 텍스트생성](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day88_RNN%20%C2%B7%20LSTM%20%C2%B7%20%EC%8B%9C%EA%B3%84%EC%97%B4%EC%98%88%EC%B8%A1%20%C2%B7%20%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%83%9D%EC%84%B1.md)
 
 
 
