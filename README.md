@@ -85,6 +85,9 @@
 - [Day86_NLP - 희소벡터와 문서 벡터화](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day86_NLP%20-%20%ED%9D%AC%EC%86%8C%EB%B2%A1%ED%84%B0%EC%99%80%20%EB%AC%B8%EC%84%9C%20%EB%B2%A1%ED%84%B0%ED%99%94.md)
 - [Day87_NLP 텍스트 벡터화 · RNN 개념](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day87_NLP%20%ED%85%8D%EC%8A%A4%ED%8A%B8%20%EB%B2%A1%ED%84%B0%ED%99%94%20%C2%B7%20RNN%20%EA%B0%9C%EB%85%90.md)
 - [Day88_RNN · LSTM · 시계열예측 · 텍스트생성](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day88_RNN%20%C2%B7%20LSTM%20%C2%B7%20%EC%8B%9C%EA%B3%84%EC%97%B4%EC%98%88%EC%B8%A1%20%C2%B7%20%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%83%9D%EC%84%B1.md)
+- [Day89_RNN 텍스트생성 · 단어예측 · Temperature · TopK](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day89_RNN%20%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%83%9D%EC%84%B1%20%C2%B7%20%EB%8B%A8%EC%96%B4%EC%98%88%EC%B8%A1%20%C2%B7%20Temperature%20%C2%B7%20TopK.md)
+- [Day90_RNN텍스트생성_영문LSTM_토지소설_자모분해](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day90_RNN%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%83%9D%EC%84%B1_%EC%98%81%EB%AC%B8LSTM_%ED%86%A0%EC%A7%80%EC%86%8C%EC%84%A4_%EC%9E%90%EB%AA%A8%EB%B6%84%ED%95%B4.md)
+- [Day91_RNN이항분류_SimpleRNN스팸_GRU쇼핑리뷰감성_Okt형태소](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day91_RNN%EC%9D%B4%ED%95%AD%EB%B6%84%EB%A5%98_SimpleRNN%EC%8A%A4%ED%8C%B8_GRU%EC%87%BC%ED%95%91%EB%A6%AC%EB%B7%B0%EA%B0%90%EC%84%B1_Okt%ED%98%95%ED%83%9C%EC%86%8C.md)
 
 
 
