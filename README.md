@@ -88,6 +88,8 @@
 - [Day89_RNN 텍스트생성 · 단어예측 · Temperature · TopK](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day89_RNN%20%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%83%9D%EC%84%B1%20%C2%B7%20%EB%8B%A8%EC%96%B4%EC%98%88%EC%B8%A1%20%C2%B7%20Temperature%20%C2%B7%20TopK.md)
 - [Day90_RNN텍스트생성_영문LSTM_토지소설_자모분해](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day90_RNN%ED%85%8D%EC%8A%A4%ED%8A%B8%EC%83%9D%EC%84%B1_%EC%98%81%EB%AC%B8LSTM_%ED%86%A0%EC%A7%80%EC%86%8C%EC%84%A4_%EC%9E%90%EB%AA%A8%EB%B6%84%ED%95%B4.md)
 - [Day91_RNN이항분류_SimpleRNN스팸_GRU쇼핑리뷰감성_Okt형태소](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day91_RNN%EC%9D%B4%ED%95%AD%EB%B6%84%EB%A5%98_SimpleRNN%EC%8A%A4%ED%8C%B8_GRU%EC%87%BC%ED%95%91%EB%A6%AC%EB%B7%B0%EA%B0%90%EC%84%B1_Okt%ED%98%95%ED%83%9C%EC%86%8C.md)
+- [Day92_Seq2Seq](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day92_Seq2Seq.md)
+- [Day93_Attention_QKV구조이해](https://github.com/Gondra98/bootcamp-retrospective/blob/main/Day93_Attention_QKV%EA%B5%AC%EC%A1%B0%EC%9D%B4%ED%95%B4.md)
 
 
 
